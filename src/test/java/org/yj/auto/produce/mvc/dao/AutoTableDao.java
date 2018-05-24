@@ -69,13 +69,14 @@ public class AutoTableDao {
             String tableName = table.getTableName().toLowerCase();
             List<AutoColumn> columns = getColumnsByTable(tableName);
             for (AutoColumn column : columns) {
-                String isRequire = column.getNullable().equalsIgnoreCase("no")?"必填":"";
-                requestDetailJsonStr.append("\r\n\t"+column.getColumnName()+":"+column.getComment()+","+"//"+isRequire);
-                respJsonStr.append("\r\n\t"+column.getColumnName()+":"+column.getComment()+",");
+                String colName =convertTuoFengColumnName (column.getColumnName());
+                String isRequire = column.getNullable().equalsIgnoreCase("no")?"//必填":"";
+                requestDetailJsonStr.append("\r\n\t"+colName+":"+column.getComment()+","+isRequire);
+                respJsonStr.append("\r\n\t"+colName+":"+column.getComment()+",");
                 if(column.getDataType().equals("int") || column.getDataType().equals("float")){
-                    requestStr.append("\r\n\t\""+column.getColumnName()+"\":1,");
+                    requestStr.append("\r\n\t\""+colName+"\":1,");
                 }else if(column.getDataType().equals("varchar")){
-                    requestStr.append("\r\n\t\""+column.getColumnName()+"\":\"1\",");
+                    requestStr.append("\r\n\t\""+colName+"\":\"1\",");
                 }
             }
         }
@@ -942,4 +943,27 @@ public class AutoTableDao {
         return autoColumns;
     }
 
+    /**
+     * 将列名转换为驼峰命名
+     * @param colName
+     * @return
+     */
+    public static   String convertTuoFengColumnName(String colName){
+        if(colName.indexOf("_") < 0){
+            return  colName;
+        }else{
+            String s  = "";
+            String[] split = colName.split("_");
+            for (int i = 0; i < split.length; i++) {
+                if(i == 0){
+                    s+=split[i];
+                }else{
+                    s+=split[i].substring(0,1).toUpperCase()+split[i].substring(1);
+                }
+            }
+
+            return  s;
+
+        }
+    }
 }
