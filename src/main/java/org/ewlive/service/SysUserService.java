@@ -167,6 +167,10 @@ public class SysUserService {
         if (CommonUtil.isStringEmpty(request.getPassword())) {
             throw new ServiceException(ExceptionConstants.PASSWORD_NOT_NULL);
         }
+        //判断是否为空
+        if (CommonUtil.isStringEmpty(request.getNickName())) {
+            throw new ServiceException(ExceptionConstants.NICKNAME_NOT_NULL);
+        }
     }
 
 }

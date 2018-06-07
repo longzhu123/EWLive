@@ -39,6 +39,13 @@ public class SysUser extends Base {
 
 
     /**
+     * 昵称
+     */
+    @TableField("nick_name")
+    private String nickName;
+
+
+    /**
      * 创建人编号
      */
     @TableField("create_user_id")

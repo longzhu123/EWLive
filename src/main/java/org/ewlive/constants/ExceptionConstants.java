@@ -18,4 +18,7 @@ public class ExceptionConstants {
     public  static  final  String EMAIL_NOT_NULL = "邮箱不能为空";
 
     public  static  final  String PASSWORD_NOT_NULL = "密码不能为空";
+
+    public  static  final  String NICKNAME_NOT_NULL = "昵称不能为空";
+
 }
