@@ -1,0 +1,44 @@
+<====请求参数====>
+{
+	"id":"1",
+	"email":"1",
+	"password":"1",
+	"createUserId":"1",
+	"updateUserId":"1",
+	"sort":1,
+	"comment":"1"
+}
+<====请求参数说明====>
+{
+	id:编号,//必填
+	email:邮箱,//必填
+	password:密码,//必填
+	createUserId:创建人编号,
+	createTime:创建时间,
+	updateUserId:修改人编号,
+	updateTime:修改时间,
+	sort:排序号,
+	comment:备注
+}
+<====响应参数====>
+{
+	"id":"1",
+	"email":"1",
+	"password":"1",
+	"createUserId":"1",
+	"updateUserId":"1",
+	"sort":1,
+	"comment":"1"
+}
+<====响应参数说明====>
+{
+	id:编号,
+	email:邮箱,
+	password:密码,
+	createUserId:创建人编号,
+	createTime:创建时间,
+	updateUserId:修改人编号,
+	updateTime:修改时间,
+	sort:排序号,
+	comment:备注
+}

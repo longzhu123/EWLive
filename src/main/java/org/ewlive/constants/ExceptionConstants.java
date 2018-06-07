@@ -14,4 +14,8 @@ public class ExceptionConstants {
     public  static  final  String UPDATE_FAIL  = "修改失败";
 
     public  static  final  String DELTE_FAIL = "删除失败";
+
+    public  static  final  String EMAIL_NOT_NULL = "邮箱不能为空";
+
+    public  static  final  String PASSWORD_NOT_NULL = "密码不能为空";
 }
