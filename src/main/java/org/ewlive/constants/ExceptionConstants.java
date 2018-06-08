@@ -21,4 +21,8 @@ public class ExceptionConstants {
 
     public  static  final  String NICKNAME_NOT_NULL = "昵称不能为空";
 
+    public  static  final  String EAMIL_ALREADY_EXISTS = "邮箱已存在,请重新填写";
+
+    public static  final  String NICKNAME_ALREADY_EXISTS = "昵称已存在,请重新填写";
+
 }

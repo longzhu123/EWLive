@@ -80,6 +80,26 @@ public class SysUserService {
         request.setId(CommonUtil.createUUID());
         request.setCreateTime(new Timestamp(System.currentTimeMillis()));
         request.setCreateUserId(request.getId());
+
+
+        //添加用户,判断邮箱是否重复
+        SysUser validateEmailUser = new SysUser();
+        validateEmailUser.setEmail(request.getEmail());
+        List<SysUser> emailUsers = sysUserMapper.selectList(new EntityWrapper<>(validateEmailUser));
+        if(CommonUtil.isCollectionNotEmpty(emailUsers)){
+            //邮箱重复
+            throw  new ServiceException(ExceptionConstants.EAMIL_ALREADY_EXISTS);
+        }
+
+        //添加用户,判断昵称是否重复
+        SysUser validateNickNameUser = new SysUser();
+        validateNickNameUser.setNickName(request.getNickName());
+        List<SysUser> nickNameUsers = sysUserMapper.selectList(new EntityWrapper<>(validateNickNameUser));
+        if(CommonUtil.isCollectionNotEmpty(nickNameUsers)){
+            //昵称重复
+            throw  new ServiceException(ExceptionConstants.NICKNAME_ALREADY_EXISTS);
+        }
+
         //添加用户
         int i = sysUserMapper.insert(request);
         if (i == 0) {
