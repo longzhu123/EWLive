@@ -221,11 +221,13 @@ public class SysUserService {
         log.info("参数校验成功");
         ResultData<SysUser> data = new ResultData();
         SysUser sysUser = sysUserMapper.authLogin(request);
+
+        //登录失败
         if(Objects.isNull(sysUser)){
             throw new ServiceException(ExceptionConstants.SYS_USER_LOGIN_FAIL);
         }
 
-        //登录成功,将用户信息写进Redis,并生成token
+        //登录成功,将用户信息写进缓存Map,并生成token
         String token = CommonUtil.createUUID();
         sysUser.setPassword(null);
         sysUser.setToken(token);
