@@ -1,5 +1,6 @@
 package org.ewlive.controller;
 
+import org.ewlive.aop.AuthReq;
 import org.ewlive.entity.SysUser;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.SysUserService;
@@ -27,6 +28,7 @@ public class SysUserController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/getSysUserById")
     public ResultData<SysUser> getSysUserById(@RequestBody SysUser request) {
         return sysUserService.getSysUserById(request);
@@ -38,6 +40,7 @@ public class SysUserController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/getSysUserByParams")
     public ResultData<List<SysUser>> getSysUserByParams(@RequestBody SysUser request) {
         return sysUserService.getSysUserByParams(request);
@@ -49,6 +52,7 @@ public class SysUserController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/addSysUser")
     public ResultData addSysUser(@RequestBody SysUser request) {
         return sysUserService.addSysUser(request);
@@ -60,6 +64,7 @@ public class SysUserController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/updateSysUserById")
     public ResultData updateSysUserById(@RequestBody SysUser request) {
         return sysUserService.updateSysUserById(request);
@@ -71,6 +76,7 @@ public class SysUserController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/deleteBatchSysUserByIds")
     public ResultData deleteBatchSysUserByIds(@RequestBody SysUser request) {
         return sysUserService.deleteBatchSysUserByIds(request);
