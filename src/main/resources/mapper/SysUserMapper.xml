@@ -2,9 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.ewlive.mapper.SysUserMapper">
 
-    <!--用户基础列-->
-    <sql id="Base_Column_List">
-		sys_user.id,sys_user.email,sys_user.password,sys_user.nick_name,sys_user.create_user_id,sys_user.create_time,sys_user.update_user_id,sys_user.update_time,sys_user.sort,sys_user.comment
+	<!--用户基础列-->
+	<sql id="Base_Column_List">
+		sys_user.id,sys_user.email,sys_user.password,sys_user.nick_name,sys_user.ew_coin,sys_user.create_user_id,sys_user.create_time,sys_user.update_user_id,sys_user.update_time,sys_user.comment
 	</sql>
 
+    <!--用户登录-->
+    <select id="authLogin" parameterType="org.ewlive.entity.SysUser" resultType="org.ewlive.entity.SysUser">
+        select <include refid="Base_Column_List"/>
+        from sys_user where email=#{email} and password=#{password}
+    </select>
 </mapper>

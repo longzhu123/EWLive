@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 用户Service
@@ -209,7 +210,6 @@ public class SysUserService {
 
     /**
      * 用户登录
-     *
      * @param request
      * @return
      */
@@ -219,8 +219,11 @@ public class SysUserService {
         checkEmailAndPwdIsNull(request);
         log.info("参数校验成功");
         ResultData<SysUser> data = new ResultData();
-
-
+        SysUser sysUser = sysUserMapper.authLogin(request);
+        if(Objects.isNull(sysUser)){
+            throw new ServiceException(ExceptionConstants.SYS_USER_LOGIN_FAIL);
+        }
+        data.setData(sysUser);
         return data;
     }
 }
