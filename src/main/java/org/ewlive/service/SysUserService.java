@@ -3,6 +3,7 @@ package org.ewlive.service;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.entity.SysUser;
 import org.ewlive.exception.ServiceException;
@@ -223,6 +224,20 @@ public class SysUserService {
         if(Objects.isNull(sysUser)){
             throw new ServiceException(ExceptionConstants.SYS_USER_LOGIN_FAIL);
         }
+
+        //登录成功,将用户信息写进Redis,并生成token
+        String token = CommonUtil.createUUID();
+        sysUser.setPassword(null);
+        sysUser.setToken(token);
+
+        //用户异地登录,踢下线的处理
+        if (!Objects.isNull(CommonConstants.map.get(sysUser.getId()))) {
+            String preToken = CommonConstants.map.get(sysUser.getId());
+            CommonConstants.map.remove(preToken);
+        }
+        CommonConstants.map.put(sysUser.getToken(), JSON.toJSONString(sysUser));
+        CommonConstants.map.put(sysUser.getId(), sysUser.getToken());
+
         data.setData(sysUser);
         return data;
     }
