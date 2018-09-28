@@ -74,13 +74,6 @@ public class SysUser extends Base {
 
 
     /**
-     * 排序号
-     */
-    @TableField("sort")
-    private Integer sort;
-
-
-    /**
      * 备注
      */
     @TableField("comment")

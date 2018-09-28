@@ -86,18 +86,18 @@ public class SysUserService {
         SysUser validateEmailUser = new SysUser();
         validateEmailUser.setEmail(request.getEmail());
         List<SysUser> emailUsers = sysUserMapper.selectList(new EntityWrapper<>(validateEmailUser));
-        if(CommonUtil.isCollectionNotEmpty(emailUsers)){
+        if (CommonUtil.isCollectionNotEmpty(emailUsers)) {
             //邮箱重复
-            throw  new ServiceException(ExceptionConstants.EAMIL_ALREADY_EXISTS);
+            throw new ServiceException(ExceptionConstants.EAMIL_ALREADY_EXISTS);
         }
 
         //添加用户,判断昵称是否重复
         SysUser validateNickNameUser = new SysUser();
         validateNickNameUser.setNickName(request.getNickName());
         List<SysUser> nickNameUsers = sysUserMapper.selectList(new EntityWrapper<>(validateNickNameUser));
-        if(CommonUtil.isCollectionNotEmpty(nickNameUsers)){
+        if (CommonUtil.isCollectionNotEmpty(nickNameUsers)) {
             //昵称重复
-            throw  new ServiceException(ExceptionConstants.NICKNAME_ALREADY_EXISTS);
+            throw new ServiceException(ExceptionConstants.NICKNAME_ALREADY_EXISTS);
         }
 
         //添加用户
@@ -185,6 +185,18 @@ public class SysUserService {
      * @param request
      */
     public void checkParamsForAdd(SysUser request) {
+        checkEmailAndPwdIsNull(request);
+        //判断昵称是否为空
+        if (CommonUtil.isStringEmpty(request.getNickName())) {
+            throw new ServiceException(ExceptionConstants.NICKNAME_NOT_NULL);
+        }
+    }
+
+    /**
+     * 检查邮箱和密码是否为空
+     * @param request
+     */
+    public  void checkEmailAndPwdIsNull(SysUser request){
         //判断邮箱是否为空
         if (CommonUtil.isStringEmpty(request.getEmail())) {
             throw new ServiceException(ExceptionConstants.EMAIL_NOT_NULL);
@@ -193,10 +205,22 @@ public class SysUserService {
         if (CommonUtil.isStringEmpty(request.getPassword())) {
             throw new ServiceException(ExceptionConstants.PASSWORD_NOT_NULL);
         }
-        //判断是否为空
-        if (CommonUtil.isStringEmpty(request.getNickName())) {
-            throw new ServiceException(ExceptionConstants.NICKNAME_NOT_NULL);
-        }
     }
 
+    /**
+     * 用户登录
+     *
+     * @param request
+     * @return
+     */
+    public ResultData<SysUser> authLogin(SysUser request) {
+        log.info("用户登录,请求参数====>" + JSON.toJSONString(request));
+        //检查邮箱和密码是否为空
+        checkEmailAndPwdIsNull(request);
+        log.info("参数校验成功");
+        ResultData<SysUser> data = new ResultData();
+
+
+        return data;
+    }
 }

@@ -82,4 +82,14 @@ public class SysUserController {
         return sysUserService.deleteBatchSysUserByIds(request);
     }
 
+    /**
+     * 用户登录
+     * @param request
+     * @return
+     */
+    @RequestMapping("/authLogin")
+    public  ResultData<SysUser> authLogin(@RequestBody SysUser request){
+        return sysUserService.authLogin(request);
+    }
+
 }

@@ -10,5 +10,11 @@ import org.ewlive.entity.SysUser;
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
+    /**
+     * 用户登录
+     * @param sysUser
+     * @return
+     */
+    SysUser authLogin(SysUser sysUser);
 
 }
