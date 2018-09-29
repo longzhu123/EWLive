@@ -92,4 +92,15 @@ public class SysUserController {
         return sysUserService.authLogin(request);
     }
 
+    /**
+     * 用户登出
+     * @param sysUser
+     * @return
+     */
+    @AuthReq
+    @RequestMapping("/loginOut")
+    public  ResultData loginOut(@RequestBody SysUser sysUser){
+        return sysUserService.loginOut(sysUser);
+    }
+
 }

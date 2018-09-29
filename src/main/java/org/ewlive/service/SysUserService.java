@@ -196,9 +196,10 @@ public class SysUserService {
 
     /**
      * 检查邮箱和密码是否为空
+     *
      * @param request
      */
-    public  void checkEmailAndPwdIsNull(SysUser request){
+    public void checkEmailAndPwdIsNull(SysUser request) {
         //判断邮箱是否为空
         if (CommonUtil.isStringEmpty(request.getEmail())) {
             throw new ServiceException(ExceptionConstants.EMAIL_NOT_NULL);
@@ -211,6 +212,7 @@ public class SysUserService {
 
     /**
      * 用户登录
+     *
      * @param request
      * @return
      */
@@ -223,7 +225,7 @@ public class SysUserService {
         SysUser sysUser = sysUserMapper.authLogin(request);
 
         //登录失败
-        if(Objects.isNull(sysUser)){
+        if (Objects.isNull(sysUser)) {
             throw new ServiceException(ExceptionConstants.SYS_USER_LOGIN_FAIL);
         }
 
@@ -242,5 +244,20 @@ public class SysUserService {
 
         data.setData(sysUser);
         return data;
+    }
+
+    /**
+     * 用户登出
+     *
+     * @param sysUser
+     * @return
+     */
+    public ResultData loginOut(SysUser sysUser) {
+        log.info("用户登出,请求参数====>" + JSON.toJSONString(sysUser));
+        ResultData resultData = new ResultData();
+        SysUser delRedisUser = JSON.parseObject(CommonConstants.map.get(sysUser.getToken()), SysUser.class);
+        CommonConstants.map.remove(sysUser.getToken());
+        CommonConstants.map.remove(delRedisUser.getId());
+        return resultData;
     }
 }
