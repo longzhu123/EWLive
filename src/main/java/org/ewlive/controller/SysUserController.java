@@ -84,23 +84,35 @@ public class SysUserController {
 
     /**
      * 用户登录
+     *
      * @param request
      * @return
      */
     @RequestMapping("/authLogin")
-    public  ResultData<SysUser> authLogin(@RequestBody SysUser request){
+    public ResultData<SysUser> authLogin(@RequestBody SysUser request) {
         return sysUserService.authLogin(request);
     }
 
     /**
      * 用户登出
+     *
      * @param sysUser
      * @return
      */
     @AuthReq
     @RequestMapping("/loginOut")
-    public  ResultData loginOut(@RequestBody SysUser sysUser){
+    public ResultData loginOut(@RequestBody SysUser sysUser) {
         return sysUserService.loginOut(sysUser);
     }
 
+    /**
+     * 验证token是否有效
+     *
+     * @param sysUser
+     * @return
+     */
+    @RequestMapping("/validateToken")
+    public ResultData validateToken(@RequestBody SysUser sysUser) {
+        return sysUserService.validateToken(sysUser);
+    }
 }

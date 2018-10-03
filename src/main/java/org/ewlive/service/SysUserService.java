@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
+import org.ewlive.constants.ResultConstants;
 import org.ewlive.entity.SysUser;
 import org.ewlive.exception.ServiceException;
 import org.ewlive.mapper.SysUserMapper;
@@ -258,6 +259,23 @@ public class SysUserService {
         SysUser delRedisUser = JSON.parseObject(CommonConstants.map.get(sysUser.getToken()), SysUser.class);
         CommonConstants.map.remove(sysUser.getToken());
         CommonConstants.map.remove(delRedisUser.getId());
+        return resultData;
+    }
+
+    /**
+     * 验证token是否有效
+     *
+     * @param sysUser
+     * @return
+     */
+    public ResultData validateToken(SysUser sysUser) {
+        log.info("验证token是否有效,请求参数====>" + JSON.toJSONString(sysUser));
+        ResultData resultData = new ResultData();
+        String token = sysUser.getToken();
+        String user = CommonConstants.map.get(token);
+        if (CommonUtil.isStringEmpty(user)) {
+            throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE,ExceptionConstants.AUTH_TOKEN_FAIL);
+        }
         return resultData;
     }
 }
