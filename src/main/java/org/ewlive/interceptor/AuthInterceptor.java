@@ -16,7 +16,6 @@ import org.ewlive.util.CommonUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -46,7 +45,7 @@ public class AuthInterceptor {
 
         String packageName = "org.ewlive.controller";
         String controllerName = method.getDeclaringClass().getName().substring(packageName.length());
-        String requestUrl = "/"+CommonUtil.toLowerCaseFirstOne(controllerName.substring(1,controllerName.indexOf("Controller")))+requestMapping.value()[0];
+        String requestUrl = "/" + CommonUtil.toLowerCaseFirstOne(controllerName.substring(1, controllerName.indexOf("Controller"))) + requestMapping.value()[0];
         log.info("控制器: " + controllerName);
         log.info("函数名: " + method.getName());
         log.info("请求路径: " + requestUrl);
