@@ -272,6 +272,9 @@ public class SysUserService {
         log.info("验证token是否有效,请求参数====>" + JSON.toJSONString(sysUser));
         ResultData resultData = new ResultData();
         String token = sysUser.getToken();
+        if (CommonUtil.isStringEmpty(token)) {
+            throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE,ExceptionConstants.TOKEN_NOT_NULL);
+        }
         String user = CommonConstants.map.get(token);
         if (CommonUtil.isStringEmpty(user)) {
             throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE,ExceptionConstants.AUTH_TOKEN_FAIL);
