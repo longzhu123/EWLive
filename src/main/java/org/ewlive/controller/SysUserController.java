@@ -1,5 +1,6 @@
 package org.ewlive.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.entity.SysUser;
 import org.ewlive.result.ResultData;
@@ -115,4 +116,17 @@ public class SysUserController {
     public ResultData validateToken(@RequestBody SysUser sysUser) {
         return sysUserService.validateToken(sysUser);
     }
+
+
+    /**
+     * 模糊查询用户(分页)
+     * @param request
+     * @return
+     */
+    @AuthReq
+    @RequestMapping("/likeSearchSysUserByPage")
+    public ResultData<Page<SysUser>> likeSearchSysUserByPage(@RequestBody SysUser request){
+        return sysUserService.likeSearchSysUserByPage(request);
+    }
+
 }

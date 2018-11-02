@@ -9,6 +9,8 @@ public class ExceptionConstants {
 
     public static final String IDS_NOT_NULL = "ids编号集合不能为空";
 
+    public static  final  String PAGE_LESS_PARAM = "分页必填参数缺失";
+
     public static final String ADD_FAIL = "添加失败";
 
     public static final String UPDATE_FAIL = "修改失败";

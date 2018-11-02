@@ -2,6 +2,7 @@ package org.ewlive.service;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
@@ -263,6 +264,26 @@ public class SysUserService {
     }
 
     /**
+     * 模糊查询用户(分页)
+     * @param request
+     * @return
+     */
+    public ResultData<Page<SysUser>> likeSearchSysUserByPage(SysUser request){
+        log.info("模糊查询用户(分页):请求参数=====>"+JSON.toJSONString(request));
+        if(Objects.isNull(request.getCurrent()) || Objects.isNull(request.getSize())){
+            throw  new ServiceException(ExceptionConstants.PAGE_LESS_PARAM);
+        }
+        ResultData<Page<SysUser>> data= new ResultData<>();
+        Page<SysUser> page = new Page<>(request.getCurrent(),request.getSize());
+        //模糊查询用户(分页)
+        List<SysUser> sysUserList = sysUserMapper.likeSearchSysUserByPage(page,request);
+        page.setRecords(sysUserList);
+        data.setData(page);
+        log.info("数据请求成功,=====>返回:"+JSON.toJSONString(sysUserList));
+        return data;
+    }
+
+    /**
      * 验证token是否有效
      *
      * @param sysUser
@@ -281,4 +302,6 @@ public class SysUserService {
         }
         return resultData;
     }
+
+
 }

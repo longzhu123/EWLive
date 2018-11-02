@@ -1,7 +1,10 @@
 package org.ewlive.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import org.ewlive.entity.SysUser;
+
+import java.util.List;
 
 
 /**
@@ -16,5 +19,13 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return
      */
     SysUser authLogin(SysUser sysUser);
+
+    /**
+     * 模糊查询用户(分页)
+     * @param pagination
+     * @param sysuser
+     * @return
+     */
+    List<SysUser> likeSearchSysUserByPage(Pagination pagination, SysUser sysuser);
 
 }
