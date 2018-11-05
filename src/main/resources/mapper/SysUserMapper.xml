@@ -7,17 +7,17 @@
 		sys_user.id,
 		sys_user.email,
 		sys_user.password,
-		sys_user.nick_name,
-		sys_user.ew_coin,
-		sys_user.create_user_id,
-		sys_user.create_time,
-		sys_user.update_user_id,
-		sys_user.update_time,
+		sys_user.nick_name as nickName,
+		sys_user.ew_coin as ewCoin,
+		sys_user.create_user_id as createUserId,
+		sys_user.create_time as createTime,
+		sys_user.update_user_id as updateUserId,
+		sys_user.update_time as updateTime,
 		sys_user.comment
 	</sql>
 
     <!--用户登录-->
-    <select id="authLogin" parameterType="org.ewlive.entity.SysUser" resultType="org.ewlive.entity.SysUser">
+    <select id="authLogin" parameterType="SysUser" resultType="SysUser">
         select <include refid="Base_Column_List"/>
         from sys_user where email=#{email} and password=#{password}
     </select>
