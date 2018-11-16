@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 字典注解
  */
-@Target(value = {ElementType.METHOD, ElementType.TYPE})
+@Target(value = {ElementType.METHOD, ElementType.TYPE,ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dic {
 

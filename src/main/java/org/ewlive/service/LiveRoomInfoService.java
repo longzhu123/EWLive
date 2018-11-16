@@ -9,6 +9,7 @@ import org.ewlive.exception.ServiceException;
 import org.ewlive.mapper.LiveRoomInfoMapper;
 import org.ewlive.result.ResultData;
 import org.ewlive.util.CommonUtil;
+import org.ewlive.util.DicConvertUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,8 @@ public class LiveRoomInfoService {
         ResultData<LiveRoomInfo> data = new ResultData<>();
         //根据id查询直播间信息
         LiveRoomInfo liveRoomInfo = liveRoomInfoMapper.selectById(request.getId());
+
+        DicConvertUtil.convertObjDicDesc(liveRoomInfo,LiveRoomInfo.class);
         data.setData(liveRoomInfo);
         log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfo));
         return data;
