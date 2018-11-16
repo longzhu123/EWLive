@@ -33,5 +33,6 @@ public class ExceptionConstants {
 
     public static final String AUTH_TOKEN_FAIL = "token失效,鉴权失败";
 
+    public  static  final  String DICNAME_NOT_NULL = "字典名称不能为空";
 
 }
