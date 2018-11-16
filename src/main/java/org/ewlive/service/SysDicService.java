@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -71,11 +72,17 @@ public class SysDicService {
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public ResultData addSysDic(SysDic request) {
+        request.setId(CommonUtil.createUUID());
         log.info("添加字典,请求参数====>" + JSON.toJSONString(request));
         //检查必填参数项是否空
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
         ResultData data = new ResultData();
+
+        request.setId(CommonUtil.createUUID());
+        request.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        request.setCreateUserId(request.getId());
+
         //添加字典
         int i = sysDicMapper.addSysDic(request);
         if (i == 0) {

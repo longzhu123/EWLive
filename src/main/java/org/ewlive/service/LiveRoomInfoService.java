@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -76,6 +77,12 @@ public class LiveRoomInfoService {
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
         ResultData data = new ResultData();
+
+        request.setId(CommonUtil.createUUID());
+        request.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        request.setCreateUserId(request.getId());
+
+
         //添加直播间信息
         int i = liveRoomInfoMapper.addLiveRoomInfo(request);
         if (i == 0) {
