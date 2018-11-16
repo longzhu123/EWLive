@@ -39,4 +39,11 @@ public class ExceptionConstants {
 
     public  static  final  String DICITEMNAME_NOT_NULL = "字典项名称不能为空";
 
+    public  static  final  String ROOMID_NOT_NULL = "房间编号不能为空";
+
+    public  static  final  String USERID_NOT_NULL = "用户编号不能为空";
+
+    public  static  final  String PLAYSTATE_NOT_NULL = "开播状态不能为空";
+
+
 }

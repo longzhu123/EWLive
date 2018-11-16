@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.LiveRoomInfoMapper">
+
+	<!--直播间信息基础列-->
+	<sql id="Base_Column_List">
+		live_room_info.id,
+		live_room_info.room_id as roomId,
+		live_room_info.user_id as userId,
+		live_room_info.play_state as playState,
+		live_room_info.create_user_id as createUserId,
+		live_room_info.create_time as createTime,
+		live_room_info.update_user_id as updateUserId,
+		live_room_info.update_time as updateTime,
+		live_room_info.comment
+	</sql>
+
+	<!--添加直播间信息-->
+	<insert id="addLiveRoomInfo"  parameterType="org.ewlive.entity.LiveRoomInfo">
+		insert into live_room_info
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="roomId != null">room_id,</if>
+			<if test="userId != null">user_id,</if>
+			<if test="playState != null">play_state,</if>
+			<if test="createUserId != null">create_user_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateUserId != null">update_user_id,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="comment != null">comment,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null ">#{id},</if>
+			<if test="roomId != null ">#{roomId},</if>
+			<if test="userId != null ">#{userId},</if>
+			<if test="playState != null ">#{playState},</if>
+			<if test="createUserId != null ">#{createUserId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateUserId != null ">#{updateUserId},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="comment != null ">#{comment},</if>
+		</trim>
+	</insert>
+
+	<!--根据Id修改直播间信息-->
+	<update id="updateLiveRoomInfoById" parameterType="org.ewlive.entity.LiveRoomInfo">
+		update live_room_info
+		<set>
+			<if test="roomId != null">room_id=#{roomId},</if>
+			<if test="userId != null">user_id=#{userId},</if>
+			<if test="playState != null">play_state=#{playState},</if>
+			<if test="createUserId != null">create_user_id=#{createUserId},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+			<if test="comment != null">comment=#{comment},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+</mapper>
