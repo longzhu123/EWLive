@@ -638,7 +638,8 @@ public class AutoTableDao {
         sb.append("\r\n\r\n\t<!--" + tableComment + "基础列-->");
         sb.append("\n\t<sql id=\"Base_Column_List\">\r\n\t\t");
         columnSb.append("\r\n\t\twhere 1=1 ");
-        for (AutoColumn column : columns) {
+        for (int j = 0; j < columns.size(); j++) {
+            AutoColumn column = columns.get(j);
             String columnName = column.getColumnName().toLowerCase();
             String beanName= "";
             if(columnName.indexOf("_")>0){
@@ -653,15 +654,23 @@ public class AutoTableDao {
             }else{
                 beanName = columnName;
             }
-            sb.append(tableName+"."+columnName + ",");
+
+            String revertName ="";
+            if(columnName.indexOf("_") >-1){
+                revertName = " as "+ beanName;
+            }
+            if(j == columns.size()-1){
+                sb.append(tableName+"."+columnName+revertName);
+            }else{
+                sb.append(tableName+"."+columnName +revertName+",\r\n\t\t");
+            }
+
             if (userDb.equals("oracle")) {
                 columnSb.append("\r\n\t\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
             } else if (userDb.equals("mysql")) {
                 columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
             }
-
         }
-        sb.deleteCharAt(sb.length() - 1);
         sb.append("\r\n\t</sql>");
 
         if(PropertiesUtil.get("auto.enable.page").equals("true")){
