@@ -8,6 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CommonConstants {
 
-    //全局Map
+    //全局缓存Map
     public  static  final Map<String,String> map = new ConcurrentHashMap<>();
+
+    //字典项的缓存key
+    public static final  String DIC_ITEM_CACHE_KEY = "dic_item_cache";
+
 }
