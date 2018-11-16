@@ -35,4 +35,8 @@ public class ExceptionConstants {
 
     public  static  final  String DICNAME_NOT_NULL = "字典名称不能为空";
 
+    public  static  final  String DICID_NOT_NULL = "字典编号称不能为空";
+
+    public  static  final  String DICITEMNAME_NOT_NULL = "字典项名称不能为空";
+
 }
