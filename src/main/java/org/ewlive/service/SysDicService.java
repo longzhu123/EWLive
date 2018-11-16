@@ -77,7 +77,7 @@ public class SysDicService {
         log.info("添加====>参数校验成功");
         ResultData data = new ResultData();
         //添加字典
-        int i = sysDicMapper.insert(request);
+        int i = sysDicMapper.addSysDic(request);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.ADD_FAIL);
         }
@@ -100,7 +100,7 @@ public class SysDicService {
         log.info("参数校验成功,id不为空");
         ResultData data = new ResultData();
         //根据Id修改字典
-        int i = sysDicMapper.updateById(request);
+        int i = sysDicMapper.updateSysDicById(request);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.UPDATE_FAIL);
         }

@@ -10,5 +10,18 @@ import org.ewlive.entity.SysDic;
  */
 public interface SysDicMapper extends BaseMapper<SysDic> {
 
+    /**
+     * 添加字典
+     * @param sysdic
+     * @return
+     */
+    int addSysDic(SysDic sysdic);
+
+    /**
+     * 根据Id修改字典
+     * @param sysdic
+     * @return
+     */
+    int updateSysDicById(SysDic sysdic);
 
 }

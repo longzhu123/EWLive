@@ -1,5 +1,6 @@
 package org.ewlive.controller;
 
+import org.ewlive.aop.AuthReq;
 import org.ewlive.entity.SysDic;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.SysDicService;
@@ -27,6 +28,7 @@ public class SysDicController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/getSysDicById")
     public ResultData<SysDic> getSysDicById(@RequestBody SysDic request) {
         return sysDicService.getSysDicById(request);
@@ -38,6 +40,7 @@ public class SysDicController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/getSysDicByParams")
     public ResultData<List<SysDic>> getSysDicByParams(@RequestBody SysDic request) {
         return sysDicService.getSysDicByParams(request);
@@ -49,6 +52,7 @@ public class SysDicController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/addSysDic")
     public ResultData addSysDic(@RequestBody SysDic request) {
         return sysDicService.addSysDic(request);
@@ -60,6 +64,7 @@ public class SysDicController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/updateSysDicById")
     public ResultData updateSysDicById(@RequestBody SysDic request) {
         return sysDicService.updateSysDicById(request);
@@ -71,6 +76,7 @@ public class SysDicController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/deleteBatchSysDicByIds")
     public ResultData deleteBatchSysDicByIds(@RequestBody SysDic request) {
         return sysDicService.deleteBatchSysDicByIds(request);
