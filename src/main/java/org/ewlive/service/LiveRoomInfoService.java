@@ -42,9 +42,9 @@ public class LiveRoomInfoService {
         ResultData<LiveRoomInfo> data = new ResultData<>();
         //根据id查询直播间信息
         LiveRoomInfo liveRoomInfo = liveRoomInfoMapper.selectById(request.getId());
-
-        DicConvertUtil.convertObjDicDesc(liveRoomInfo,LiveRoomInfo.class);
-        data.setData(liveRoomInfo);
+        //将字典码转换为中文描述
+        LiveRoomInfo dataObj = DicConvertUtil.convertObjDicDesc(liveRoomInfo, LiveRoomInfo.class);
+        data.setData(dataObj);
         log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfo));
         return data;
     }
