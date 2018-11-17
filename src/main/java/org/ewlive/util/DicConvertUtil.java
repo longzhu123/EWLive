@@ -8,10 +8,7 @@ import org.ewlive.entity.SysDicItem;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -35,15 +32,24 @@ public class DicConvertUtil {
         //获取缓存中字典项数据
         List<SysDicItem> sysDicItems = JSON.parseArray(CommonConstants.map.get(CommonConstants.DIC_ITEM_CACHE_KEY), SysDicItem.class);
         //将List转换为Map
-        Map<String, String> map = sysDicItems.stream().collect(Collectors.toMap(SysDicItem::getDicId, SysDicItem::getDicItemName));
+        Map<String, String> dicMap = new HashMap<>();
+        sysDicItems.forEach(item->{
+            //key格式:id,dicItemCode
+            //value:dicItemName
+            dicMap.put(item.getId()+","+item.getDicItemCode(),item.getDicItemName());
+        });
+
         try {
+            //获取id属性值
+            String id = clazz.getDeclaredField("id").get(obj).toString();
             for (Field field : fieldList) {
                 field.setAccessible(true);
                 String fileValue = field.get(obj).toString();
-                String dicDesc = "";
-                System.out.println(dicDesc);
+                String dicMapKey = id+","+fileValue;
+                String dicDesc = dicMap.get(dicMapKey);
+                System.out.println(field.getName()+","+dicDesc);
             }
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

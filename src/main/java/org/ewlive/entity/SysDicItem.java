@@ -34,8 +34,8 @@ public class SysDicItem extends Base {
     /**
      * 字典项Code
      */
-    @TableField("dic_code")
-    private  String dicCode;
+    @TableField("dic_item_code")
+    private  String dicItemCode;
 
     /**
      * 字典项名称
