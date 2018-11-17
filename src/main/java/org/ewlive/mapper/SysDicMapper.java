@@ -12,16 +12,16 @@ public interface SysDicMapper extends BaseMapper<SysDic> {
 
     /**
      * 添加字典
-     * @param sysdic
+     * @param sysDic
      * @return
      */
-    int addSysDic(SysDic sysdic);
+    int addSysDic(SysDic sysDic);
 
     /**
      * 根据Id修改字典
-     * @param sysdic
+     * @param sysDic
      * @return
      */
-    int updateSysDicById(SysDic sysdic);
+    int updateSysDicById(SysDic sysDic);
 
 }

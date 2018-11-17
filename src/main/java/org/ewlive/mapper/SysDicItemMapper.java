@@ -12,15 +12,15 @@ public interface SysDicItemMapper extends BaseMapper<SysDicItem> {
 
     /**
      * 添加字典项
-     * @param sysdicitem
+     * @param sysDicItem
      * @return
      */
-    int addSysDicItem(SysDicItem sysdicitem);
+    int addSysDicItem(SysDicItem sysDicItem);
 
     /**
      * 根据Id修改字典项
-     * @param sysdicitem
+     * @param sysDicItem
      * @return
      */
-    int updateSysDicItemById(SysDicItem sysdicitem);
+    int updateSysDicItemById(SysDicItem sysDicItem);
 }

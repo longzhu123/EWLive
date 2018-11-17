@@ -13,17 +13,17 @@ public interface LiveRoomInfoMapper extends BaseMapper<LiveRoomInfo> {
     /**
      * 添加直播间信息
      *
-     * @param liveroominfo
+     * @param liveRoomInfo
      * @return
      */
-    int addLiveRoomInfo(LiveRoomInfo liveroominfo);
+    int addLiveRoomInfo(LiveRoomInfo liveRoomInfo);
 
     /**
      * 根据Id修改直播间信息
      *
-     * @param liveroominfo
+     * @param liveRoomInfo
      * @return
      */
-    int updateLiveRoomInfoById(LiveRoomInfo liveroominfo);
+    int updateLiveRoomInfoById(LiveRoomInfo liveRoomInfo);
 
 }

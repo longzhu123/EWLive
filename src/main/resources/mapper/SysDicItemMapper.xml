@@ -6,6 +6,7 @@
 	<sql id="Base_Column_List">
 		sys_dic_item.id,
 		sys_dic_item.dic_id as dicId,
+		sys_dic_item.dic_code as dicCode,
 		sys_dic_item.dic_item_name as dicItemName,
 		sys_dic_item.create_user_id as createUserId,
 		sys_dic_item.create_time as createTime,
@@ -15,11 +16,12 @@
 	</sql>
 
 	<!--添加字典项-->
-	<insert id="addSysDicItem"  parameterType="SysDicItem">
+	<insert id="addSysDicItem"  parameterType="org.ewlive.entity.SysDicItem">
 		insert into sys_dic_item
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null">id,</if>
 			<if test="dicId != null">dic_id,</if>
+			<if test="dicCode != null">dic_code,</if>
 			<if test="dicItemName != null">dic_item_name,</if>
 			<if test="createUserId != null">create_user_id,</if>
 			<if test="createTime != null">create_time,</if>
@@ -30,6 +32,7 @@
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id != null ">#{id},</if>
 			<if test="dicId != null ">#{dicId},</if>
+			<if test="dicCode != null">#{dicCode},</if>
 			<if test="dicItemName != null ">#{dicItemName},</if>
 			<if test="createUserId != null ">#{createUserId},</if>
 			<if test="createTime != null ">#{createTime},</if>
@@ -40,10 +43,11 @@
 	</insert>
 
 	<!--根据Id修改字典项-->
-	<update id="updateSysDicItemById" parameterType="SysDicItem">
+	<update id="updateSysDicItemById" parameterType="org.ewlive.entity.SysDicItem">
 		update sys_dic_item
 		<set>
 			<if test="dicId != null">dic_id=#{dicId},</if>
+			<if test="dicCode != null">dic_code=#{dicCode},</if>
 			<if test="dicItemName != null">dic_item_name=#{dicItemName},</if>
 			<if test="createUserId != null">create_user_id=#{createUserId},</if>
 			<if test="createTime != null">create_time=#{createTime},</if>

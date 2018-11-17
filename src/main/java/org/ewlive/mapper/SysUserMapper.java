@@ -23,9 +23,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 模糊查询用户(分页)
      * @param pagination
-     * @param sysuser
+     * @param sysUser
      * @return
      */
-    List<SysUser> likeSearchSysUserByPage(Pagination pagination, SysUser sysuser);
+    List<SysUser> likeSearchSysUserByPage(Pagination pagination, SysUser sysUser);
 
 }

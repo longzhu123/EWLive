@@ -17,13 +17,13 @@
 	</sql>
 
     <!--用户登录-->
-    <select id="authLogin" parameterType="SysUser" resultType="SysUser">
+    <select id="authLogin" parameterType="org.ewlive.entity.SysUser" resultType="org.ewlive.entity.SysUser">
         select <include refid="Base_Column_List"/>
         from sys_user where email=#{email} and password=#{password}
     </select>
 
 	<!--模糊查询用户(分页)-->
-	<select id="likeSearchSysUserByPage"  resultType="SysUser" parameterType="SysUser">
+	<select id="likeSearchSysUserByPage"  resultType="org.ewlive.entity.SysUser" parameterType="org.ewlive.entity.SysUser">
 		select <include refid="Base_Column_List"/> from sys_user
 		where 1=1
 		<if test="id != null"> and id=#{id}</if>
