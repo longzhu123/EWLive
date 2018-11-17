@@ -59,8 +59,7 @@ public class DicConvertUtil {
             }
             return obj;
         } catch (Exception e) {
-            e.printStackTrace();
-            return  null;
+            throw  new ServiceException(ExceptionConstants.SYSTEM_ERROR);
         }
     }
 

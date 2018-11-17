@@ -28,6 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ServiceException.class)
     public Object serviceExceptionHandler(HttpServletRequest req, Exception e) throws Exception {
         ServiceException serviceException = (ServiceException) e;
+        e.printStackTrace();
         ResultData resultData = new ResultData();
         if(serviceException.getResultCode() != ResultConstants.ERROR_CODE){
             resultData.setResultCode(serviceException.getResultCode());
