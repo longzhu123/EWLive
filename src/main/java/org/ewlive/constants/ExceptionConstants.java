@@ -9,9 +9,9 @@ public class ExceptionConstants {
 
     public static final String IDS_NOT_NULL = "ids编号集合不能为空";
 
-    public static  final  String PAGE_LESS_PARAM = "分页必填参数缺失";
+    public static final String PAGE_LESS_PARAM = "分页必填参数缺失";
 
-    public  static  final  String SYSTEM_ERROR = "系统异常";
+    public static final String SYSTEM_ERROR = "系统异常";
 
     public static final String ADD_FAIL = "添加失败";
 
@@ -35,17 +35,17 @@ public class ExceptionConstants {
 
     public static final String AUTH_TOKEN_FAIL = "token失效,鉴权失败";
 
-    public  static  final  String DICNAME_NOT_NULL = "字典名称不能为空";
+    public static final String DICNAME_NOT_NULL = "字典名称不能为空";
 
-    public  static  final  String DICID_NOT_NULL = "字典编号称不能为空";
+    public static final String DICID_NOT_NULL = "字典编号称不能为空";
 
-    public  static  final  String DICITEMNAME_NOT_NULL = "字典项名称不能为空";
+    public static final String DICITEMNAME_NOT_NULL = "字典项名称不能为空";
 
-    public  static  final  String ROOMID_NOT_NULL = "房间编号不能为空";
+    public static final String ROOMID_NOT_NULL = "房间编号不能为空";
 
-    public  static  final  String USERID_NOT_NULL = "用户编号不能为空";
+    public static final String USERID_NOT_NULL = "用户编号不能为空";
 
-    public  static  final  String PLAYSTATE_NOT_NULL = "开播状态不能为空";
+    public static final String PLAYSTATE_NOT_NULL = "开播状态不能为空";
 
 
 }
