@@ -29,23 +29,27 @@ public class DicConvertUtil {
         List<Field> fieldList = Arrays.asList(fields);
         //将有@Dic修饰注解的属性过滤出来
         fieldList = fieldList.parallelStream().filter(item -> !Objects.isNull(item.getAnnotation(Dic.class))).collect(Collectors.toList());
-        //获取缓存中字典项数据
-        List<SysDicItem> sysDicItems = JSON.parseArray(CommonConstants.map.get(CommonConstants.DIC_ITEM_CACHE_KEY), SysDicItem.class);
-        //将List转换为Map
-        Map<String, String> dicMap = new HashMap<>();
-        sysDicItems.forEach(item -> {
-            //key格式:dicId,dicItemCode
-            //value:dicItemName
-            dicMap.put(item.getDicId() + "," + item.getDicItemCode(), item.getDicItemName());
-        });
+        //对象属性中有Dic注解修饰才进行解析
+        if (CommonUtil.isCollectionNotEmpty(fieldList)) {
+            //获取缓存中字典项数据
+            List<SysDicItem> sysDicItems = JSON.parseArray(CommonConstants.map.get(CommonConstants.DIC_ITEM_CACHE_KEY), SysDicItem.class);
+            //将List转换为Map
+            Map<String, String> dicMap = new HashMap<>();
+            sysDicItems.forEach(item -> {
+                //key格式:dicId,dicItemCode
+                //value:dicItemName
+                dicMap.put(item.getDicId() + "," + item.getDicItemCode(), item.getDicItemName());
+            });
 
-        try {
-            //设置对象的中文描述
-            setObjDesc(obj,fieldList,clazz,dicMap);
-            return obj;
-        } catch (Exception e) {
-            throw new ServiceException(ExceptionConstants.SYSTEM_ERROR);
+            try {
+                //设置对象的中文描述
+                setObjDesc(obj, fieldList, clazz, dicMap);
+            } catch (Exception e) {
+                throw new ServiceException(ExceptionConstants.SYSTEM_ERROR);
+            }
         }
+        return obj;
+
     }
 
     /**
@@ -54,43 +58,48 @@ public class DicConvertUtil {
      *
      * @param objList 需要转换的集合
      * @param clazz   转换成啥类型的对象
-     * @param <T>    返回值为List
+     * @param <T>     返回值为List
      */
     public static <T> List<T> convertArrayDicDesc(List<T> objList, Class<T> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         List<Field> fieldList = Arrays.asList(fields);
         //将有@Dic修饰注解的属性过滤出来
         fieldList = fieldList.parallelStream().filter(item -> !Objects.isNull(item.getAnnotation(Dic.class))).collect(Collectors.toList());
-        //获取缓存中字典项数据
-        List<SysDicItem> sysDicItems = JSON.parseArray(CommonConstants.map.get(CommonConstants.DIC_ITEM_CACHE_KEY), SysDicItem.class);
-        //将List转换为Map
-        Map<String, String> dicMap = new HashMap<>();
-        sysDicItems.forEach(item -> {
-            //key格式:dicId,dicItemCode
-            //value:dicItemName
-            dicMap.put(item.getDicId() + "," + item.getDicItemCode(), item.getDicItemName());
-        });
+        //对象属性中有Dic注解修饰才进行解析
+        if (CommonUtil.isCollectionNotEmpty(fieldList)) {
+            //获取缓存中字典项数据
+            List<SysDicItem> sysDicItems = JSON.parseArray(CommonConstants.map.get(CommonConstants.DIC_ITEM_CACHE_KEY), SysDicItem.class);
+            //将List转换为Map
+            Map<String, String> dicMap = new HashMap<>();
+            sysDicItems.forEach(item -> {
+                //key格式:dicId,dicItemCode
+                //value:dicItemName
+                dicMap.put(item.getDicId() + "," + item.getDicItemCode(), item.getDicItemName());
+            });
 
-        try {
-            for (T obj : objList) {
-                //设置对象的中文描述
-                setObjDesc(obj,fieldList,clazz,dicMap);
+            try {
+                for (T obj : objList) {
+                    //设置对象的中文描述
+                    setObjDesc(obj, fieldList, clazz, dicMap);
+                }
+
+            } catch (Exception e) {
+                throw new ServiceException(ExceptionConstants.SYSTEM_ERROR);
             }
-            return objList;
-        } catch (Exception e) {
-            throw new ServiceException(ExceptionConstants.SYSTEM_ERROR);
         }
+        return objList;
 
     }
 
     /**
      * 设置对象的中文描述
+     *
      * @param obj       要设置描述的对象
-     * @param fieldList  对象属性集合
-     * @param clazz   对象的class类型
-     * @param dicMap  字典缓存Map
+     * @param fieldList 对象属性集合
+     * @param clazz     对象的class类型
+     * @param dicMap    字典缓存Map
      */
-    private   static void setObjDesc(Object obj,List<Field> fieldList,Class clazz,Map<String,String> dicMap){
+    private static void setObjDesc(Object obj, List<Field> fieldList, Class clazz, Map<String, String> dicMap) {
         try {
             //获取字典项的中文描述
             for (Field field : fieldList) {
