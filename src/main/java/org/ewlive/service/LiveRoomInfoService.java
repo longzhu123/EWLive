@@ -61,7 +61,9 @@ public class LiveRoomInfoService {
         ResultData<List<LiveRoomInfo>> data = new ResultData<>();
         //多条件查询直播间信息信息
         List<LiveRoomInfo> liveRoomInfoList = liveRoomInfoMapper.selectList(new EntityWrapper<>(request));
-        data.setData(liveRoomInfoList);
+        //将字典码转换为中文描述
+        List<LiveRoomInfo> dataObj = DicConvertUtil.convertArrayDicDesc(liveRoomInfoList, LiveRoomInfo.class);
+        data.setData(dataObj);
         log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfoList));
         return data;
     }
