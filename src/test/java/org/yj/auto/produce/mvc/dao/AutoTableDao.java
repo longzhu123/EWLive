@@ -711,7 +711,18 @@ public class AutoTableDao {
         sb.append("public interface " + className + "  extends BaseMapper<"+entityName+"> {\n");
         sb.append("\r\n");
         tableComment = convertDbTableComment(tableComment);
-
+        StringBuffer addSb = new StringBuffer();
+        StringBuffer updateSb = new StringBuffer();
+        addSb.append("    /**\n" +
+                "     * 添加" + tableComment + "\n" +
+                "     * @param "+entityName.toLowerCase()+"\n" +
+                "     * @return\n" +
+                "     */");
+        updateSb.append("    /**\n" +
+                "     * 根据Id修改" + tableComment + "\n" +
+                "     * @param "+entityName.toLowerCase()+"\n" +
+                "     * @return\n" +
+                "     */");
         if(PropertiesUtil.get("auto.enable.page").equals("true")){
             searchSb.append("    /**\n" +
                     "     * 模糊查询" + tableComment + "(分页)\n" +
@@ -721,8 +732,18 @@ public class AutoTableDao {
                     "     */");
 
             sb.append(searchSb);
-            sb.append("\r\n\tpublic List<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " "+entityName.toLowerCase()+");");
+            sb.append("\r\n\tList<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " "+entityName.toLowerCase()+");");
         }
+
+        sb.append("\n\r");
+        sb.append(addSb);
+        sb.append("\r");
+        sb.append("\tint add" + entityName + "(" + entityName + " "+entityName.toLowerCase()+");");
+        sb.append("\n\r");
+        sb.append(updateSb);
+        sb.append("\r");
+        sb.append("\tint update" + entityName + "ById(" + entityName + " "+entityName.toLowerCase()+");");
+        sb.append("\n\r");
         sb.append("\n\r");
         sb.append("\r\n}");
         return sb.toString();
