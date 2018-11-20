@@ -30,7 +30,7 @@ public class AutoTableDao {
         if (dialect.equals("mysql")) {
             String dataBaseName = PropertiesUtil.get("autoDataBaseName");
             sql = "select table_name tableName,table_comment comment from information_schema.tables where table_schema = ? and table_name=?";
-            objects = new Object[]{dataBaseName,tableName};
+            objects = new Object[]{dataBaseName, tableName};
             autoTables = DbUtil.executeQuery(AutoTable.class, sql, objects);
         } else if (dialect.equals("oracle")) {
             sql = "select TABLE_NAME \"tableName\",COMMENTS \"comment\" from user_tab_comments where TABLE_NAME = ?";
@@ -43,6 +43,13 @@ public class AutoTableDao {
 
     public static void autoMVC() {
         String autoTableName = PropertiesUtil.get("auto.table");
+        String autoDataBaseName = PropertiesUtil.get("autoDataBaseName");
+        String url = PropertiesUtil.get("url");
+        String newDb = url.substring(url.indexOf("?") - autoDataBaseName.length(), url.indexOf("?"));
+        if (!newDb.equals(autoDataBaseName)) {
+            System.err.println("autoDataBaseName和url的名字不一样");
+            return;
+        }
         FileUtil.initMvcPackagePath();
         autoEntity(autoTableName);
         autoMapper(autoTableName);
@@ -54,10 +61,11 @@ public class AutoTableDao {
 
     /**
      * 根据实体类获取对应的json字符串
+     *
      * @param autoTableName
      */
     private static String getJsonByEntity(String autoTableName) {
-        String returnStr= "";
+        String returnStr = "";
         List<AutoTable> tableList = getTableName(autoTableName);
         StringBuffer requestStr = new StringBuffer();
         StringBuffer requestDetailJsonStr = new StringBuffer();
@@ -69,38 +77,38 @@ public class AutoTableDao {
             String tableName = table.getTableName().toLowerCase();
             List<AutoColumn> columns = getColumnsByTable(tableName);
             for (AutoColumn column : columns) {
-                String colName =convertTuoFengColumnName (column.getColumnName());
-                String isRequire = column.getNullable().equalsIgnoreCase("no")?"//必填":"";
-                requestDetailJsonStr.append("\r\n\t"+colName+":"+column.getComment()+","+isRequire);
-                respJsonStr.append("\r\n\t"+colName+":"+column.getComment()+",");
-                if(column.getDataType().equals("int") || column.getDataType().equals("float")){
-                    requestStr.append("\r\n\t\""+colName+"\":1,");
-                }else if(column.getDataType().equals("varchar")){
-                    requestStr.append("\r\n\t\""+colName+"\":\"1\",");
+                String colName = convertTuoFengColumnName(column.getColumnName());
+                String isRequire = column.getNullable().equalsIgnoreCase("no") ? "//必填" : "";
+                requestDetailJsonStr.append("\r\n\t" + colName + ":" + column.getComment() + "," + isRequire);
+                respJsonStr.append("\r\n\t" + colName + ":" + column.getComment() + ",");
+                if (column.getDataType().equals("int") || column.getDataType().equals("float")) {
+                    requestStr.append("\r\n\t\"" + colName + "\":1,");
+                } else if (column.getDataType().equals("varchar")) {
+                    requestStr.append("\r\n\t\"" + colName + "\":\"1\",");
                 }
             }
         }
 
 
-        String s = requestStr.toString().substring(0,requestStr.length()-1)+"\r\n}";
-        returnStr+="<====请求参数====>\r\n";
-        returnStr+=s;
+        String s = requestStr.toString().substring(0, requestStr.length() - 1) + "\r\n}";
+        returnStr += "<====请求参数====>\r\n";
+        returnStr += s;
 
-        String s1 = requestDetailJsonStr.substring(requestDetailJsonStr.toString().lastIndexOf(",")+1);
-        String s2 = requestDetailJsonStr.substring(0,requestDetailJsonStr.toString().lastIndexOf(","));
-        returnStr+="\r\n<====请求参数说明====>\r\n";
-        returnStr+=s2+s1+"\r\n}";
-        returnStr+="\r\n<====响应参数====>\r\n";
-        returnStr+=s;
+        String s1 = requestDetailJsonStr.substring(requestDetailJsonStr.toString().lastIndexOf(",") + 1);
+        String s2 = requestDetailJsonStr.substring(0, requestDetailJsonStr.toString().lastIndexOf(","));
+        returnStr += "\r\n<====请求参数说明====>\r\n";
+        returnStr += s2 + s1 + "\r\n}";
+        returnStr += "\r\n<====响应参数====>\r\n";
+        returnStr += s;
 
-        String s4 = respJsonStr.substring(respJsonStr.toString().lastIndexOf(",")+1);
-        String s3 = respJsonStr.substring(0,respJsonStr.toString().lastIndexOf(","));
-        returnStr+="\n<====响应参数说明====>\n";
-        returnStr+=s3+s4+"\r\n}";
+        String s4 = respJsonStr.substring(respJsonStr.toString().lastIndexOf(",") + 1);
+        String s3 = respJsonStr.substring(0, respJsonStr.toString().lastIndexOf(","));
+        returnStr += "\n<====响应参数说明====>\n";
+        returnStr += s3 + s4 + "\r\n}";
 
 
-        File file = new File("api-doc/"+autoTableName+".txt");
-        if(file.exists()){
+        File file = new File("api-doc/" + autoTableName + ".txt");
+        if (file.exists()) {
             file.delete();
         }
         try {
@@ -330,7 +338,7 @@ public class AutoTableDao {
                 "\r\n * " + fileInfo +
                 "\r\n */\r\n");
         sb.append("@RestController");
-        sb.append("\r\n@RequestMapping(\"/" + className.substring(0,1).toLowerCase()+className.substring(1) + "\")");
+        sb.append("\r\n@RequestMapping(\"/" + className.substring(0, 1).toLowerCase() + className.substring(1) + "\")");
         sb.append("\r\npublic class " + controllerName + "{");
         sb.append("\r\n\n\t@Resource");
         sb.append("\r\n\tprivate " + serviceName + " " + lowServiceName + ";");
@@ -341,21 +349,19 @@ public class AutoTableDao {
         sb.append("\n\t\treturn " + lowServiceName + "." + "get" + className + "ById(request);");
         sb.append("\r\n\t}");
 
-        if(PropertiesUtil.get("auto.enable.page").equals("true")){
+        if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             sb.append("\n" + likeSearchSb);
             sb.append("\r\n\t@RequestMapping(\"/likeSearch" + className + "ByPage\")");
             sb.append("\r\n\tpublic ResultData<Page<" + className + ">> likeSearch" + className + "ByPage(@RequestBody " + className + " request){");
             sb.append("\r\n\t\treturn " + lowServiceName + "." + "likeSearch" + className + "ByPage(request);");
             sb.append("\r\n\t}");
-        }else{
+        } else {
             sb.append("\n" + searchSb);
             sb.append("\r\n\t@RequestMapping(\"/get" + className + "ByParams\")");
             sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(@RequestBody " + className + " request){");
             sb.append("\r\n\t\treturn " + lowServiceName + "." + "get" + className + "ByParams(request);");
             sb.append("\r\n\t}");
         }
-
-
 
 
         sb.append("\n" + addSb);
@@ -467,7 +473,7 @@ public class AutoTableDao {
                 "\t * @param request\n" +
                 "\t */");
 
-        sb.append("private " + className + "Mapper " + mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ";\n");
+        sb.append("private " + className + "Mapper " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ";\n");
 
         //事务的类型 (REQUIRED,SUPPORTS)
         String tranType = "REQUIRED";
@@ -477,35 +483,35 @@ public class AutoTableDao {
         sb.append("\n\t\t//检查参数Id是否为空");
 
         sb.append("\n\t\tcheckParamsId(request);");
-        sb.append("\n\t\tlog.info(\"根据id查询"+ tableComment+":请求参数=====>\"+JSON.toJSONString(request));");
+        sb.append("\n\t\tlog.info(\"根据id查询" + tableComment + ":请求参数=====>\"+JSON.toJSONString(request));");
         sb.append("\n\t\tResultData<" + className + "> data= new " + "ResultData<>();");
         sb.append("\n\t\t//根据id查询" + tableComment);
-        sb.append("\n\t\t" + className + " " + classNameTemp + " = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".selectById(request.getId());");
+        sb.append("\n\t\t" + className + " " + classNameTemp + " = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectById(request.getId());");
         sb.append("\r\n\t\tdata.setData(" + classNameTemp + ");");
         sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "));");
         sb.append("\r\n\t\treturn data;");
         sb.append("\n\t}\n\n");
 
-        if(PropertiesUtil.get("auto.enable.page").equals("true")){
-            sb.append("\r\n\t"+likeSearchSb);
-            sb.append("\n\tpublic ResultData<Page<"+className+">> likeSearch"+className+"ByPage("+className+" request){\n" +
-                    "\t\tlog.info(\"模糊查询"+tableComment+"(分页):请求参数=====>\"+JSON.toJSONString(request));\n" +
-                    "\t\tResultData<Page<"+className+">> data= new ResultData<>();\n" +
-                    "\t\tPage<"+className+"> page = new Page<>(request.getCurrent(),request.getSize());\n" +
-                    "\t\t//模糊查询"+tableComment+"(分页)" +
-                    "\n\t\tList<" + className + "> " + classNameTemp + "List = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".likeSearch"+className+"ByPage(page,request);"+
-                    "\n\t\tpage.setRecords("+classNameTemp+"List);\n" +
+        if (PropertiesUtil.get("auto.enable.page").equals("true")) {
+            sb.append("\r\n\t" + likeSearchSb);
+            sb.append("\n\tpublic ResultData<Page<" + className + ">> likeSearch" + className + "ByPage(" + className + " request){\n" +
+                    "\t\tlog.info(\"模糊查询" + tableComment + "(分页):请求参数=====>\"+JSON.toJSONString(request));\n" +
+                    "\t\tResultData<Page<" + className + ">> data= new ResultData<>();\n" +
+                    "\t\tPage<" + className + "> page = new Page<>(request.getCurrent(),request.getSize());\n" +
+                    "\t\t//模糊查询" + tableComment + "(分页)" +
+                    "\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".likeSearch" + className + "ByPage(page,request);" +
+                    "\n\t\tpage.setRecords(" + classNameTemp + "List);\n" +
                     "\t\tdata.setData(page);\n" +
-                    "\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));"+
+                    "\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));" +
                     "\n\t\treturn data;\n" +
                     "\t}\n\n");
-        }else{
+        } else {
             sb.append("\r\n\t" + searchSb);
             sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(" + className + " request){");
             sb.append("\n\t\tlog.info(\"多条件查询" + tableComment + "信息:请求参数=====>\"+JSON.toJSONString(request));");
             sb.append("\n\t\tResultData<List<" + className + ">> data= new ResultData<>();");
             sb.append("\n\t\t//多条件查询" + tableComment + "信息");
-            sb.append("\n\t\tList<" + className + "> " + classNameTemp + "List = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".selectList(new EntityWrapper<>(request));");
+            sb.append("\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectList(new EntityWrapper<>(request));");
             sb.append("\n\t\tdata.setData(" + classNameTemp + "List" + ");");
             sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));");
             sb.append("\r\n\t\treturn data;");
@@ -516,13 +522,13 @@ public class AutoTableDao {
         sb.append("\r\n" + addSb);
         sb.append("\r\n\t@Transactional(rollbackFor = Exception.class, propagation = Propagation." + tranType + ")");
         sb.append("\n\tpublic ResultData add" + className + "(" + className + " request){");
-        sb.append("\n\t\tlog.info(\"添加"+tableComment+",请求参数====>\"+JSON.toJSONString(request));");
+        sb.append("\n\t\tlog.info(\"添加" + tableComment + ",请求参数====>\"+JSON.toJSONString(request));");
         sb.append("\n\t\t//检查必填参数项是否空");
         sb.append("\n\t\tcheckParamsForAdd(request);");
         sb.append("\n\t\tlog.info(\"添加====>参数校验成功\");");
         sb.append("\n\t\tResultData data = new ResultData();");
         sb.append("\n\t\t//添加" + tableComment);
-        sb.append("\n\t\tint i = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".add"+className+"(request);");
+        sb.append("\n\t\tint i = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".add" + className + "(request);");
         sb.append("\n\t\tif(i == 0){" +
                 "\r\n\t\t\tthrow  new ServiceException(ExceptionConstants.ADD_FAIL);" +
                 "\r\n\t\t}");
@@ -534,14 +540,14 @@ public class AutoTableDao {
         sb.append("\r\n" + updateSb);
         sb.append("\r\n\t@Transactional(rollbackFor = Exception.class, propagation = Propagation." + tranType + ")");
         sb.append("\n\tpublic ResultData update" + className + "ById(" + className + " request){");
-        sb.append("\n\t\tlog.info(\"修改"+tableComment+",请求参数====>\"+JSON.toJSONString(request));");
+        sb.append("\n\t\tlog.info(\"修改" + tableComment + ",请求参数====>\"+JSON.toJSONString(request));");
         sb.append("\n\t\t//检查id是否为空");
         sb.append("\n\t\tcheckParamsId(request);");
         sb.append("\n\t\tlog.info(\"参数校验成功,id不为空\");");
         sb.append("\n\t\tResultData data = new ResultData();");
 
         sb.append("\n\t\t//根据Id修改" + tableComment);
-        sb.append("\n\t\tint i = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".update"+className+"ById(request);");
+        sb.append("\n\t\tint i = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".update" + className + "ById(request);");
         sb.append("\n\t\tif(i == 0){" +
                 "\r\n\t\t\tthrow  new ServiceException(ExceptionConstants.UPDATE_FAIL);" +
                 "\r\n\t\t}");
@@ -552,14 +558,14 @@ public class AutoTableDao {
         sb.append("\r\n" + deleteSb);
         sb.append("\r\n\t@Transactional(rollbackFor = Exception.class, propagation = Propagation." + tranType + ")");
         sb.append("\n\tpublic ResultData deleteBatch" + className + "ByIds(" + className + " request){");
-        sb.append("\n\t\tlog.info(\"根据ids批量删除"+tableComment+",请求参数====>\"+JSON.toJSONString(request));");
+        sb.append("\n\t\tlog.info(\"根据ids批量删除" + tableComment + ",请求参数====>\"+JSON.toJSONString(request));");
         sb.append("\n\t\t//检查ids是否为空");
         sb.append("\n\t\tcheckParamsIds(request);");
         sb.append("\n\t\tlog.info(\"参数校验成功,ids不为空\");");
         sb.append("\n\t\tResultData data = new ResultData();");
 
         sb.append("\n\t\t//根据ids批量删除" + tableComment);
-        sb.append("\n\t\tint i = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".deleteBatchIds(request.getIds());");
+        sb.append("\n\t\tint i = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".deleteBatchIds(request.getIds());");
         sb.append("\n\t\tif(i == 0){" +
                 "\r\n\t\t\tthrow  new ServiceException(ExceptionConstants.DELTE_FAIL);" +
                 "\r\n\t\t}");
@@ -580,7 +586,7 @@ public class AutoTableDao {
                 "\t * 检查参数中的ids是否为空\n" +
                 "\t * @param request\n" +
                 "\t */\n" +
-                "\tpublic void  checkParamsIds("+className+" request) {\n" +
+                "\tpublic void  checkParamsIds(" + className + " request) {\n" +
                 "\t\tif (CommonUtil.isCollectionEmpty(request.getIds())) {\n" +
                 "\t\t\tthrow new ServiceException(ExceptionConstants.IDS_NOT_NULL);\n" +
                 "\t\t}\n" +
@@ -591,22 +597,22 @@ public class AutoTableDao {
         sb.append(checkParamsAdd);
         sb.append("\n\tpublic void checkParamsForAdd(" + className + " request){");
         for (AutoColumn autoColumn : autoColumns) {
-            if(!autoColumn.getColumnName().equalsIgnoreCase("id")){
+            if (!autoColumn.getColumnName().equalsIgnoreCase("id")) {
                 String colName = "";
-                if(autoColumn.getColumnName().indexOf("_")>0){
-                    String [] s =autoColumn.getColumnName().split("_");
+                if (autoColumn.getColumnName().indexOf("_") > 0) {
+                    String[] s = autoColumn.getColumnName().split("_");
                     for (int i = 0; i < s.length; i++) {
                         String item = s[i];
-                        colName+=item.substring(0,1).toUpperCase()+item.substring(1);
+                        colName += item.substring(0, 1).toUpperCase() + item.substring(1);
                     }
-                }else{
-                    colName = autoColumn.getColumnName().substring(0,1).toUpperCase()+autoColumn.getColumnName().substring(1);
+                } else {
+                    colName = autoColumn.getColumnName().substring(0, 1).toUpperCase() + autoColumn.getColumnName().substring(1);
                 }
 
-                if(autoColumn.getNullable().equalsIgnoreCase("no")){
-                    sb.append("\n\t\t//判断"+autoColumn.getComment()+"是否为空");
-                    sb.append("\n\t\tif(CommonUtil.isStringEmpty(request.get"+colName+"())){\n" +
-                            "            throw  new ServiceException(ExceptionConstants."+colName.toUpperCase()+"_NOT_NULL);\n" +
+                if (autoColumn.getNullable().equalsIgnoreCase("no")) {
+                    sb.append("\n\t\t//判断" + autoColumn.getComment() + "是否为空");
+                    sb.append("\n\t\tif(CommonUtil.isStringEmpty(request.get" + colName + "())){\n" +
+                            "            throw  new ServiceException(ExceptionConstants." + colName.toUpperCase() + "_NOT_NULL);\n" +
                             "        }");
                 }
             }
@@ -645,28 +651,28 @@ public class AutoTableDao {
         for (int j = 0; j < columns.size(); j++) {
             AutoColumn column = columns.get(j);
             String columnName = column.getColumnName().toLowerCase();
-            String beanName= "";
-            if(columnName.indexOf("_")>0){
-                String [ ]s =columnName.split("_");
+            String beanName = "";
+            if (columnName.indexOf("_") > 0) {
+                String[] s = columnName.split("_");
                 for (int i = 0; i < s.length; i++) {
-                    if(i==0){
-                        beanName+=s[i];
-                    }else{
-                        beanName+=s[i].substring(0,1).toUpperCase()+s[i].substring(1);
+                    if (i == 0) {
+                        beanName += s[i];
+                    } else {
+                        beanName += s[i].substring(0, 1).toUpperCase() + s[i].substring(1);
                     }
                 }
-            }else{
+            } else {
                 beanName = columnName;
             }
 
-            String revertName ="";
-            if(columnName.indexOf("_") >-1){
-                revertName = " as "+ beanName;
+            String revertName = "";
+            if (columnName.indexOf("_") > -1) {
+                revertName = " as " + beanName;
             }
-            if(j == columns.size()-1){
-                sb.append(tableName+"."+columnName+revertName);
-            }else{
-                sb.append(tableName+"."+columnName +revertName+",\r\n\t\t");
+            if (j == columns.size() - 1) {
+                sb.append(tableName + "." + columnName + revertName);
+            } else {
+                sb.append(tableName + "." + columnName + revertName + ",\r\n\t\t");
             }
 
             insertColumnSb.append("\n\t\t\t<if test=\"" + beanName + " != null\">" + columnName + ",</if>");
@@ -683,9 +689,9 @@ public class AutoTableDao {
         }
         sb.append("\r\n\t</sql>");
 
-        if(PropertiesUtil.get("auto.enable.page").equals("true")){
+        if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             sb.append("\r\n\n\t<!--模糊查询" + tableComment + "(分页)-->");
-            sb.append("\n\t<select id=\"likeSearch" + entityName + "ByPage\"  resultType=\"" +  entityName + "\" parameterType=\""+ entityName+"" + "\">");
+            sb.append("\n\t<select id=\"likeSearch" + entityName + "ByPage\"  resultType=\"" + entityName + "\" parameterType=\"" + entityName + "" + "\">");
 
             sb.append("\r\n\t\tselect <include refid=\"Base_Column_List\"/> from " + tableName.toLowerCase());
             sb.append(columnSb);
@@ -693,13 +699,13 @@ public class AutoTableDao {
         }
 
         sb.append("\r\n\n\t<!--添加" + tableComment + "-->");
-        sb.append("\r\t<insert id=\"add" + entityName + "\"  parameterType=\""+ entityName+"" + "\">"+
+        sb.append("\r\t<insert id=\"add" + entityName + "\"  parameterType=\"" + entityName + "" + "\">" +
                 "\r\n\t\tinsert into " + tableName.toLowerCase() + "\r\n\t\t<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\" >\r" + insertColumnSb + " \r\t\t</trim>" +
                 "\t\n\t\t<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\" > " + insertColumnSbChar + "\r\n\t\t</trim>" +
                 "\n\t</insert>");
 
         sb.append("\r\n\n\t<!--根据Id修改" + tableComment + "-->");
-        sb.append("\r\t<update id=\"update" + entityName + "ById\" parameterType=\""+ entityName+"" + "\">"+
+        sb.append("\r\t<update id=\"update" + entityName + "ById\" parameterType=\"" + entityName + "" + "\">" +
                 "\n\t\tupdate " + tableName.toLowerCase() + "" +
                 "\r\n\t\t<set>" + updateColumSb.toString() +
                 "\n" +
@@ -733,41 +739,41 @@ public class AutoTableDao {
         sb.append("\n\r");
         sb.append(entityComment);
         sb.append("\r\n");
-        sb.append("public interface " + className + "  extends BaseMapper<"+entityName+"> {\n");
+        sb.append("public interface " + className + "  extends BaseMapper<" + entityName + "> {\n");
         sb.append("\r\n");
         tableComment = convertDbTableComment(tableComment);
         StringBuffer addSb = new StringBuffer();
         StringBuffer updateSb = new StringBuffer();
         addSb.append("    /**\n" +
                 "     * 添加" + tableComment + "\n" +
-                "     * @param "+entityName+"\n" +
+                "     * @param " + entityName + "\n" +
                 "     * @return\n" +
                 "     */");
         updateSb.append("    /**\n" +
                 "     * 根据Id修改" + tableComment + "\n" +
-                "     * @param "+entityName+"\n" +
+                "     * @param " + entityName + "\n" +
                 "     * @return\n" +
                 "     */");
-        if(PropertiesUtil.get("auto.enable.page").equals("true")){
+        if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             searchSb.append("    /**\n" +
                     "     * 模糊查询" + tableComment + "(分页)\n" +
                     "     * @param pagination\n" +
-                    "     * @param "+entityName+"\n" +
+                    "     * @param " + entityName + "\n" +
                     "     * @return\n" +
                     "     */");
 
             sb.append(searchSb);
-            sb.append("\r\n\tList<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " "+entityName+");");
+            sb.append("\r\n\tList<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " " + entityName + ");");
         }
 
         sb.append("\n\r");
         sb.append(addSb);
         sb.append("\r");
-        sb.append("\tint add" + entityName + "(" + entityName + " "+entityName+");");
+        sb.append("\tint add" + entityName + "(" + entityName + " " + entityName + ");");
         sb.append("\n\r");
         sb.append(updateSb);
         sb.append("\r");
-        sb.append("\tint update" + entityName + "ById(" + entityName + " "+entityName+");");
+        sb.append("\tint update" + entityName + "ById(" + entityName + " " + entityName + ");");
         sb.append("\n\r");
         sb.append("\n\r");
         sb.append("\r\n}");
@@ -814,8 +820,8 @@ public class AutoTableDao {
         sb.append("import lombok.Getter;\r" +
                 "import lombok.Setter;\r\n\n");
         sb.append(entityComment + "\r\n");
-        sb.append("@TableName(\""+tableName+"\")\n");
-        sb.append("@Getter\n" +"@Setter\n");
+        sb.append("@TableName(\"" + tableName + "\")\n");
+        sb.append("@Getter\n" + "@Setter\n");
 
         sb.append("public class " + className + " extends Base{");
         sb1.append("\n\r");
@@ -840,7 +846,6 @@ public class AutoTableDao {
     }
 
 
-
     /**
      * 拼接该类的属性
      *
@@ -852,7 +857,7 @@ public class AutoTableDao {
         String columnName = column.getColumnName().toLowerCase();
         String columnType = column.getDataType().toLowerCase();
         String type = null;
-       if (columnType.equals("int") || columnType.equals("number")) {
+        if (columnType.equals("int") || columnType.equals("number")) {
             type = "Integer";
         } else if (columnType.equals("char") ||
                 columnType.equals("varchar") ||
@@ -869,23 +874,22 @@ public class AutoTableDao {
             type = "Double";
         }
         String filedName = "";
-       if(columnName.indexOf("_")>0){
-           String [] s = columnName.split("_");
-           for (int i = 0; i < s.length; i++) {
-               if(i == 0){
-                   filedName+=s[i];
-               }else{
-                   filedName+=s[i].substring(0,1).toUpperCase()+s[i].substring(1);
-               }
-           }
-       }else {
-           filedName = columnName;
-       }
-        sb.append("\t@TableField(\""+columnName+"\")\r\n");
+        if (columnName.indexOf("_") > 0) {
+            String[] s = columnName.split("_");
+            for (int i = 0; i < s.length; i++) {
+                if (i == 0) {
+                    filedName += s[i];
+                } else {
+                    filedName += s[i].substring(0, 1).toUpperCase() + s[i].substring(1);
+                }
+            }
+        } else {
+            filedName = columnName;
+        }
+        sb.append("\t@TableField(\"" + columnName + "\")\r\n");
         sb.append("\tprivate " + type + " " + filedName + ";");
         return sb.toString();
     }
-
 
 
     /**
@@ -952,8 +956,8 @@ public class AutoTableDao {
     public static String getClassName(String tableName) {
         StringBuffer sb = new StringBuffer();
 
-        if(PropertiesUtil.get("auto.table.prefix.convert").equals("true")){
-            tableName = tableName.substring(tableName.indexOf(PropertiesUtil.get("auto.table.prefix"))+(PropertiesUtil.get("auto.table.prefix").length()));
+        if (PropertiesUtil.get("auto.table.prefix.convert").equals("true")) {
+            tableName = tableName.substring(tableName.indexOf(PropertiesUtil.get("auto.table.prefix")) + (PropertiesUtil.get("auto.table.prefix").length()));
         }
         String[] split = tableName.split("_");
         for (String s : split) {
@@ -1000,24 +1004,25 @@ public class AutoTableDao {
 
     /**
      * 将列名转换为驼峰命名
+     *
      * @param colName
      * @return
      */
-    public static   String convertTuoFengColumnName(String colName){
-        if(colName.indexOf("_") < 0){
-            return  colName;
-        }else{
-            String s  = "";
+    public static String convertTuoFengColumnName(String colName) {
+        if (colName.indexOf("_") < 0) {
+            return colName;
+        } else {
+            String s = "";
             String[] split = colName.split("_");
             for (int i = 0; i < split.length; i++) {
-                if(i == 0){
-                    s+=split[i];
-                }else{
-                    s+=split[i].substring(0,1).toUpperCase()+split[i].substring(1);
+                if (i == 0) {
+                    s += split[i];
+                } else {
+                    s += split[i].substring(0, 1).toUpperCase() + split[i].substring(1);
                 }
             }
 
-            return  s;
+            return s;
 
         }
     }
