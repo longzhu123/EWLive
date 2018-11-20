@@ -630,6 +630,10 @@ public class AutoTableDao {
         String entityName = className.substring(0, className.indexOf("Mapper"));
         StringBuffer sb = new StringBuffer();
         StringBuffer columnSb = new StringBuffer();
+        StringBuffer insertColumnSb = new StringBuffer();
+        StringBuffer insertColumnSbChar = new StringBuffer();
+        StringBuffer updateColumSb = new StringBuffer();
+
         sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n" +
                 "<mapper namespace=\"" + PropertiesUtil.get("auto.mapper.package") + "." + className + "\">");
@@ -665,10 +669,16 @@ public class AutoTableDao {
                 sb.append(tableName+"."+columnName +revertName+",\r\n\t\t");
             }
 
+            insertColumnSb.append("\n\t\t\t<if test=\"" + beanName + " != null\">" + columnName + ",</if>");
+            insertColumnSbChar.append("\n\t\t\t<if test=\"" + beanName + " != null \">#{" + beanName + "},</if>");
             if (userDb.equals("oracle")) {
                 columnSb.append("\r\n\t\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
             } else if (userDb.equals("mysql")) {
                 columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
+            }
+
+            if (!columnName.toLowerCase().equals("id")) {
+                updateColumSb.append("\n\t\t\t<if test=\"" + beanName + " != null\">" + columnName + "=#{" + beanName + "},</if>");
             }
         }
         sb.append("\r\n\t</sql>");
@@ -681,6 +691,21 @@ public class AutoTableDao {
             sb.append(columnSb);
             sb.append("\n\t</select>");
         }
+
+        sb.append("\r\n\n\t<!--添加" + tableComment + "-->");
+        sb.append("\r\t<insert id=\"add" + entityName + "\"  parameterType=\""+ entityName+"" + "\">"+
+                "\r\n\t\tinsert into " + tableName.toLowerCase() + "\r\n\t\t<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\" >\r" + insertColumnSb + " \r\t\t</trim>" +
+                "\t\n\t\t<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\" > " + insertColumnSbChar + "\r\n\t\t</trim>" +
+                "\n\t</insert>");
+
+        sb.append("\r\n\n\t<!--根据Id修改" + tableComment + "-->");
+        sb.append("\r\t<update id=\"update" + entityName + "ById\" parameterType=\""+ entityName+"" + "\">"+
+                "\n\t\tupdate " + tableName.toLowerCase() + "" +
+                "\r\n\t\t<set>" + updateColumSb.toString() +
+                "\n" +
+                "\t\t</set>" +
+                "\r\n\t\twhere id=#{id}" +
+                "\n\t</update>");
 
         sb.append("\n\r</mapper>");
         return sb.toString();
@@ -715,34 +740,34 @@ public class AutoTableDao {
         StringBuffer updateSb = new StringBuffer();
         addSb.append("    /**\n" +
                 "     * 添加" + tableComment + "\n" +
-                "     * @param "+entityName.toLowerCase()+"\n" +
+                "     * @param "+entityName+"\n" +
                 "     * @return\n" +
                 "     */");
         updateSb.append("    /**\n" +
                 "     * 根据Id修改" + tableComment + "\n" +
-                "     * @param "+entityName.toLowerCase()+"\n" +
+                "     * @param "+entityName+"\n" +
                 "     * @return\n" +
                 "     */");
         if(PropertiesUtil.get("auto.enable.page").equals("true")){
             searchSb.append("    /**\n" +
                     "     * 模糊查询" + tableComment + "(分页)\n" +
                     "     * @param pagination\n" +
-                    "     * @param "+entityName.toLowerCase()+"\n" +
+                    "     * @param "+entityName+"\n" +
                     "     * @return\n" +
                     "     */");
 
             sb.append(searchSb);
-            sb.append("\r\n\tList<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " "+entityName.toLowerCase()+");");
+            sb.append("\r\n\tList<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " "+entityName+");");
         }
 
         sb.append("\n\r");
         sb.append(addSb);
         sb.append("\r");
-        sb.append("\tint add" + entityName + "(" + entityName + " "+entityName.toLowerCase()+");");
+        sb.append("\tint add" + entityName + "(" + entityName + " "+entityName+");");
         sb.append("\n\r");
         sb.append(updateSb);
         sb.append("\r");
-        sb.append("\tint update" + entityName + "ById(" + entityName + " "+entityName.toLowerCase()+");");
+        sb.append("\tint update" + entityName + "ById(" + entityName + " "+entityName+");");
         sb.append("\n\r");
         sb.append("\n\r");
         sb.append("\r\n}");
