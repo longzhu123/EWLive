@@ -98,7 +98,7 @@ public class AutoTableDao {
         String fName = convertTuoFengColumnName(tableName);
         String cName = convertClassColumnName(tableName);
         String ip = PropertiesUtil.get("auto.api.doc.ip");
-        String port =  PropertiesUtil.get("auto.api.doc.port").equals("80")?"":PropertiesUtil.get("auto.api.doc.port");
+        String port =  PropertiesUtil.get("auto.api.doc.port");
         returnStr += "接口Url:\r\n\n";
         returnStr += "根据id查询" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/get" + cName + "ById\r\n\n";
         returnStr += "多条件查询" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/get" + cName + "ByParams\r\n\n";
