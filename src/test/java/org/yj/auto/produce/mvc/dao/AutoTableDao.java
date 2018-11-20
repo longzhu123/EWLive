@@ -73,8 +73,11 @@ public class AutoTableDao {
         requestStr.append("{");
         respJsonStr.append("{");
         requestDetailJsonStr.append("{");
+        String tbComment = null;
+        String tableName = null;
         for (AutoTable table : tableList) {
-            String tableName = table.getTableName().toLowerCase();
+            tableName = table.getTableName().toLowerCase();
+            tbComment = table.getComment();
             List<AutoColumn> columns = getColumnsByTable(tableName);
             for (AutoColumn column : columns) {
                 String colName = convertTuoFengColumnName(column.getColumnName());
@@ -91,6 +94,17 @@ public class AutoTableDao {
 
 
         String s = requestStr.toString().substring(0, requestStr.length() - 1) + "\r\n}";
+        returnStr += "表====>" + autoTableName + ":" + tbComment + "\r\n\n";
+        String fName = convertTuoFengColumnName(tableName);
+        String cName = convertClassColumnName(tableName);
+        String ip = PropertiesUtil.get("auto.api.doc.ip");
+        String port =  PropertiesUtil.get("auto.api.doc.port").equals("80")?"":PropertiesUtil.get("auto.api.doc.port");
+        returnStr += "接口Url:\r\n\n";
+        returnStr += "根据id查询" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/get" + cName + "ById\r\n\n";
+        returnStr += "多条件查询" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/get" + cName + "ByParams\r\n\n";
+        returnStr += "添加" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/add" + cName + "\r\n\n";
+        returnStr += "根据id修改" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/update" + cName + "ById\r\n\n";
+        returnStr += "根据ids批量删除" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/deleteBatch" + cName + "ByIds\r\n\n";
         returnStr += "<====请求参数====>\r\n";
         returnStr += s;
 
@@ -1020,6 +1034,27 @@ public class AutoTableDao {
                 } else {
                     s += split[i].substring(0, 1).toUpperCase() + split[i].substring(1);
                 }
+            }
+
+            return s;
+
+        }
+    }
+
+    /**
+     * 将列名变成类名格式
+     *
+     * @param colName
+     * @return
+     */
+    public static String convertClassColumnName(String colName) {
+        if (colName.indexOf("_") < 0) {
+            return colName;
+        } else {
+            String s = "";
+            String[] split = colName.split("_");
+            for (int i = 0; i < split.length; i++) {
+                s += split[i].substring(0, 1).toUpperCase() + split[i].substring(1);
             }
 
             return s;
