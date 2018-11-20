@@ -522,7 +522,7 @@ public class AutoTableDao {
         sb.append("\n\t\tlog.info(\"添加====>参数校验成功\");");
         sb.append("\n\t\tResultData data = new ResultData();");
         sb.append("\n\t\t//添加" + tableComment);
-        sb.append("\n\t\tint i = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".insert(request);");
+        sb.append("\n\t\tint i = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".add"+className+"(request);");
         sb.append("\n\t\tif(i == 0){" +
                 "\r\n\t\t\tthrow  new ServiceException(ExceptionConstants.ADD_FAIL);" +
                 "\r\n\t\t}");
@@ -541,7 +541,7 @@ public class AutoTableDao {
         sb.append("\n\t\tResultData data = new ResultData();");
 
         sb.append("\n\t\t//根据Id修改" + tableComment);
-        sb.append("\n\t\tint i = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".updateById(request);");
+        sb.append("\n\t\tint i = " +  mapperTemp.substring(0,1).toLowerCase()+mapperTemp.substring(1) + ".update"+className+"ById(request);");
         sb.append("\n\t\tif(i == 0){" +
                 "\r\n\t\t\tthrow  new ServiceException(ExceptionConstants.UPDATE_FAIL);" +
                 "\r\n\t\t}");
