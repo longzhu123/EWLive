@@ -4,11 +4,14 @@ import org.ewlive.aop.AuthReq;
 import org.ewlive.entity.LiveRoomInfo;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.LiveRoomInfoService;
+import org.ewlive.util.FileUtil;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -80,6 +83,13 @@ public class LiveRoomInfoController {
     @RequestMapping("/deleteBatchLiveRoomInfoByIds")
     public ResultData deleteBatchLiveRoomInfoByIds(@RequestBody LiveRoomInfo request) {
         return liveRoomInfoService.deleteBatchLiveRoomInfoByIds(request);
+    }
+
+    //ToDo
+    @RequestMapping("/testDownLoad")
+    public  void testDownLoad(HttpServletResponse response){
+        FileUtil.createZip("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\target\\upload\\专家端","D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\target\\upload\\a.zip",true);
+        FileUtil.downloadFile(new File("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\target\\upload\\a.zip"),response);
     }
 
 }
