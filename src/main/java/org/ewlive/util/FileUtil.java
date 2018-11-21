@@ -19,15 +19,14 @@ public class FileUtil {
      *
      * @param sourcePath 文件或文件夹路径
      * @param zipPath    生成的zip文件存在路径（包括文件名）
-     * @param isDrop     是否删除原文件:true删除、false不删除
      */
-    public static void createZip(String sourcePath, String zipPath, Boolean isDrop) {
+    public static void createZip(String sourcePath, String zipPath) {
         FileOutputStream fos = null;
         ZipOutputStream zos = null;
         try {
             fos = new FileOutputStream(zipPath);
             zos = new ZipOutputStream(fos, Charset.forName("utf-8"));
-            writeZip(new File(sourcePath), "", zos, isDrop);
+            writeZip(new File(sourcePath), "", zos);
         } catch (FileNotFoundException e) {
             log.error("创建ZIP文件失败", e);
         } finally {
@@ -81,14 +80,14 @@ public class FileUtil {
         }
     }
 
-    private static void writeZip(File file, String parentPath, ZipOutputStream zos, Boolean isDrop) {
+    private static void writeZip(File file, String parentPath, ZipOutputStream zos) {
         if (file.exists()) {
             if (file.isDirectory()) {//处理文件夹
                 parentPath += file.getName() + File.separator;
                 File[] files = file.listFiles();
                 if (files.length != 0) {
                     for (File f : files) {
-                        writeZip(f, parentPath, zos, isDrop);
+                        writeZip(f, parentPath, zos);
                     }
                 } else {       //空目录则创建当前目录
                     try {
@@ -119,9 +118,6 @@ public class FileUtil {
                         if (fis != null) {
                             fis.close();
                         }
-                        if (isDrop) {
-                            clean(file);
-                        }
                     } catch (IOException e) {
                         log.error("创建ZIP文件失败", e);
                     } catch (Exception e) {
@@ -134,6 +130,7 @@ public class FileUtil {
 
     /**
      * 文件下载
+     *
      * @param file
      * @param response
      */
@@ -148,12 +145,11 @@ public class FileUtil {
             response.reset();
             OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
             response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment;filename=" + new String(file.getName().getBytes("UTF-8"),"ISO-8859-1"));
+            response.setHeader("Content-Disposition", "attachment;filename=" + new String(file.getName().getBytes("UTF-8"), "ISO-8859-1"));
             toClient.write(buffer);
             toClient.flush();
             toClient.close();
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
