@@ -85,11 +85,4 @@ public class LiveRoomInfoController {
         return liveRoomInfoService.deleteBatchLiveRoomInfoByIds(request);
     }
 
-    //ToDo
-    @RequestMapping("/testDownLoad")
-    public  void testDownLoad(HttpServletResponse response){
-        FileUtil.createZip("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\target\\upload\\专家端","D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\target\\upload\\a.zip",true);
-        FileUtil.downloadFile(new File("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\target\\upload\\a.zip"),response);
-    }
-
 }
