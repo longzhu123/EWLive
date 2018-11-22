@@ -1,6 +1,8 @@
 package org.ewlive.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -132,9 +134,10 @@ public class FileUtil {
      * 文件下载
      *
      * @param file
-     * @param response
      */
-    public static void downloadFile(File file, HttpServletResponse response) {
+    public static void downloadFile(File file) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = servletRequestAttributes.getResponse();
         try {
             // 以流的形式下载文件。
             BufferedInputStream fis = new BufferedInputStream(new FileInputStream(file.getPath()));
