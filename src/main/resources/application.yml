@@ -26,6 +26,9 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: org.ewlive.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
 logging:
   file: logs/ewlive.log

@@ -25,7 +25,7 @@ public class MyBatisPlusConfig {
 
 
     /**
-     * SQL执行效率插件
+     * SQL执行效率插件(生产环境不推荐使用)
      */
     @Bean
     public PerformanceInterceptor performanceInterceptor() {
