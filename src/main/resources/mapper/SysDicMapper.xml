@@ -13,6 +13,19 @@
 		sys_dic.comment
 	</sql>
 
+	<!--模糊查询字典(分页)-->
+	<select id="likeSearchSysDicByPage"  resultType="org.ewlive.entity.SysDic" parameterType="org.ewlive.entity.SysDic">
+		select <include refid="Base_Column_List"/> from sys_dic
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="dicName != null"> and dic_name=#{dicName}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+	</select>
+
 	<!--添加字典-->
 	<insert id="addSysDic"  parameterType="org.ewlive.entity.SysDic">
 		insert into sys_dic
@@ -23,9 +36,9 @@
 			<if test="createTime != null">create_time,</if>
 			<if test="updateUserId != null">update_user_id,</if>
 			<if test="updateTime != null">update_time,</if>
-			<if test="comment != null">comment,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="comment != null">comment,</if> 
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
 			<if test="id != null ">#{id},</if>
 			<if test="dicName != null ">#{dicName},</if>
 			<if test="createUserId != null ">#{createUserId},</if>

@@ -2,6 +2,7 @@ package org.ewlive.service;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.entity.SysDic;
@@ -59,6 +60,25 @@ public class SysDicService {
         //多条件查询字典信息
         List<SysDic> sysDicList = sysDicMapper.selectList(new EntityWrapper<>(request));
         data.setData(sysDicList);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysDicList));
+        return data;
+    }
+
+
+    /**
+     * 模糊查询字典(分页)
+     *
+     * @param request
+     * @return
+     */
+    public ResultData<Page<SysDic>> likeSearchSysDicByPage(SysDic request) {
+        log.info("模糊查询字典(分页):请求参数=====>" + JSON.toJSONString(request));
+        ResultData<Page<SysDic>> data = new ResultData<>();
+        Page<SysDic> page = new Page<>(request.getCurrent(), request.getSize());
+        //模糊查询字典(分页)
+        List<SysDic> sysDicList = sysDicMapper.likeSearchSysDicByPage(page, request);
+        page.setRecords(sysDicList);
+        data.setData(page);
         log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysDicList));
         return data;
     }
