@@ -63,6 +63,23 @@ public class SysDicItemService{
 		return data;
 	}
 
+	/**
+	 * 模糊查询字典项(分页)
+	 * @param request
+	 * @return
+	 */
+	public ResultData<Page<SysDicItem>> likeSearchSysDicItemByPage(SysDicItem request){
+		log.info("模糊查询字典项(分页):请求参数=====>"+JSON.toJSONString(request));
+		ResultData<Page<SysDicItem>> data= new ResultData<>();
+		Page<SysDicItem> page = new Page<>(request.getCurrent(),request.getSize());
+		//模糊查询字典项(分页)
+		List<SysDicItem> sysDicItemList = sysDicItemMapper.likeSearchSysDicItemByPage(page,request);
+		page.setRecords(sysDicItemList);
+		data.setData(page);
+		log.info("数据请求成功,=====>返回:"+JSON.toJSONString(sysDicItemList));
+		return data;
+	}
+
 
 	/**
 	 * 添加字典项

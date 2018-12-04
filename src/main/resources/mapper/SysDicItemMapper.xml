@@ -15,6 +15,23 @@
 		sys_dic_item.comment
 	</sql>
 
+
+	<!--模糊查询字典项(分页)-->
+	<select id="likeSearchSysDicItemByPage"  resultType="org.ewlive.entity.SysDicItem" parameterType="org.ewlive.entity.SysDicItem">
+		select <include refid="Base_Column_List"/> from sys_dic_item
+		where 1=1
+		<if test="id != null"> and id=#{id}</if>
+		<if test="dicId != null"> and dic_id=#{dicId}</if>
+		<if test="dicItemCode != null"> and dic_item_code=#{dicItemCode}</if>
+		<if test="dicItemName != null"> and dic_item_name=#{dicItemName}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+	</select>
+
+
 	<!--添加字典项-->
 	<insert id="addSysDicItem"  parameterType="org.ewlive.entity.SysDicItem">
 		insert into sys_dic_item

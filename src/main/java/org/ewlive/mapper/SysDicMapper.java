@@ -17,26 +17,26 @@ public interface SysDicMapper extends BaseMapper<SysDic> {
      * 模糊查询字典(分页)
      *
      * @param pagination
-     * @param SysDic
+     * @param sysDic
      * @return
      */
-    List<SysDic> likeSearchSysDicByPage(Pagination pagination, SysDic SysDic);
+    List<SysDic> likeSearchSysDicByPage(Pagination pagination, SysDic sysDic);
 
     /**
      * 添加字典
      *
-     * @param SysDic
+     * @param sysDic
      * @return
      */
-    int addSysDic(SysDic SysDic);
+    int addSysDic(SysDic sysDic);
 
     /**
      * 根据Id修改字典
      *
-     * @param SysDic
+     * @param sysDic
      * @return
      */
-    int updateSysDicById(SysDic SysDic);
+    int updateSysDicById(SysDic sysDic);
 
 
 }

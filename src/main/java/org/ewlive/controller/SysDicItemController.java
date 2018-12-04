@@ -1,5 +1,6 @@
 package org.ewlive.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.entity.SysDicItem;
 import org.ewlive.result.ResultData;
@@ -44,6 +45,17 @@ public class SysDicItemController {
     @RequestMapping("/getSysDicItemByParams")
     public ResultData<List<SysDicItem>> getSysDicItemByParams(@RequestBody SysDicItem request) {
         return sysDicItemService.getSysDicItemByParams(request);
+    }
+
+    /**
+     * 模糊查询字典项(分页)
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/likeSearchSysDicItemByPage")
+    public ResultData<Page<SysDicItem>> likeSearchSysDicItemByPage(@RequestBody SysDicItem request) {
+        return sysDicItemService.likeSearchSysDicItemByPage(request);
     }
 
     /**
