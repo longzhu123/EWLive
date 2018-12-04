@@ -18,7 +18,7 @@
 		select <include refid="Base_Column_List"/> from sys_dic
 		where 1=1 
 		<if test="id != null"> and id=#{id}</if>
-		<if test="dicName != null"> and dic_name=#{dicName}</if>
+		<if test="dicName != null"> and dic_name like concat('%',#{dicName},'%')</if>
 		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
 		<if test="createTime != null"> and create_time=#{createTime}</if>
 		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
