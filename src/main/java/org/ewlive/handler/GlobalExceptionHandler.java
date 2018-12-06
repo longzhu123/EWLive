@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Object systemExceptionHandler(HttpServletRequest req, Exception e) throws Exception {
         ResultData resultData = new ResultData();
-        log.error(e.getMessage());
+        log.error(e.getCause().getMessage());
         resultData.setResultCode(ResultConstants.ERROR_CODE);
         resultData.setResultMsg("系统异常");
         return resultData;
