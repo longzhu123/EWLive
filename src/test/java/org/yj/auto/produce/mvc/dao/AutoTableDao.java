@@ -721,6 +721,7 @@ public class AutoTableDao {
 
             sb.append("\r\n\t\tselect <include refid=\"Base_Column_List\"/> from " + tableName.toLowerCase());
             sb.append(columnSb);
+            sb.append("\n\t\torder by create_time");
             sb.append("\n\t</select>");
         }
 
