@@ -654,6 +654,7 @@ public class AutoTableDao {
         String entityName = className.substring(0, className.indexOf("Mapper"));
         StringBuffer sb = new StringBuffer();
         StringBuffer columnSb = new StringBuffer();
+        StringBuffer likeColumnSb = new StringBuffer();
         StringBuffer insertColumnSb = new StringBuffer();
         StringBuffer insertColumnSbChar = new StringBuffer();
         StringBuffer updateColumSb = new StringBuffer();
@@ -666,6 +667,7 @@ public class AutoTableDao {
         sb.append("\r\n\r\n\t<!--" + tableComment + "基础列-->");
         sb.append("\n\t<sql id=\"Base_Column_List\">\r\n\t\t");
         columnSb.append("\r\n\t\twhere 1=1 ");
+        likeColumnSb.append("\r\n\t\twhere 1=1 ");
         for (int j = 0; j < columns.size(); j++) {
             AutoColumn column = columns.get(j);
             String columnName = column.getColumnName().toLowerCase();
@@ -698,7 +700,13 @@ public class AutoTableDao {
             if (userDb.equals("oracle")) {
                 columnSb.append("\r\n\t\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
             } else if (userDb.equals("mysql")) {
-                columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
+                String likeFileds = PropertiesUtil.get("auto.like.filed");
+                if(likeFileds.indexOf(beanName)>-1){
+                    columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + " like concat('%',#{"+beanName+"},'%')</if>");
+                }else{
+                    columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
+                }
+
             }
 
             if (!columnName.toLowerCase().equals("id")) {
