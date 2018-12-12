@@ -126,6 +126,8 @@ public class SysDicService {
         checkParamsId(request);
         log.info("参数校验成功,id不为空");
         ResultData data = new ResultData();
+        request.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        request.setUpdateUserId(request.getId());
         //根据Id修改字典
         int i = sysDicMapper.updateSysDicById(request);
         if (i == 0) {

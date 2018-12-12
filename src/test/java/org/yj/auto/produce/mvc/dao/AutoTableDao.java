@@ -541,6 +541,9 @@ public class AutoTableDao {
         sb.append("\n\t\tcheckParamsForAdd(request);");
         sb.append("\n\t\tlog.info(\"添加====>参数校验成功\");");
         sb.append("\n\t\tResultData data = new ResultData();");
+        sb.append("\n\t\trequest.setId(CommonUtil.createUUID());");
+        sb.append("\n\t\trequest.setCreateTime(new Timestamp(System.currentTimeMillis()));");
+        sb.append("\n\t\trequest.setCreateUserId(request.getId());");
         sb.append("\n\t\t//添加" + tableComment);
         sb.append("\n\t\tint i = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".add" + className + "(request);");
         sb.append("\n\t\tif(i == 0){" +
@@ -559,7 +562,8 @@ public class AutoTableDao {
         sb.append("\n\t\tcheckParamsId(request);");
         sb.append("\n\t\tlog.info(\"参数校验成功,id不为空\");");
         sb.append("\n\t\tResultData data = new ResultData();");
-
+        sb.append("\n\t\trequest.setUpdateTime(new Timestamp(System.currentTimeMillis()));");
+        sb.append("\n\t\trequest.setUpdateUserId(request.getId());");
         sb.append("\n\t\t//根据Id修改" + tableComment);
         sb.append("\n\t\tint i = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".update" + className + "ById(request);");
         sb.append("\n\t\tif(i == 0){" +
