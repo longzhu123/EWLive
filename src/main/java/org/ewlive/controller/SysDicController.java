@@ -52,6 +52,7 @@ public class SysDicController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/likeSearchSysDicByPage")
     public ResultData<Page<SysDic>> likeSearchSysDicByPage(@RequestBody SysDic request){
         return sysDicService.likeSearchSysDicByPage(request);

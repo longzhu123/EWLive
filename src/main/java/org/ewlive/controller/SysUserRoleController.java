@@ -1,6 +1,7 @@
 package org.ewlive.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import org.ewlive.aop.AuthReq;
 import org.ewlive.entity.SysUserRole;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.SysUserRoleService;
@@ -27,6 +28,7 @@ public class SysUserRoleController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/getSysUserRoleById")
     public ResultData<SysUserRole> getSysUserRoleById(@RequestBody SysUserRole request) {
         return sysUserRoleService.getSysUserRoleById(request);
@@ -38,6 +40,7 @@ public class SysUserRoleController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/likeSearchSysUserRoleByPage")
     public ResultData<Page<SysUserRole>> likeSearchSysUserRoleByPage(@RequestBody SysUserRole request) {
         return sysUserRoleService.likeSearchSysUserRoleByPage(request);
@@ -49,6 +52,7 @@ public class SysUserRoleController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/addSysUserRole")
     public ResultData addSysUserRole(@RequestBody SysUserRole request) {
         return sysUserRoleService.addSysUserRole(request);
@@ -60,6 +64,7 @@ public class SysUserRoleController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/updateSysUserRoleById")
     public ResultData updateSysUserRoleById(@RequestBody SysUserRole request) {
         return sysUserRoleService.updateSysUserRoleById(request);
@@ -71,6 +76,7 @@ public class SysUserRoleController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/deleteBatchSysUserRoleByIds")
     public ResultData deleteBatchSysUserRoleByIds(@RequestBody SysUserRole request) {
         return sysUserRoleService.deleteBatchSysUserRoleByIds(request);
