@@ -363,17 +363,16 @@ public class AutoTableDao {
         sb.append("\n\t\treturn " + lowServiceName + "." + "get" + className + "ById(request);");
         sb.append("\r\n\t}");
 
+        sb.append("\n" + searchSb);
+        sb.append("\r\n\t@RequestMapping(\"/get" + className + "ByParams\")");
+        sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(@RequestBody " + className + " request){");
+        sb.append("\r\n\t\treturn " + lowServiceName + "." + "get" + className + "ByParams(request);");
+        sb.append("\r\n\t}");
         if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             sb.append("\n" + likeSearchSb);
             sb.append("\r\n\t@RequestMapping(\"/likeSearch" + className + "ByPage\")");
             sb.append("\r\n\tpublic ResultData<Page<" + className + ">> likeSearch" + className + "ByPage(@RequestBody " + className + " request){");
             sb.append("\r\n\t\treturn " + lowServiceName + "." + "likeSearch" + className + "ByPage(request);");
-            sb.append("\r\n\t}");
-        } else {
-            sb.append("\n" + searchSb);
-            sb.append("\r\n\t@RequestMapping(\"/get" + className + "ByParams\")");
-            sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(@RequestBody " + className + " request){");
-            sb.append("\r\n\t\treturn " + lowServiceName + "." + "get" + className + "ByParams(request);");
             sb.append("\r\n\t}");
         }
 
@@ -506,6 +505,18 @@ public class AutoTableDao {
         sb.append("\r\n\t\treturn data;");
         sb.append("\n\t}\n\n");
 
+
+        sb.append("\r\n\t" + searchSb);
+        sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(" + className + " request){");
+        sb.append("\n\t\tlog.info(\"多条件查询" + tableComment + "信息:请求参数=====>\"+JSON.toJSONString(request));");
+        sb.append("\n\t\tResultData<List<" + className + ">> data= new ResultData<>();");
+        sb.append("\n\t\t//多条件查询" + tableComment + "信息");
+        sb.append("\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectList(new EntityWrapper<>(request));");
+        sb.append("\n\t\tdata.setData(" + classNameTemp + "List" + ");");
+        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));");
+        sb.append("\r\n\t\treturn data;");
+        sb.append("\n\t}\n\n");
+
         if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             sb.append("\r\n\t" + likeSearchSb);
             sb.append("\n\tpublic ResultData<Page<" + className + ">> likeSearch" + className + "ByPage(" + className + " request){\n" +
@@ -519,19 +530,7 @@ public class AutoTableDao {
                     "\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));" +
                     "\n\t\treturn data;\n" +
                     "\t}\n\n");
-        } else {
-            sb.append("\r\n\t" + searchSb);
-            sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(" + className + " request){");
-            sb.append("\n\t\tlog.info(\"多条件查询" + tableComment + "信息:请求参数=====>\"+JSON.toJSONString(request));");
-            sb.append("\n\t\tResultData<List<" + className + ">> data= new ResultData<>();");
-            sb.append("\n\t\t//多条件查询" + tableComment + "信息");
-            sb.append("\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectList(new EntityWrapper<>(request));");
-            sb.append("\n\t\tdata.setData(" + classNameTemp + "List" + ");");
-            sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));");
-            sb.append("\r\n\t\treturn data;");
-            sb.append("\n\t}\n\n");
         }
-
 
         sb.append("\r\n" + addSb);
         sb.append("\r\n\t@Transactional(rollbackFor = Exception.class, propagation = Propagation." + tranType + ")");
