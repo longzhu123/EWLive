@@ -1,6 +1,7 @@
 package org.ewlive.service;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.ExceptionConstants;
@@ -43,6 +44,22 @@ public class SysUserRoleService {
         SysUserRole sysUserRole = sysUserRoleMapper.selectById(request.getId());
         data.setData(sysUserRole);
         log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysUserRole));
+        return data;
+    }
+
+
+    /**
+     * 多条件查询用户角色
+     * @param request
+     * @return
+     */
+    public ResultData<List<SysUserRole>> getSysUserRoleByParams(SysUserRole request){
+        log.info("多条件查询用户角色信息:请求参数=====>"+JSON.toJSONString(request));
+        ResultData<List<SysUserRole>> data= new ResultData<>();
+        //多条件查询用户角色信息
+        List<SysUserRole> sysUserRoleList = sysUserRoleMapper.selectList(new EntityWrapper<>(request));
+        data.setData(sysUserRoleList);
+        log.info("数据请求成功,=====>返回:"+JSON.toJSONString(sysUserRoleList));
         return data;
     }
 
