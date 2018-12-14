@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 用户角色关系Controller
@@ -33,6 +34,18 @@ public class SysUserRoleRealtionController {
     public ResultData<SysUserRoleRealtion> getSysUserRoleRealtionById(@RequestBody SysUserRoleRealtion request) {
         return sysUserRoleRealtionService.getSysUserRoleRealtionById(request);
     }
+
+    /**
+     * 多条件查询用户角色关系
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getSysUserRoleRealtionByParams")
+    public ResultData<List<SysUserRoleRealtion>> getSysUserRoleRealtionByParams(@RequestBody SysUserRoleRealtion request) {
+        return sysUserRoleRealtionService.getSysUserRoleRealtionByParams(request);
+    }
+
 
     /**
      * 模糊查询用户角色关系(分页)
