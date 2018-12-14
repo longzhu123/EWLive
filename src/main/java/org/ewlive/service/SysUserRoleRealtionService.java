@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户角色关系Service
@@ -97,6 +98,21 @@ public class SysUserRoleRealtionService {
         //检查必填参数项是否空
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
+
+        //查询该用户有对应的角色数据(有:删除在添加,没有就添加)
+        SysUserRoleRealtion searchReq = new SysUserRoleRealtion();
+        searchReq.setUserId(request.getUserId());
+        List<SysUserRoleRealtion> searchList = sysUserRoleRealtionMapper.selectList(new EntityWrapper<>(searchReq));
+
+        //查出list有数据,删除用户对应的角色数据
+        if(CommonUtil.isCollectionNotEmpty(searchList)){
+            List<String> delIds = searchList.parallelStream().map(SysUserRoleRealtion::getId).collect(Collectors.toList());
+            SysUserRoleRealtion delIdsReq = new SysUserRoleRealtion();
+            delIdsReq.setIds(delIds);
+            deleteBatchSysUserRoleRealtionByIds(delIdsReq);
+        }
+
+
         List<SysUserRoleRealtion> addList = new ArrayList<>();
         request.getUserRoleIds().forEach(item->{
             SysUserRoleRealtion sysUserRoleRealtion = new SysUserRoleRealtion();
