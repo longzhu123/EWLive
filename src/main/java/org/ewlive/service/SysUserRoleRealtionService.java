@@ -88,6 +88,7 @@ public class SysUserRoleRealtionService {
             sysUserRoleRealtion.setUserId(request.getUserId());
             sysUserRoleRealtion.setUserRoleId(item);
             sysUserRoleRealtion.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            //获取当前用户
             SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
             sysUserRoleRealtion.setCreateUserId(currentUser.getId());
             addList.add(sysUserRoleRealtion);
@@ -117,6 +118,7 @@ public class SysUserRoleRealtionService {
         log.info("参数校验成功,id不为空");
         ResultData data = new ResultData();
         request.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        //获取当前用户
         SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
         request.setUpdateUserId(currentUser.getId());
         //根据Id修改用户角色关系
