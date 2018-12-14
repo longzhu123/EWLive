@@ -82,6 +82,7 @@ public class SysUserRoleRealtion extends Base {
     /**
      * 用户角色编号集合
      */
+    @TableField(exist = false)
     private List<String> userRoleIds;
 
 }
