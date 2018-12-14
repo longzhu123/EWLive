@@ -73,7 +73,7 @@
 	<insert id="insertBatchSysUserRoleRealtion">
 		insert into
 		sys_user_role_realtion
-		(id, user_id, user_role_id, create_user_id,reate_time, update_user_id, update_time, comment)
+		(id, user_id, user_role_id, create_user_id,create_time, update_user_id, update_time, comment)
 		values
 		<foreach collection="list" item="item" index="index" separator=",">
 			(
