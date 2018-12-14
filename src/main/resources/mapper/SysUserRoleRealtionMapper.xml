@@ -76,14 +76,16 @@
 		(id, user_id, user_role_id, create_user_id,reate_time, update_user_id, update_time, comment)
 		values
 		<foreach collection="list" item="item" index="index" separator=",">
-			#{item.id},
-			#{item.userId},
-			#{item.userRoleId},
-			#{item.createUserId},
-			#{item.createTime},
-			#{item.updateUserId},
-			#{item.updateTime},
-			#{item.comment}
+			(
+				#{item.id},
+				#{item.userId},
+				#{item.userRoleId},
+				#{item.createUserId},
+				#{item.createTime},
+				#{item.updateUserId},
+				#{item.updateTime},
+				#{item.comment}
+			)
 		</foreach>
 	</insert>
 
