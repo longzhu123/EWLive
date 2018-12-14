@@ -49,5 +49,5 @@ public class ExceptionConstants {
 
     public static final String ROLENAME_NOT_NULL = "角色名称不能为空";
 
-    public static final String USERROLEID_NOT_NULL = "用户角色编号不能为空";
+    public static final String USERROLEID_NOT_NULL = "用户角色编号集合不能为空";
 }

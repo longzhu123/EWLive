@@ -3,7 +3,9 @@ package org.ewlive.service;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
+import org.ewlive.entity.SysUser;
 import org.ewlive.entity.SysUserRoleRealtion;
 import org.ewlive.exception.ServiceException;
 import org.ewlive.mapper.SysUserRoleRealtionMapper;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,12 +81,20 @@ public class SysUserRoleRealtionService {
         //检查必填参数项是否空
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
+        List<SysUserRoleRealtion> addList = new ArrayList<>();
+        request.getUserRoleIds().forEach(item->{
+            SysUserRoleRealtion sysUserRoleRealtion = new SysUserRoleRealtion();
+            sysUserRoleRealtion.setId(CommonUtil.createUUID());
+            sysUserRoleRealtion.setUserId(request.getUserId());
+            sysUserRoleRealtion.setUserRoleId(item);
+            sysUserRoleRealtion.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
+            sysUserRoleRealtion.setCreateUserId(currentUser.getId());
+            addList.add(sysUserRoleRealtion);
+        });
         ResultData data = new ResultData();
-        request.setId(CommonUtil.createUUID());
-        request.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        request.setCreateUserId(request.getId());
         //添加用户角色关系
-        int i = sysUserRoleRealtionMapper.addSysUserRoleRealtion(request);
+        int i = sysUserRoleRealtionMapper.insertBatchSysUserRoleRealtion(addList);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.ADD_FAIL);
         }
@@ -106,7 +117,8 @@ public class SysUserRoleRealtionService {
         log.info("参数校验成功,id不为空");
         ResultData data = new ResultData();
         request.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        request.setUpdateUserId(request.getId());
+        SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
+        request.setUpdateUserId(currentUser.getId());
         //根据Id修改用户角色关系
         int i = sysUserRoleRealtionMapper.updateSysUserRoleRealtionById(request);
         if (i == 0) {
@@ -172,7 +184,7 @@ public class SysUserRoleRealtionService {
             throw new ServiceException(ExceptionConstants.USERID_NOT_NULL);
         }
         //判断用户角色编号是否为空
-        if (CommonUtil.isStringEmpty(request.getUserRoleId())) {
+        if (CommonUtil.isCollectionEmpty(request.getUserRoleIds())) {
             throw new ServiceException(ExceptionConstants.USERROLEID_NOT_NULL);
         }
     }

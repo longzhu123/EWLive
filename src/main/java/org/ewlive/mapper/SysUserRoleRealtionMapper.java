@@ -2,6 +2,7 @@ package org.ewlive.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
+import org.apache.ibatis.annotations.Param;
 import org.ewlive.entity.SysUserRoleRealtion;
 
 import java.util.List;
@@ -39,4 +40,10 @@ public interface SysUserRoleRealtionMapper extends BaseMapper<SysUserRoleRealtio
     int updateSysUserRoleRealtionById(SysUserRoleRealtion sysUserRoleRealtion);
 
 
+    /**
+     * 批量插入用户角色关系
+     * @param sysUserRoleRealtions 数据集合
+     * @return
+     */
+    int insertBatchSysUserRoleRealtion(@Param("list") List<SysUserRoleRealtion> sysUserRoleRealtions);
 }

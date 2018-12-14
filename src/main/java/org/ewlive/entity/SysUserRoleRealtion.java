@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 用户角色关系Bean
@@ -75,5 +76,12 @@ public class SysUserRoleRealtion extends Base {
     @TableField("comment")
     private String comment;
 
+
+    //业务逻辑字段
+
+    /**
+     * 用户角色编号集合
+     */
+    private List<String> userRoleIds;
 
 }
