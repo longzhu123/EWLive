@@ -73,28 +73,17 @@
 	<insert id="insertBatchSysUserRoleRealtion">
 		insert into
 		sys_user_role_realtion
-		<trim prefix="(" suffix=")" suffixOverrides="," >
-			<if test="id != null">id,</if>
-			<if test="userId != null">user_id,</if>
-			<if test="userRoleId != null">user_role_id,</if>
-			<if test="createUserId != null">create_user_id,</if>
-			<if test="createTime != null">create_time,</if>
-			<if test="updateUserId != null">update_user_id,</if>
-			<if test="updateTime != null">update_time,</if>
-			<if test="comment != null">comment,</if>
-		</trim>
+		(id, user_id, user_role_id, create_user_id,reate_time, update_user_id, update_time, comment)
 		values
 		<foreach collection="list" item="item" index="index" separator=",">
-			<trim prefix="(" suffix=")" suffixOverrides="," >
-				<if test="id != null ">#{id},</if>
-				<if test="userId != null ">#{userId},</if>
-				<if test="userRoleId != null ">#{userRoleId},</if>
-				<if test="createUserId != null ">#{createUserId},</if>
-				<if test="createTime != null ">#{createTime},</if>
-				<if test="updateUserId != null ">#{updateUserId},</if>
-				<if test="updateTime != null ">#{updateTime},</if>
-				<if test="comment != null ">#{comment},</if>
-			</trim>
+			#{item.id},
+			#{item.userId},
+			#{item.userRoleId},
+			#{item.createUserId},
+			#{item.createTime},
+			#{item.updateUserId},
+			#{item.updateTime},
+			#{item.comment}
 		</foreach>
 	</insert>
 
