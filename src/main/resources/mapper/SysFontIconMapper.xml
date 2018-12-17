@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.SysFontIconMapper">
+
+	<!--系统字体图标基础列-->
+	<sql id="Base_Column_List">
+		sys_font_icon.id,
+		sys_font_icon.font_name as fontName,
+		sys_font_icon.create_user_id as createUserId,
+		sys_font_icon.create_time as createTime,
+		sys_font_icon.update_user_id as updateUserId,
+		sys_font_icon.update_time as updateTime,
+		sys_font_icon.comment
+	</sql>
+
+	<!--模糊查询系统字体图标(分页)-->
+	<select id="likeSearchSysFontIconByPage"  resultType="SysFontIcon" parameterType="SysFontIcon">
+		select <include refid="Base_Column_List"/> from sys_font_icon
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="fontName != null"> and font_name=#{fontName}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+		order by create_time
+	</select>
+
+	<!--添加系统字体图标-->	<insert id="addSysFontIcon"  parameterType="SysFontIcon">
+		insert into sys_font_icon
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="fontName != null">font_name,</if>
+			<if test="createUserId != null">create_user_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateUserId != null">update_user_id,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="comment != null">comment,</if> 		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
+			<if test="id != null ">#{id},</if>
+			<if test="fontName != null ">#{fontName},</if>
+			<if test="createUserId != null ">#{createUserId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateUserId != null ">#{updateUserId},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="comment != null ">#{comment},</if>
+		</trim>
+	</insert>
+
+	<!--根据Id修改系统字体图标-->	<update id="updateSysFontIconById" parameterType="SysFontIcon">
+		update sys_font_icon
+		<set>
+			<if test="fontName != null">font_name=#{fontName},</if>
+			<if test="createUserId != null">create_user_id=#{createUserId},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+			<if test="comment != null">comment=#{comment},</if>
+		</set>
+		where id=#{id}
+	</update>
+</mapper>
