@@ -26,7 +26,7 @@ public class SysFontIcon extends Base{
 
 
 	/**
-	 * 操作IP
+	 * 字体图标名称
 	 */
 	@TableField("font_name")
 	private String fontName;
