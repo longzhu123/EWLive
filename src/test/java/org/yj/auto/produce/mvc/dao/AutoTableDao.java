@@ -758,6 +758,7 @@ public class AutoTableDao {
     public static String getMapperJavaStr(String className, String entityComment, String tableComment) {
         StringBuffer sb = new StringBuffer();
         StringBuffer searchSb = new StringBuffer();
+        String tempName= CommonUtils.toLowerCaseFirstOne(className);
         sb.append("package " + PropertiesUtil.get("auto.mapper.package") + ";");
         sb.append("\n\rimport java.util.List;");
         String entityName = className.substring(0, className.indexOf("Mapper"));
@@ -776,34 +777,34 @@ public class AutoTableDao {
         StringBuffer updateSb = new StringBuffer();
         addSb.append("    /**\n" +
                 "     * 添加" + tableComment + "\n" +
-                "     * @param " + entityName + "\n" +
+                "     * @param " + tempName + "\n" +
                 "     * @return\n" +
                 "     */");
         updateSb.append("    /**\n" +
                 "     * 根据Id修改" + tableComment + "\n" +
-                "     * @param " + entityName + "\n" +
+                "     * @param " + tempName + "\n" +
                 "     * @return\n" +
                 "     */");
         if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             searchSb.append("    /**\n" +
                     "     * 模糊查询" + tableComment + "(分页)\n" +
                     "     * @param pagination\n" +
-                    "     * @param " + entityName + "\n" +
+                    "     * @param " + tempName + "\n" +
                     "     * @return\n" +
                     "     */");
 
             sb.append(searchSb);
-            sb.append("\r\n\tList<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " " + entityName + ");");
+            sb.append("\r\n\tList<" + entityName + "> likeSearch" + entityName + "ByPage(Pagination pagination," + entityName + " " + tempName + ");");
         }
 
         sb.append("\n\r");
         sb.append(addSb);
         sb.append("\r");
-        sb.append("\tint add" + entityName + "(" + entityName + " " + entityName + ");");
+        sb.append("\tint add" + entityName + "(" + entityName + " " + tempName + ");");
         sb.append("\n\r");
         sb.append(updateSb);
         sb.append("\r");
-        sb.append("\tint update" + entityName + "ById(" + entityName + " " + entityName + ");");
+        sb.append("\tint update" + entityName + "ById(" + entityName + " " + tempName + ");");
         sb.append("\n\r");
         sb.append("\n\r");
         sb.append("\r\n}");
