@@ -3,8 +3,10 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
-import org.ewlive.result.ResultData;
-import com.baomidou.mybatisplus.plugins.Page;import org.springframework.web.bind.annotation.RequestBody;
+
+import org.ewlive.result.ResultData;
+import com.baomidou.mybatisplus.plugins.Page;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.ewlive.entity.SysFontIcon;
 import org.ewlive.service.SysFontIconService;
 
@@ -78,4 +80,5 @@ public class SysFontIconController{
 	public ResultData deleteBatchSysFontIconByIds(@RequestBody SysFontIcon request){
 		return sysFontIconService.deleteBatchSysFontIconByIds(request);
 	}
-}
+
+}

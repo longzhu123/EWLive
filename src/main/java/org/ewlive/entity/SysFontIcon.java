@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 系统字体图标Bean 
@@ -68,5 +69,7 @@ public class SysFontIcon extends Base{
 	@TableField("comment")
 	private String comment;
 
+	@TableField(exist = false)
+	private List<SysFontIcon> sysFontIcons;
 
 }
