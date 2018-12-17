@@ -14,7 +14,7 @@
 	</sql>
 
 	<!--模糊查询系统字体图标(分页)-->
-	<select id="likeSearchSysFontIconByPage"  resultType="SysFontIcon" parameterType="SysFontIcon">
+	<select id="likeSearchSysFontIconByPage"  resultType="org.ewlive.entity.SysFontIcon" parameterType="org.ewlive.entity.SysFontIcon">
 		select <include refid="Base_Column_List"/> from sys_font_icon
 		where 1=1 
 		<if test="id != null"> and id=#{id}</if>
@@ -27,7 +27,8 @@
 		order by create_time
 	</select>
 
-	<!--添加系统字体图标-->	<insert id="addSysFontIcon"  parameterType="SysFontIcon">
+	<!--添加系统字体图标-->
+	<insert id="addSysFontIcon"  parameterType="org.ewlive.entity.SysFontIcon">
 		insert into sys_font_icon
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null">id,</if>
@@ -36,7 +37,8 @@
 			<if test="createTime != null">create_time,</if>
 			<if test="updateUserId != null">update_user_id,</if>
 			<if test="updateTime != null">update_time,</if>
-			<if test="comment != null">comment,</if> 		</trim>	
+			<if test="comment != null">comment,</if> 
+		</trim>	
 		<trim prefix="values (" suffix=")" suffixOverrides="," > 
 			<if test="id != null ">#{id},</if>
 			<if test="fontName != null ">#{fontName},</if>
@@ -48,7 +50,8 @@
 		</trim>
 	</insert>
 
-	<!--根据Id修改系统字体图标-->	<update id="updateSysFontIconById" parameterType="SysFontIcon">
+	<!--根据Id修改系统字体图标-->
+	<update id="updateSysFontIconById" parameterType="org.ewlive.entity.SysFontIcon">
 		update sys_font_icon
 		<set>
 			<if test="fontName != null">font_name=#{fontName},</if>
@@ -60,4 +63,5 @@
 		</set>
 		where id=#{id}
 	</update>
-</mapper>
+
+</mapper>
