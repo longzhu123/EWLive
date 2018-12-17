@@ -62,6 +62,17 @@ public class SysFontIconController{
 	}
 
 	/**
+	 * 批量添加系统字体图标
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/batchAddSysFontIcon")
+	public ResultData batchAddSysFontIcon(@RequestBody SysFontIcon request){
+		return sysFontIconService.addSysFontIcon(request);
+	}
+
+
+	/**
 	 * 根据id修改系统字体图标
 	 * @param request
 	 * @return

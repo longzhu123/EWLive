@@ -70,6 +70,6 @@ public class SysFontIcon extends Base{
 	private String comment;
 
 	@TableField(exist = false)
-	private List<SysFontIcon> sysFontIcons;
+	private List<String> sysFontIconNames;
 
 }

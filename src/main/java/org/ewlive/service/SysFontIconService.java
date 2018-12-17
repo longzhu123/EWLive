@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.entity.SysFontIcon;
+import org.ewlive.entity.SysUser;
 import org.ewlive.exception.ServiceException;
 import org.ewlive.mapper.SysFontIconMapper;
 import org.ewlive.result.ResultData;
@@ -96,10 +97,12 @@ public class SysFontIconService {
         //检查必填参数项是否空
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
+        //获取当前用户
+        SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
         ResultData data = new ResultData();
         request.setId(CommonUtil.createUUID());
         request.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        request.setCreateUserId(request.getId());
+        request.setCreateUserId(currentUser.getId());
         //添加系统字体图标
         int i = sysFontIconMapper.addSysFontIcon(request);
         if (i == 0) {
@@ -124,8 +127,10 @@ public class SysFontIconService {
         checkParamsId(request);
         log.info("参数校验成功,id不为空");
         ResultData data = new ResultData();
+        //获取当前用户
+        SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
         request.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        request.setUpdateUserId(request.getId());
+        request.setUpdateUserId(currentUser.getId());
         //根据Id修改系统字体图标
         int i = sysFontIconMapper.updateSysFontIconById(request);
         if (i == 0) {
