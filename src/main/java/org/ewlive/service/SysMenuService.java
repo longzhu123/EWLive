@@ -175,21 +175,9 @@ public class SysMenuService {
         if (CommonUtil.isStringEmpty(request.getMenuName())) {
             throw new ServiceException(ExceptionConstants.MENUNAME_NOT_NULL);
         }
-        //判断菜单Url是否为空
-        if (CommonUtil.isStringEmpty(request.getMenuUrl())) {
-            throw new ServiceException(ExceptionConstants.MENUURL_NOT_NULL);
-        }
-        //判断菜单图标是否为空
-        if (CommonUtil.isStringEmpty(request.getMenuIcon())) {
-            throw new ServiceException(ExceptionConstants.MENUICON_NOT_NULL);
-        }
         //判断父菜单编号是否为空
         if (CommonUtil.isStringEmpty(request.getParentId())) {
             throw new ServiceException(ExceptionConstants.PARENTID_NOT_NULL);
-        }
-        //判断菜单排序号是否为空
-        if (Objects.isNull(request.getMenuSort())) {
-            throw new ServiceException(ExceptionConstants.MENUSORT_NOT_NULL);
         }
     }
 

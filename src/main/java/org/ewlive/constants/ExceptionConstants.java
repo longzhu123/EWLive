@@ -53,11 +53,6 @@ public class ExceptionConstants {
 
     public static final String MENUNAME_NOT_NULL = "菜单名称不能为空";
 
-    public static final String MENUURL_NOT_NULL = "菜单Url不能为空";
-
-    public static final String MENUICON_NOT_NULL = "菜单图标不能为空";
-
     public static final String PARENTID_NOT_NULL = "父菜单编号不能为空";
 
-    public static final String MENUSORT_NOT_NULL = "菜单排序号不能为空";
 }
