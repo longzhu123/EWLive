@@ -41,6 +41,7 @@ public class SysUserRoleController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/getSysUserRoleByParams")
     public ResultData<List<SysUserRole>> getSysUserRoleByParams(@RequestBody SysUserRole request) {
         return sysUserRoleService.getSysUserRoleByParams(request);

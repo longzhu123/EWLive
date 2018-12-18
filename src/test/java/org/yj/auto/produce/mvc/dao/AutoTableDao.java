@@ -364,12 +364,14 @@ public class AutoTableDao {
         sb.append("\r\n\t}");
 
         sb.append("\n" + searchSb);
+        sb.append("\r\n\t@AuthReq");
         sb.append("\r\n\t@RequestMapping(\"/get" + className + "ByParams\")");
         sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "get" + className + "ByParams(request);");
         sb.append("\r\n\t}");
         if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             sb.append("\n" + likeSearchSb);
+            sb.append("\r\n\t@AuthReq");
             sb.append("\r\n\t@RequestMapping(\"/likeSearch" + className + "ByPage\")");
             sb.append("\r\n\tpublic ResultData<Page<" + className + ">> likeSearch" + className + "ByPage(@RequestBody " + className + " request){");
             sb.append("\r\n\t\treturn " + lowServiceName + "." + "likeSearch" + className + "ByPage(request);");
@@ -378,18 +380,21 @@ public class AutoTableDao {
 
 
         sb.append("\n" + addSb);
+        sb.append("\r\n\t@AuthReq");
         sb.append("\r\n\t@RequestMapping(\"/add" + className + "\")");
         sb.append("\r\n\tpublic ResultData add" + className + "(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "add" + className + "(request);");
         sb.append("\r\n\t}");
 
         sb.append("\n" + updateSb);
+        sb.append("\r\n\t@AuthReq");
         sb.append("\r\n\t@RequestMapping(\"/update" + className + "ById\")");
         sb.append("\r\n\tpublic ResultData update" + className + "ById(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "update" + className + "ById(request);");
         sb.append("\r\n\t}");
 
         sb.append("\n" + deleteSb);
+        sb.append("\r\n\t@AuthReq");
         sb.append("\r\n\t@RequestMapping(\"/deleteBatch" + className + "ByIds\")");
         sb.append("\r\n\tpublic ResultData deleteBatch" + className + "ByIds(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "deleteBatch" + className + "ByIds(request);");
