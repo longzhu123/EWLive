@@ -19,7 +19,7 @@
     <!--用户登录-->
     <select id="authLogin" parameterType="org.ewlive.entity.SysUser" resultType="org.ewlive.entity.SysUser">
         select <include refid="Base_Column_List"/>
-        from sys_user where email=#{email} and password=#{password}
+        from sys_user where email=#{email} and password=md5(#{password})
     </select>
 
 	<!--模糊查询用户(分页)-->
