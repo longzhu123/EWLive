@@ -55,4 +55,9 @@ public class ExceptionConstants {
 
     public static final String PARENTID_NOT_NULL = "父菜单编号不能为空";
 
+    public static final String IP_NOT_NULL = "IP不能为空";
+
+    public static final String OPERCONTENT_NOT_NULL = "操作内容不能为空";
+
+    public static final String TASKTIMESPAN_NOT_NULL = "耗时不能为空";
 }

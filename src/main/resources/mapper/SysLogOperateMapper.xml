@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.SysLogOperateMapper">
+
+	<!--操作日志基础列-->
+	<sql id="Base_Column_List">
+		sys_log_operate.id,
+		sys_log_operate.ip,
+		sys_log_operate.oper_content as operContent,
+		sys_log_operate.task_time_span as taskTimeSpan,
+		sys_log_operate.create_user_id as createUserId,
+		sys_log_operate.create_time as createTime,
+		sys_log_operate.update_user_id as updateUserId,
+		sys_log_operate.update_time as updateTime,
+		sys_log_operate.comment
+	</sql>
+
+	<!--模糊查询操作日志(分页)-->
+	<select id="likeSearchSysLogOperateByPage"  resultType="org.ewlive.entity.SysLogOperate" parameterType="org.ewlive.entity.SysLogOperate">
+		select <include refid="Base_Column_List"/> from sys_log_operate
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="ip != null"> and ip like concat('%',#{ip},'%')</if>
+		<if test="operContent != null"> and oper_content like concat('%',#{operContent},'%')</if>
+		<if test="taskTimeSpan != null"> and task_time_span=#{taskTimeSpan}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+		order by create_time
+	</select>
+
+	<!--添加操作日志-->
+	<insert id="addSysLogOperate"  parameterType="org.ewlive.entity.SysLogOperate">
+		insert into sys_log_operate
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="ip != null">ip,</if>
+			<if test="operContent != null">oper_content,</if>
+			<if test="taskTimeSpan != null">task_time_span,</if>
+			<if test="createUserId != null">create_user_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateUserId != null">update_user_id,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="comment != null">comment,</if> 
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
+			<if test="id != null ">#{id},</if>
+			<if test="ip != null ">#{ip},</if>
+			<if test="operContent != null ">#{operContent},</if>
+			<if test="taskTimeSpan != null ">#{taskTimeSpan},</if>
+			<if test="createUserId != null ">#{createUserId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateUserId != null ">#{updateUserId},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="comment != null ">#{comment},</if>
+		</trim>
+	</insert>
+
+	<!--根据Id修改操作日志-->
+	<update id="updateSysLogOperateById" parameterType="org.ewlive.entity.SysLogOperate">
+		update sys_log_operate
+		<set>
+			<if test="ip != null">ip=#{ip},</if>
+			<if test="operContent != null">oper_content=#{operContent},</if>
+			<if test="taskTimeSpan != null">task_time_span=#{taskTimeSpan},</if>
+			<if test="createUserId != null">create_user_id=#{createUserId},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+			<if test="comment != null">comment=#{comment},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+</mapper>
