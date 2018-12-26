@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.system.SysDicMapper">
+
+	<!--字典基础列-->
+	<sql id="Base_Column_List">
+		sys_dic.id,
+		sys_dic.dic_name as dicName,
+		sys_dic.create_user_id as createUserId,
+		sys_dic.create_time as createTime,
+		sys_dic.update_user_id as updateUserId,
+		sys_dic.update_time as updateTime,
+		sys_dic.comment
+	</sql>
+
+	<!--模糊查询字典(分页)-->
+	<select id="likeSearchSysDicByPage" resultType="org.ewlive.entity.system.SysDic" parameterType="org.ewlive.entity.system.SysDic">
+		select <include refid="Base_Column_List"/> from sys_dic
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="dicName != null"> and dic_name like concat('%',#{dicName},'%')</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+		order by create_time
+	</select>
+
+	<!--添加字典-->
+	<insert id="addSysDic"  parameterType="org.ewlive.entity.system.SysDic">
+		insert into sys_dic
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="dicName != null">dic_name,</if>
+			<if test="createUserId != null">create_user_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateUserId != null">update_user_id,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="comment != null">comment,</if> 
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
+			<if test="id != null ">#{id},</if>
+			<if test="dicName != null ">#{dicName},</if>
+			<if test="createUserId != null ">#{createUserId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateUserId != null ">#{updateUserId},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="comment != null ">#{comment},</if>
+		</trim>
+	</insert>
+
+	<!--根据Id修改字典-->
+	<update id="updateSysDicById" parameterType="org.ewlive.entity.system.SysDic">
+		update sys_dic
+		<set>
+			<if test="dicName != null">dic_name=#{dicName},</if>
+			<if test="createUserId != null">create_user_id=#{createUserId},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+			<if test="comment != null">comment=#{comment},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+</mapper>

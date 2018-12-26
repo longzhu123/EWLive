@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.ewlive.aop.Dic;
 import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
-import org.ewlive.entity.SysDicItem;
+import org.ewlive.entity.system.SysDicItem;
 import org.ewlive.exception.ServiceException;
 
 import java.lang.reflect.Field;

@@ -1,16 +1,15 @@
-package org.ewlive.service;
+package org.ewlive.service.system;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.ExceptionConstants;
-import org.ewlive.entity.LiveRoomInfo;
+import org.ewlive.entity.system.SysMenu;
 import org.ewlive.entity.system.SysUser;
 import org.ewlive.exception.ServiceException;
-import org.ewlive.mapper.LiveRoomInfoMapper;
+import org.ewlive.mapper.system.SysMenuMapper;
 import org.ewlive.result.ResultData;
 import org.ewlive.util.CommonUtil;
-import org.ewlive.util.DicConvertUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,65 +19,61 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * 直播间信息Service
- * Create by yangjie on 2018/11/16
+ * 菜单Service
+ * Create by yangjie on 2018/12/18
  */
 @Slf4j
 @Service
-public class LiveRoomInfoService {
+public class SysMenuService {
 
     @Resource
-    private LiveRoomInfoMapper liveRoomInfoMapper;
+    private SysMenuMapper sysMenuMapper;
 
     /**
-     * 根据id查询直播间信息
+     * 根据id查询菜单
      *
      * @param request
      * @return
      */
-    public ResultData<LiveRoomInfo> getLiveRoomInfoById(LiveRoomInfo request) {
+    public ResultData<SysMenu> getSysMenuById(SysMenu request) {
         //检查参数Id是否为空
         checkParamsId(request);
-        log.info("根据id查询直播间信息:请求参数=====>" + JSON.toJSONString(request));
-        ResultData<LiveRoomInfo> data = new ResultData<>();
-        //根据id查询直播间信息
-        LiveRoomInfo liveRoomInfo = liveRoomInfoMapper.selectById(request.getId());
-        //将字典码转换为中文描述
-        LiveRoomInfo dataObj = DicConvertUtil.convertObjDicDesc(liveRoomInfo, LiveRoomInfo.class);
-        data.setData(dataObj);
-        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfo));
+        log.info("根据id查询菜单:请求参数=====>" + JSON.toJSONString(request));
+        ResultData<SysMenu> data = new ResultData<>();
+        //根据id查询菜单
+        SysMenu sysMenu = sysMenuMapper.selectById(request.getId());
+        data.setData(sysMenu);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysMenu));
         return data;
     }
 
 
     /**
-     * 多条件查询直播间信息
+     * 多条件查询菜单
      *
      * @param request
      * @return
      */
-    public ResultData<List<LiveRoomInfo>> getLiveRoomInfoByParams(LiveRoomInfo request) {
-        log.info("多条件查询直播间信息信息:请求参数=====>" + JSON.toJSONString(request));
-        ResultData<List<LiveRoomInfo>> data = new ResultData<>();
-        //多条件查询直播间信息信息
-        List<LiveRoomInfo> liveRoomInfoList = liveRoomInfoMapper.selectList(new EntityWrapper<>(request));
-        //将字典码转换为中文描述
-        List<LiveRoomInfo> dataObj = DicConvertUtil.convertArrayDicDesc(liveRoomInfoList, LiveRoomInfo.class);
-        data.setData(dataObj);
-        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfoList));
+    public ResultData<List<SysMenu>> getSysMenuByParams(SysMenu request) {
+        log.info("多条件查询菜单信息:请求参数=====>" + JSON.toJSONString(request));
+        ResultData<List<SysMenu>> data = new ResultData<>();
+        //多条件查询菜单信息
+        List<SysMenu> sysMenuList = sysMenuMapper.selectList(new EntityWrapper<>(request));
+        data.setData(sysMenuList);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysMenuList));
         return data;
     }
 
 
     /**
-     * 添加直播间信息
+     * 添加菜单
      *
      * @param request
      * @return
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData addLiveRoomInfo(LiveRoomInfo request) {
-        log.info("添加直播间信息,请求参数====>" + JSON.toJSONString(request));
+    public ResultData addSysMenu(SysMenu request) {
+        log.info("添加菜单,请求参数====>" + JSON.toJSONString(request));
         //检查必填参数项是否空
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
@@ -88,10 +83,8 @@ public class LiveRoomInfoService {
         request.setId(CommonUtil.createUUID());
         request.setCreateTime(new Timestamp(System.currentTimeMillis()));
         request.setCreateUserId(currentUser.getId());
-
-
-        //添加直播间信息
-        int i = liveRoomInfoMapper.addLiveRoomInfo(request);
+        //添加菜单
+        int i = sysMenuMapper.addSysMenu(request);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.ADD_FAIL);
         }
@@ -101,14 +94,14 @@ public class LiveRoomInfoService {
 
 
     /**
-     * 根据id修改直播间信息
+     * 根据id修改菜单
      *
      * @param request
      * @return
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData updateLiveRoomInfoById(LiveRoomInfo request) {
-        log.info("修改直播间信息,请求参数====>" + JSON.toJSONString(request));
+    public ResultData updateSysMenuById(SysMenu request) {
+        log.info("修改菜单,请求参数====>" + JSON.toJSONString(request));
         //检查id是否为空
         checkParamsId(request);
         log.info("参数校验成功,id不为空");
@@ -117,8 +110,8 @@ public class LiveRoomInfoService {
         SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
         request.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         request.setUpdateUserId(currentUser.getId());
-        //根据Id修改直播间信息
-        int i = liveRoomInfoMapper.updateLiveRoomInfoById(request);
+        //根据Id修改菜单
+        int i = sysMenuMapper.updateSysMenuById(request);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.UPDATE_FAIL);
         }
@@ -128,20 +121,20 @@ public class LiveRoomInfoService {
 
 
     /**
-     * 根据ids批量删除直播间信息
+     * 根据ids批量删除菜单
      *
      * @param request
      * @return
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData deleteBatchLiveRoomInfoByIds(LiveRoomInfo request) {
-        log.info("根据ids批量删除直播间信息,请求参数====>" + JSON.toJSONString(request));
+    public ResultData deleteBatchSysMenuByIds(SysMenu request) {
+        log.info("根据ids批量删除菜单,请求参数====>" + JSON.toJSONString(request));
         //检查ids是否为空
         checkParamsIds(request);
         log.info("参数校验成功,ids不为空");
         ResultData data = new ResultData();
-        //根据ids批量删除直播间信息
-        int i = liveRoomInfoMapper.deleteBatchIds(request.getIds());
+        //根据ids批量删除菜单
+        int i = sysMenuMapper.deleteBatchIds(request.getIds());
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.DELTE_FAIL);
         }
@@ -154,7 +147,7 @@ public class LiveRoomInfoService {
      *
      * @param request
      */
-    public void checkParamsId(LiveRoomInfo request) {
+    public void checkParamsId(SysMenu request) {
         if (CommonUtil.isStringEmpty(request.getId())) {
             throw new ServiceException(ExceptionConstants.ID_NOT_NULL);
         }
@@ -165,7 +158,7 @@ public class LiveRoomInfoService {
      *
      * @param request
      */
-    public void checkParamsIds(LiveRoomInfo request) {
+    public void checkParamsIds(SysMenu request) {
         if (CommonUtil.isCollectionEmpty(request.getIds())) {
             throw new ServiceException(ExceptionConstants.IDS_NOT_NULL);
         }
@@ -176,18 +169,14 @@ public class LiveRoomInfoService {
      *
      * @param request
      */
-    public void checkParamsForAdd(LiveRoomInfo request) {
-        //判断房间编号是否为空
-        if (CommonUtil.isStringEmpty(request.getRoomId())) {
-            throw new ServiceException(ExceptionConstants.ROOMID_NOT_NULL);
+    public void checkParamsForAdd(SysMenu request) {
+        //判断菜单名称是否为空
+        if (CommonUtil.isStringEmpty(request.getMenuName())) {
+            throw new ServiceException(ExceptionConstants.MENUNAME_NOT_NULL);
         }
-        //判断用户编号是否为空
-        if (CommonUtil.isStringEmpty(request.getUserId())) {
-            throw new ServiceException(ExceptionConstants.USERID_NOT_NULL);
-        }
-        //判断开播状态是否为空
-        if (CommonUtil.isStringEmpty(request.getPlayState())) {
-            throw new ServiceException(ExceptionConstants.PLAYSTATE_NOT_NULL);
+        //判断父菜单编号是否为空
+        if (CommonUtil.isStringEmpty(request.getParentId())) {
+            throw new ServiceException(ExceptionConstants.PARENTID_NOT_NULL);
         }
     }
 

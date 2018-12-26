@@ -1,16 +1,16 @@
-package org.ewlive.service;
+package org.ewlive.service.system;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.ExceptionConstants;
-import org.ewlive.entity.LiveRoomInfo;
+import org.ewlive.entity.system.SysDic;
 import org.ewlive.entity.system.SysUser;
 import org.ewlive.exception.ServiceException;
-import org.ewlive.mapper.LiveRoomInfoMapper;
+import org.ewlive.mapper.system.SysDicMapper;
 import org.ewlive.result.ResultData;
 import org.ewlive.util.CommonUtil;
-import org.ewlive.util.DicConvertUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,65 +20,81 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * 直播间信息Service
+ * 字典Service
  * Create by yangjie on 2018/11/16
  */
 @Slf4j
 @Service
-public class LiveRoomInfoService {
+public class SysDicService {
 
     @Resource
-    private LiveRoomInfoMapper liveRoomInfoMapper;
+    private SysDicMapper sysDicMapper;
 
     /**
-     * 根据id查询直播间信息
+     * 根据id查询字典
      *
      * @param request
      * @return
      */
-    public ResultData<LiveRoomInfo> getLiveRoomInfoById(LiveRoomInfo request) {
+    public ResultData<SysDic> getSysDicById(SysDic request) {
         //检查参数Id是否为空
         checkParamsId(request);
-        log.info("根据id查询直播间信息:请求参数=====>" + JSON.toJSONString(request));
-        ResultData<LiveRoomInfo> data = new ResultData<>();
-        //根据id查询直播间信息
-        LiveRoomInfo liveRoomInfo = liveRoomInfoMapper.selectById(request.getId());
-        //将字典码转换为中文描述
-        LiveRoomInfo dataObj = DicConvertUtil.convertObjDicDesc(liveRoomInfo, LiveRoomInfo.class);
-        data.setData(dataObj);
-        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfo));
+        log.info("根据id查询字典:请求参数=====>" + JSON.toJSONString(request));
+        ResultData<SysDic> data = new ResultData<>();
+        //根据id查询字典
+        SysDic sysDic = sysDicMapper.selectById(request.getId());
+        data.setData(sysDic);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysDic));
         return data;
     }
 
 
     /**
-     * 多条件查询直播间信息
+     * 多条件查询字典
      *
      * @param request
      * @return
      */
-    public ResultData<List<LiveRoomInfo>> getLiveRoomInfoByParams(LiveRoomInfo request) {
-        log.info("多条件查询直播间信息信息:请求参数=====>" + JSON.toJSONString(request));
-        ResultData<List<LiveRoomInfo>> data = new ResultData<>();
-        //多条件查询直播间信息信息
-        List<LiveRoomInfo> liveRoomInfoList = liveRoomInfoMapper.selectList(new EntityWrapper<>(request));
-        //将字典码转换为中文描述
-        List<LiveRoomInfo> dataObj = DicConvertUtil.convertArrayDicDesc(liveRoomInfoList, LiveRoomInfo.class);
-        data.setData(dataObj);
-        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfoList));
+    public ResultData<List<SysDic>> getSysDicByParams(SysDic request) {
+        log.info("多条件查询字典信息:请求参数=====>" + JSON.toJSONString(request));
+        ResultData<List<SysDic>> data = new ResultData<>();
+        //多条件查询字典信息
+        List<SysDic> sysDicList = sysDicMapper.selectList(new EntityWrapper<>(request));
+        data.setData(sysDicList);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysDicList));
         return data;
     }
 
 
     /**
-     * 添加直播间信息
+     * 模糊查询字典(分页)
+     *
+     * @param request
+     * @return
+     */
+    public ResultData<Page<SysDic>> likeSearchSysDicByPage(SysDic request) {
+        log.info("模糊查询字典(分页):请求参数=====>" + JSON.toJSONString(request));
+        ResultData<Page<SysDic>> data = new ResultData<>();
+        Page<SysDic> page = new Page<>(request.getCurrent(), request.getSize());
+        //模糊查询字典(分页)
+        List<SysDic> sysDicList = sysDicMapper.likeSearchSysDicByPage(page, request);
+        page.setRecords(sysDicList);
+        data.setData(page);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysDicList));
+        return data;
+    }
+
+
+    /**
+     * 添加字典
      *
      * @param request
      * @return
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData addLiveRoomInfo(LiveRoomInfo request) {
-        log.info("添加直播间信息,请求参数====>" + JSON.toJSONString(request));
+    public ResultData addSysDic(SysDic request) {
+        request.setId(CommonUtil.createUUID());
+        log.info("添加字典,请求参数====>" + JSON.toJSONString(request));
         //检查必填参数项是否空
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
@@ -89,9 +105,8 @@ public class LiveRoomInfoService {
         request.setCreateTime(new Timestamp(System.currentTimeMillis()));
         request.setCreateUserId(currentUser.getId());
 
-
-        //添加直播间信息
-        int i = liveRoomInfoMapper.addLiveRoomInfo(request);
+        //添加字典
+        int i = sysDicMapper.addSysDic(request);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.ADD_FAIL);
         }
@@ -101,14 +116,14 @@ public class LiveRoomInfoService {
 
 
     /**
-     * 根据id修改直播间信息
+     * 根据id修改字典
      *
      * @param request
      * @return
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData updateLiveRoomInfoById(LiveRoomInfo request) {
-        log.info("修改直播间信息,请求参数====>" + JSON.toJSONString(request));
+    public ResultData updateSysDicById(SysDic request) {
+        log.info("修改字典,请求参数====>" + JSON.toJSONString(request));
         //检查id是否为空
         checkParamsId(request);
         log.info("参数校验成功,id不为空");
@@ -117,8 +132,8 @@ public class LiveRoomInfoService {
         SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
         request.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         request.setUpdateUserId(currentUser.getId());
-        //根据Id修改直播间信息
-        int i = liveRoomInfoMapper.updateLiveRoomInfoById(request);
+        //根据Id修改字典
+        int i = sysDicMapper.updateSysDicById(request);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.UPDATE_FAIL);
         }
@@ -128,20 +143,20 @@ public class LiveRoomInfoService {
 
 
     /**
-     * 根据ids批量删除直播间信息
+     * 根据ids批量删除字典
      *
      * @param request
      * @return
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData deleteBatchLiveRoomInfoByIds(LiveRoomInfo request) {
-        log.info("根据ids批量删除直播间信息,请求参数====>" + JSON.toJSONString(request));
+    public ResultData deleteBatchSysDicByIds(SysDic request) {
+        log.info("根据ids批量删除字典,请求参数====>" + JSON.toJSONString(request));
         //检查ids是否为空
         checkParamsIds(request);
         log.info("参数校验成功,ids不为空");
         ResultData data = new ResultData();
-        //根据ids批量删除直播间信息
-        int i = liveRoomInfoMapper.deleteBatchIds(request.getIds());
+        //根据ids批量删除字典
+        int i = sysDicMapper.deleteBatchIds(request.getIds());
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.DELTE_FAIL);
         }
@@ -154,7 +169,7 @@ public class LiveRoomInfoService {
      *
      * @param request
      */
-    public void checkParamsId(LiveRoomInfo request) {
+    public void checkParamsId(SysDic request) {
         if (CommonUtil.isStringEmpty(request.getId())) {
             throw new ServiceException(ExceptionConstants.ID_NOT_NULL);
         }
@@ -165,7 +180,7 @@ public class LiveRoomInfoService {
      *
      * @param request
      */
-    public void checkParamsIds(LiveRoomInfo request) {
+    public void checkParamsIds(SysDic request) {
         if (CommonUtil.isCollectionEmpty(request.getIds())) {
             throw new ServiceException(ExceptionConstants.IDS_NOT_NULL);
         }
@@ -176,18 +191,10 @@ public class LiveRoomInfoService {
      *
      * @param request
      */
-    public void checkParamsForAdd(LiveRoomInfo request) {
-        //判断房间编号是否为空
-        if (CommonUtil.isStringEmpty(request.getRoomId())) {
-            throw new ServiceException(ExceptionConstants.ROOMID_NOT_NULL);
-        }
-        //判断用户编号是否为空
-        if (CommonUtil.isStringEmpty(request.getUserId())) {
-            throw new ServiceException(ExceptionConstants.USERID_NOT_NULL);
-        }
-        //判断开播状态是否为空
-        if (CommonUtil.isStringEmpty(request.getPlayState())) {
-            throw new ServiceException(ExceptionConstants.PLAYSTATE_NOT_NULL);
+    public void checkParamsForAdd(SysDic request) {
+        //判断字典名称是否为空
+        if (CommonUtil.isStringEmpty(request.getDicName())) {
+            throw new ServiceException(ExceptionConstants.DICNAME_NOT_NULL);
         }
     }
 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.system.SysMenuMapper">
+
+    <!--菜单基础列-->
+    <sql id="Base_Column_List">
+		sys_menu.id,
+		sys_menu.menu_name as menuName,
+		sys_menu.menu_url as menuUrl,
+		sys_menu.menu_icon as menuIcon,
+		sys_menu.parent_id as parentId,
+		sys_menu.menu_sort as menuSort,
+		sys_menu.create_user_id as createUserId,
+		sys_menu.create_time as createTime,
+		sys_menu.update_user_id as updateUserId,
+		sys_menu.update_time as updateTime,
+		sys_menu.comment
+	</sql>
+
+    <!--添加菜单-->
+    <insert id="addSysMenu" parameterType="org.ewlive.entity.system.SysMenu">
+        insert into sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="menuName != null">menu_name,</if>
+            <if test="menuUrl != null">menu_url,</if>
+            <if test="menuIcon != null">menu_icon,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="menuSort != null">menu_sort,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateUserId != null">update_user_id,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="comment != null">comment,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="menuName != null ">#{menuName},</if>
+            <if test="menuUrl != null ">#{menuUrl},</if>
+            <if test="menuIcon != null ">#{menuIcon},</if>
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="menuSort != null ">#{menuSort},</if>
+            <if test="createUserId != null ">#{createUserId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateUserId != null ">#{updateUserId},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="comment != null ">#{comment},</if>
+        </trim>
+    </insert>
+
+    <!--根据Id修改菜单-->
+    <update id="updateSysMenuById" parameterType="org.ewlive.entity.system.SysMenu">
+        update sys_menu
+        <set>
+            <if test="menuName != null">menu_name=#{menuName},</if>
+            <if test="menuUrl != null">menu_url=#{menuUrl},</if>
+            <if test="menuIcon != null">menu_icon=#{menuIcon},</if>
+            <if test="parentId != null">parent_id=#{parentId},</if>
+            <if test="menuSort != null">menu_sort=#{menuSort},</if>
+            <if test="createUserId != null">create_user_id=#{createUserId},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="comment != null">comment=#{comment},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

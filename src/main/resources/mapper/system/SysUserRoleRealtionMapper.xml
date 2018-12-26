@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.system.SysUserRoleRealtionMapper">
+
+	<!--用户角色关系基础列-->
+	<sql id="Base_Column_List">
+		sys_user_role_realtion.id,
+		sys_user_role_realtion.user_id as userId,
+		sys_user_role_realtion.user_role_id as userRoleId,
+		sys_user_role_realtion.create_user_id as createUserId,
+		sys_user_role_realtion.create_time as createTime,
+		sys_user_role_realtion.update_user_id as updateUserId,
+		sys_user_role_realtion.update_time as updateTime,
+		sys_user_role_realtion.comment
+	</sql>
+
+	<!--模糊查询用户角色关系(分页)-->
+	<select id="likeSearchSysUserRoleRealtionByPage" resultType="org.ewlive.entity.system.SysUserRoleRealtion" parameterType="org.ewlive.entity.system.SysUserRoleRealtion">
+		select <include refid="Base_Column_List"/> from sys_user_role_realtion
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="userId != null"> and user_id=#{userId}</if>
+		<if test="userRoleId != null"> and user_role_id=#{userRoleId}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+		order by create_time
+	</select>
+
+	<!--添加用户角色关系-->
+	<insert id="addSysUserRoleRealtion"  parameterType="org.ewlive.entity.system.SysUserRoleRealtion">
+		insert into sys_user_role_realtion
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="userId != null">user_id,</if>
+			<if test="userRoleId != null">user_role_id,</if>
+			<if test="createUserId != null">create_user_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateUserId != null">update_user_id,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="comment != null">comment,</if> 
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
+			<if test="id != null ">#{id},</if>
+			<if test="userId != null ">#{userId},</if>
+			<if test="userRoleId != null ">#{userRoleId},</if>
+			<if test="createUserId != null ">#{createUserId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateUserId != null ">#{updateUserId},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="comment != null ">#{comment},</if>
+		</trim>
+	</insert>
+
+	<!--根据Id修改用户角色关系-->
+	<update id="updateSysUserRoleRealtionById" parameterType="org.ewlive.entity.system.SysUserRoleRealtion">
+		update sys_user_role_realtion
+		<set>
+			<if test="userId != null">user_id=#{userId},</if>
+			<if test="userRoleId != null">user_role_id=#{userRoleId},</if>
+			<if test="createUserId != null">create_user_id=#{createUserId},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+			<if test="comment != null">comment=#{comment},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!--批量插入用户角色关系-->
+	<insert id="insertBatchSysUserRoleRealtion">
+		insert into
+		sys_user_role_realtion
+		(id, user_id, user_role_id, create_user_id,create_time, update_user_id, update_time, comment)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.userId},
+				#{item.userRoleId},
+				#{item.createUserId},
+				#{item.createTime},
+				#{item.updateUserId},
+				#{item.updateTime},
+				#{item.comment}
+			)
+		</foreach>
+	</insert>
+
+</mapper>

@@ -2,7 +2,7 @@ package org.ewlive.util;
 
 import com.alibaba.fastjson.JSON;
 import org.ewlive.constants.CommonConstants;
-import org.ewlive.entity.SysUser;
+import org.ewlive.entity.system.SysUser;
 
 import java.util.Collection;
 import java.util.UUID;

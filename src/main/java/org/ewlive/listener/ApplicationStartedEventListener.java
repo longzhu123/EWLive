@@ -2,8 +2,8 @@ package org.ewlive.listener;
 
 import com.alibaba.fastjson.JSON;
 import org.ewlive.constants.CommonConstants;
-import org.ewlive.entity.SysDicItem;
-import org.ewlive.service.SysDicItemService;
+import org.ewlive.entity.system.SysDicItem;
+import org.ewlive.service.system.SysDicItemService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;

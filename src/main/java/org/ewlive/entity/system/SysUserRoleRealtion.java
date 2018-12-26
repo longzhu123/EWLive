@@ -1,23 +1,23 @@
-package org.ewlive.entity;
+package org.ewlive.entity.system;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import org.ewlive.aop.Dic;
 import org.ewlive.entity.common.Base;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
- * 直播间信息Bean
- * Create by yangjie on 2018/11/16
+ * 用户角色关系Bean
+ * Create by yangjie on 2018/12/12
  */
-@TableName("live_room_info")
+@TableName("sys_user_role_realtion")
 @Getter
 @Setter
-public class LiveRoomInfo extends Base {
+public class SysUserRoleRealtion extends Base {
 
 
     /**
@@ -28,13 +28,6 @@ public class LiveRoomInfo extends Base {
 
 
     /**
-     * 房间编号
-     */
-    @TableField("room_id")
-    private String roomId;
-
-
-    /**
      * 用户编号
      */
     @TableField("user_id")
@@ -42,11 +35,10 @@ public class LiveRoomInfo extends Base {
 
 
     /**
-     * 开播状态
+     * 用户角色编号
      */
-    @TableField("play_state")
-    @Dic(dicId = "4783fd16d2bc4015be3f35e60f970c87")
-    private String playState;
+    @TableField("user_role_id")
+    private String userRoleId;
 
 
     /**
@@ -85,10 +77,13 @@ public class LiveRoomInfo extends Base {
     @TableField("comment")
     private String comment;
 
+
+    //业务逻辑字段
+
     /**
-     * 开播状态中文描述
+     * 用户角色编号集合
      */
     @TableField(exist = false)
-    private  String playStateDesc;
+    private List<String> userRoleIds;
 
 }

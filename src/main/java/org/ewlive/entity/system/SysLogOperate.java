@@ -1,23 +1,22 @@
-package org.ewlive.entity;
+package org.ewlive.entity.system;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import org.ewlive.aop.Dic;
 import org.ewlive.entity.common.Base;
 
 import java.sql.Timestamp;
 
 /**
- * 直播间信息Bean
- * Create by yangjie on 2018/11/16
+ * 操作日志Bean
+ * Create by yangjie on 2018/12/26
  */
-@TableName("live_room_info")
+@TableName("sys_log_operate")
 @Getter
 @Setter
-public class LiveRoomInfo extends Base {
+public class SysLogOperate extends Base {
 
 
     /**
@@ -28,25 +27,24 @@ public class LiveRoomInfo extends Base {
 
 
     /**
-     * 房间编号
+     * 操作IP
      */
-    @TableField("room_id")
-    private String roomId;
+    @TableField("ip")
+    private String ip;
 
 
     /**
-     * 用户编号
+     * 操作内容
      */
-    @TableField("user_id")
-    private String userId;
+    @TableField("oper_content")
+    private String operContent;
 
 
     /**
-     * 开播状态
+     * 操作耗时
      */
-    @TableField("play_state")
-    @Dic(dicId = "4783fd16d2bc4015be3f35e60f970c87")
-    private String playState;
+    @TableField("task_time_span")
+    private Integer taskTimeSpan;
 
 
     /**
@@ -85,10 +83,5 @@ public class LiveRoomInfo extends Base {
     @TableField("comment")
     private String comment;
 
-    /**
-     * 开播状态中文描述
-     */
-    @TableField(exist = false)
-    private  String playStateDesc;
 
 }

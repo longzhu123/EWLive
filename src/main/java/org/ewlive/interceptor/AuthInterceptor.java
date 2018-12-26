@@ -10,7 +10,7 @@ import org.ewlive.aop.AuthReq;
 import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.constants.ResultConstants;
-import org.ewlive.entity.SysUser;
+import org.ewlive.entity.system.SysUser;
 import org.ewlive.exception.ServiceException;
 import org.ewlive.util.CommonUtil;
 import org.springframework.stereotype.Component;
