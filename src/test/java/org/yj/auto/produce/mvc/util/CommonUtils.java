@@ -3,6 +3,7 @@ package org.yj.auto.produce.mvc.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author yejiabin
@@ -46,5 +47,16 @@ public class CommonUtils {
         else
             return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
     }
+
+    /**
+     * @return
+     * @description 创建UUID唯一键
+     */
+    public static String createUUID() {
+        UUID uuid = UUID.randomUUID();
+        String uu = uuid.toString().replaceAll("-", "");
+        return uu;
+    }
+
 
 }
