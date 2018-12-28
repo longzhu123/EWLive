@@ -31,6 +31,7 @@ public class SysLogOperateController {
      * @param request
      * @return
      */
+    @AuthReq
     @RequestMapping("/getSysLogOperateById")
     public ResultData<SysLogOperate> getSysLogOperateById(@RequestBody SysLogOperate request) {
         return sysLogOperateService.getSysLogOperateById(request);
