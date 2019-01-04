@@ -2,6 +2,7 @@ package org.ewlive.service.system;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.entity.system.SysMenu;
@@ -64,6 +65,24 @@ public class SysMenuService {
         return data;
     }
 
+
+    /**
+     * 模糊查询菜单(分页)
+     *
+     * @param request
+     * @return
+     */
+    public ResultData<Page<SysMenu>> likeSearchSysMenuByPage(SysMenu request) {
+        log.info("模糊查询菜单(分页):请求参数=====>" + JSON.toJSONString(request));
+        ResultData<Page<SysMenu>> data = new ResultData<>();
+        Page<SysMenu> page = new Page<>(request.getCurrent(), request.getSize());
+        //模糊查询菜单(分页)
+        List<SysMenu> sysMenuList = sysMenuMapper.likeSearchSysMenuByPage(page, request);
+        page.setRecords(sysMenuList);
+        data.setData(page);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysMenuList));
+        return data;
+    }
 
     /**
      * 添加菜单

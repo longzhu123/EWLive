@@ -1,17 +1,16 @@
 package org.ewlive.controller.system;
 
-import java.util.List;
-
+import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
+import org.ewlive.entity.system.SysMenu;
+import org.ewlive.result.ResultData;
+import org.ewlive.service.system.SysMenuService;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-
-import org.ewlive.result.ResultData;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.ewlive.entity.system.SysMenu;
-import org.ewlive.service.system.SysMenuService;
+import java.util.List;
 
 /**
  * 菜单Controller
@@ -46,6 +45,18 @@ public class SysMenuController {
     @RequestMapping("/getSysMenuByParams")
     public ResultData<List<SysMenu>> getSysMenuByParams(@RequestBody SysMenu request) {
         return sysMenuService.getSysMenuByParams(request);
+    }
+
+    /**
+     * 模糊查询菜单(分页)
+     *
+     * @param request
+     * @return
+     */
+    @AuthReq
+    @RequestMapping("/likeSearchSysMenuByPage")
+    public ResultData<Page<SysMenu>> likeSearchSysMenuByPage(@RequestBody SysMenu request) {
+        return sysMenuService.likeSearchSysMenuByPage(request);
     }
 
     /**

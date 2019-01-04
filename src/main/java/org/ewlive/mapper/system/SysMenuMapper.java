@@ -1,7 +1,10 @@
 package org.ewlive.mapper.system;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import org.ewlive.entity.system.SysMenu;
+
+import java.util.List;
 
 
 /**
@@ -9,6 +12,16 @@ import org.ewlive.entity.system.SysMenu;
  * Create by yangjie on 2018/12/18
  */
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
+
+
+    /**
+     * 模糊查询菜单(分页)
+     *
+     * @param pagination
+     * @param sysMenuMapper
+     * @return
+     */
+    List<SysMenu> likeSearchSysMenuByPage(Pagination pagination, SysMenu sysMenuMapper);
 
 
     /**

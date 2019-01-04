@@ -17,6 +17,25 @@
 		sys_menu.comment
 	</sql>
 
+    <!--模糊查询菜单(分页)-->
+    <select id="likeSearchSysMenuByPage"  resultType="org.ewlive.entity.system.SysMenu" parameterType="org.ewlive.entity.system.SysMenu">
+        select <include refid="Base_Column_List"/> from sys_menu
+        where 1=1
+        <if test="id != null"> and id=#{id}</if>
+        <if test="menuName != null"> and menu_name=#{menuName}</if>
+        <if test="menuUrl != null"> and menu_url=#{menuUrl}</if>
+        <if test="menuIcon != null"> and menu_icon=#{menuIcon}</if>
+        <if test="parentId != null"> and parent_id=#{parentId}</if>
+        <if test="menuSort != null"> and menu_sort=#{menuSort}</if>
+        <if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+        <if test="createTime != null"> and create_time=#{createTime}</if>
+        <if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+        <if test="updateTime != null"> and update_time=#{updateTime}</if>
+        <if test="comment != null"> and comment=#{comment}</if>
+        order by create_time
+    </select>
+
+
     <!--添加菜单-->
     <insert id="addSysMenu" parameterType="org.ewlive.entity.system.SysMenu">
         insert into sys_menu
