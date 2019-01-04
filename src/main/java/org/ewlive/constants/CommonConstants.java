@@ -14,4 +14,6 @@ public class CommonConstants {
     //字典项的缓存key
     public static final String DIC_ITEM_CACHE_KEY = "dic_item_cache";
 
+    //最顶层的菜单parentId
+    public static final String TOP_MENU_PARENT_ID = "0";
 }

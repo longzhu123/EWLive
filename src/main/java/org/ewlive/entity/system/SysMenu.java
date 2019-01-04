@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.ewlive.entity.common.Base;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 菜单Bean 
@@ -96,6 +97,13 @@ public class SysMenu extends Base {
 	 */
 	@TableField("comment")
 	private String comment;
+
+
+	/**
+	 * 子菜单集合
+	 */
+	@TableField(exist = false)
+	private List<SysMenu> children;
 
 
 }

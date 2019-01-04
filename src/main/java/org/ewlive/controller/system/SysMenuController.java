@@ -60,6 +60,18 @@ public class SysMenuController {
     }
 
     /**
+     * 模糊查询菜单(层级展示,分页)
+     *
+     * @param request
+     * @return
+     */
+    @AuthReq
+    @RequestMapping("/likeSearchSysMenuTreeByPage")
+    public ResultData<Page<SysMenu>> likeSearchSysMenuTreeByPage(@RequestBody SysMenu request) {
+        return sysMenuService.likeSearchSysMenuTreeByPage(request);
+    }
+
+    /**
      * 添加菜单
      *
      * @param request

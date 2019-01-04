@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.entity.system.SysMenu;
 import org.ewlive.entity.system.SysUser;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,6 +85,37 @@ public class SysMenuService {
         log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysMenuList));
         return data;
     }
+
+    /**
+     * 查询菜单(层级展示,分页)
+     *
+     * @param request
+     * @return
+     */
+    public ResultData<Page<SysMenu>> likeSearchSysMenuTreeByPage(SysMenu request) {
+        log.info("查询菜单(层级展示,分页):请求参数=====>" + JSON.toJSONString(request));
+        ResultData<Page<SysMenu>> data = new ResultData<>();
+        Page<SysMenu> page = new Page<>(request.getCurrent(), request.getSize());
+
+        //查询所有的菜单
+        List<SysMenu> allSysMenu = sysMenuMapper.selectList(new EntityWrapper<>());
+
+        //查询最顶层的菜单列表
+        SysMenu topParentReq = new SysMenu();
+        topParentReq.setParentId(CommonConstants.TOP_MENU_PARENT_ID);
+        List<SysMenu> sysMenuList = sysMenuMapper.likeSearchSysMenuByPage(page, topParentReq);
+
+        //将sysMenuList下面所有的子菜单进行拼接
+        for (SysMenu sysMenu : sysMenuList) {
+            List<SysMenu> childList = sortTreeMenuList(sysMenu, allSysMenu);
+            sysMenu.setChildren(childList);
+        }
+        page.setRecords(sysMenuList);
+        data.setData(page);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysMenuList));
+        return data;
+    }
+
 
     /**
      * 添加菜单
@@ -199,4 +232,21 @@ public class SysMenuService {
         }
     }
 
+    /**
+     * 将当前菜单下面所有的子菜单递归拼接
+     *
+     * @param sysMenu    当前菜单对象
+     * @param allSysMenu 所有的菜单List
+     */
+    public List<SysMenu> sortTreeMenuList(SysMenu sysMenu, List<SysMenu> allSysMenu) {
+        List<SysMenu> childList = new ArrayList<>();
+        for (SysMenu menu : allSysMenu) {
+            if (sysMenu.getId().equals(menu.getParentId())) {
+                List<SysMenu> sysMenus = sortTreeMenuList(menu, allSysMenu);
+                childList.add(menu);
+                childList.addAll(sysMenus);
+            }
+        }
+        return childList;
+    }
 }
