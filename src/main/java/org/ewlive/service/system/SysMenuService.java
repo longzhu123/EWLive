@@ -98,7 +98,9 @@ public class SysMenuService {
         Page<SysMenu> page = new Page<>(request.getCurrent(), request.getSize());
 
         //查询所有的菜单
-        List<SysMenu> allSysMenu = sysMenuMapper.selectList(new EntityWrapper<>());
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.orderBy("menu_sort",true);
+        List<SysMenu> allSysMenu = sysMenuMapper.selectList(entityWrapper);
 
         //查询最顶层的菜单列表
         SysMenu topParentReq = new SysMenu();
