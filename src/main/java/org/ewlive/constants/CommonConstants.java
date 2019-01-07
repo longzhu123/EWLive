@@ -15,6 +15,6 @@ public class CommonConstants {
     public static final String DIC_ITEM_CACHE_KEY = "dic_item_cache";
 
     //最顶层的菜单id
-    public static final String TOP_MENU_ID = "822e85d9327649d487fd6031cb093461";
+    public static final String TOP_MENU_ID = "099ce9a9f85b4ef896da216d33e28ce3";
 
 }
