@@ -99,12 +99,12 @@ public class SysMenuService {
 
         //查询所有的菜单
         EntityWrapper entityWrapper = new EntityWrapper();
-        entityWrapper.orderBy("menu_sort",true);
+        entityWrapper.orderBy("menu_sort", true);
         List<SysMenu> allSysMenu = sysMenuMapper.selectList(entityWrapper);
 
         //查询最顶层的菜单列表
         SysMenu topParentReq = new SysMenu();
-        topParentReq.setParentId(CommonConstants.TOP_MENU_PARENT_ID);
+        topParentReq.setId(CommonConstants.TOP_MENU_ID);
         List<SysMenu> sysMenuList = sysMenuMapper.likeSearchSysMenuByPage(page, topParentReq);
 
         //将sysMenuList下面所有的子菜单进行拼接
@@ -186,6 +186,10 @@ public class SysMenuService {
         //检查ids是否为空
         checkParamsIds(request);
         log.info("参数校验成功,ids不为空");
+        if (request.getIds().contains(CommonConstants.TOP_MENU_ID)) {
+            log.info("不能删除顶层的菜单节点");
+            throw new ServiceException(ExceptionConstants.NOT_DEL_TOP_MENU);
+        }
         ResultData data = new ResultData();
         //根据ids批量删除菜单
         int i = sysMenuMapper.deleteBatchIds(request.getIds());
@@ -234,6 +238,7 @@ public class SysMenuService {
         }
     }
 
+
     /**
      * 将当前菜单下面所有的子菜单递归拼接
      *
@@ -245,10 +250,12 @@ public class SysMenuService {
         for (SysMenu menu : allSysMenu) {
             if (sysMenu.getId().equals(menu.getParentId())) {
                 List<SysMenu> sysMenus = sortTreeMenuList(menu, allSysMenu);
+                menu.setChildren(sysMenus.size() == 0 ? null : sysMenus);
                 childList.add(menu);
-                childList.addAll(sysMenus);
             }
         }
         return childList;
     }
+
+
 }
