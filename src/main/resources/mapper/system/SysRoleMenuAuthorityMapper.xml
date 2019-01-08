@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.system.SysRoleMenuAuthorityMapper">
+
+	<!--角色菜单权限基础列-->
+	<sql id="Base_Column_List">
+		sys_role_menu_authority.id,
+		sys_role_menu_authority.menu_id as menuId,
+		sys_role_menu_authority.user_role_id as userRoleId,
+		sys_role_menu_authority.create_user_id as createUserId,
+		sys_role_menu_authority.create_time as createTime,
+		sys_role_menu_authority.update_user_id as updateUserId,
+		sys_role_menu_authority.update_time as updateTime,
+		sys_role_menu_authority.comment
+	</sql>
+
+	<!--模糊查询角色菜单权限(分页)-->
+	<select id="likeSearchSysRoleMenuAuthorityByPage"  resultType="org.ewlive.entity.system.SysRoleMenuAuthority" parameterType="org.ewlive.entity.system.SysRoleMenuAuthority">
+		select <include refid="Base_Column_List"/> from sys_role_menu_authority
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="menuId != null"> and menu_id=#{menuId}</if>
+		<if test="userRoleId != null"> and user_role_id=#{userRoleId}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+		order by create_time
+	</select>
+
+	<!--添加角色菜单权限-->
+	<insert id="addSysRoleMenuAuthority"  parameterType="org.ewlive.entity.system.SysRoleMenuAuthority">
+		insert into sys_role_menu_authority
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="menuId != null">menu_id,</if>
+			<if test="userRoleId != null">user_role_id,</if>
+			<if test="createUserId != null">create_user_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateUserId != null">update_user_id,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="comment != null">comment,</if> 
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
+			<if test="id != null ">#{id},</if>
+			<if test="menuId != null ">#{menuId},</if>
+			<if test="userRoleId != null ">#{userRoleId},</if>
+			<if test="createUserId != null ">#{createUserId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateUserId != null ">#{updateUserId},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="comment != null ">#{comment},</if>
+		</trim>
+	</insert>
+
+	<!--根据Id修改角色菜单权限-->
+	<update id="updateSysRoleMenuAuthorityById" parameterType="org.ewlive.entity.system.SysRoleMenuAuthority">
+		update sys_role_menu_authority
+		<set>
+			<if test="menuId != null">menu_id=#{menuId},</if>
+			<if test="userRoleId != null">user_role_id=#{userRoleId},</if>
+			<if test="createUserId != null">create_user_id=#{createUserId},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+			<if test="comment != null">comment=#{comment},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!--批量插入用户角色关系-->
+	<insert id="insertBatchSysRoleMenuAuthority">
+		insert into
+		sys_role_menu_authority
+		(id, menu_id, user_role_id, create_user_id, create_time, update_user_id, update_time, comment)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.id},
+			#{item.menuId},
+			#{item.userRoleId},
+			#{item.createUserId},
+			#{item.createTime},
+			#{item.updateUserId},
+			#{item.updateTime},
+			#{item.comment}
+			)
+		</foreach>
+	</insert>
+</mapper>

@@ -62,4 +62,6 @@ public class ExceptionConstants {
     public static final String TASKTIMESPAN_NOT_NULL = "耗时不能为空";
 
     public static final String NOT_DEL_TOP_MENU = "不能删除顶层的菜单节点";
+
+    public static final String MENUID_NOT_NULL = "菜单编号不能为空";
 }
