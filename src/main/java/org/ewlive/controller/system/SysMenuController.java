@@ -48,6 +48,19 @@ public class SysMenuController {
     }
 
     /**
+     * 查询菜单(层级展示)
+     * @param request
+     * @return
+     */
+    @AuthReq
+    @RequestMapping("/getSysMenuTree")
+    public ResultData<List<SysMenu>> getSysMenuTree(@RequestBody SysMenu request) {
+        return sysMenuService.getSysMenuTree(request);
+    }
+
+
+
+    /**
      * 模糊查询菜单(分页)
      *
      * @param request

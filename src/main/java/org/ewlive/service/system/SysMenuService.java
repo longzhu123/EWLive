@@ -69,6 +69,37 @@ public class SysMenuService {
 
 
     /**
+     * 查询菜单(层级展示)
+     *
+     * @param request
+     * @return
+     */
+    public ResultData<List<SysMenu>> getSysMenuTree(SysMenu request) {
+        log.info("查询菜单(层级展示):请求参数=====>" + JSON.toJSONString(request));
+        ResultData<List<SysMenu>> data = new ResultData<>();
+
+        //查询所有的菜单
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.orderBy("menu_sort", true);
+        List<SysMenu> allSysMenu = sysMenuMapper.selectList(entityWrapper);
+
+        //查询最顶层的菜单列表
+        SysMenu topParentReq = new SysMenu();
+        topParentReq.setId(CommonConstants.TOP_MENU_ID);
+        List<SysMenu> sysMenuList = sysMenuMapper.selectList(new EntityWrapper<>(topParentReq));
+
+        //将sysMenuList下面所有的子菜单进行拼接
+        for (SysMenu sysMenu : sysMenuList) {
+            List<SysMenu> childList = sortTreeMenuList(sysMenu, allSysMenu);
+            sysMenu.setChildren(childList);
+        }
+        data.setData(sysMenuList);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysMenuList));
+        return data;
+    }
+
+
+    /**
      * 模糊查询菜单(分页)
      *
      * @param request
@@ -190,6 +221,7 @@ public class SysMenuService {
             log.info("不能删除顶层的菜单节点");
             throw new ServiceException(ExceptionConstants.NOT_DEL_TOP_MENU);
         }
+
         ResultData data = new ResultData();
         //根据ids批量删除菜单
         int i = sysMenuMapper.deleteBatchIds(request.getIds());
