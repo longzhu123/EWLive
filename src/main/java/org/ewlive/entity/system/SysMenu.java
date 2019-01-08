@@ -54,6 +54,12 @@ public class SysMenu extends Base {
 	@TableField("parent_id")
 	private String parentId;
 
+	/**
+	 * 菜单层级
+	 */
+	@TableField("menu_level")
+	private  Integer menuLevel;
+
 
 	/**
 	 * 菜单排序号
