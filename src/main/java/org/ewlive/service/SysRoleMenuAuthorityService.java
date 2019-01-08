@@ -217,13 +217,13 @@ public class SysRoleMenuAuthorityService {
      * @param request
      */
     public void checkParamsForAdd(SysRoleMenuAuthority request) {
-        //判断菜单编号是否为空
-        if (CommonUtil.isStringEmpty(request.getMenuId())) {
-            throw new ServiceException(ExceptionConstants.MENUID_NOT_NULL);
+        //判断橘色编号是否为空
+        if (CommonUtil.isStringEmpty(request.getUserRoleId())) {
+            throw new ServiceException(ExceptionConstants.ROLEID_NOT_NULL);
         }
-        //判断用户角色编号集合是否为空
+        //判断菜单编号集合是否为空
         if (CommonUtil.isCollectionEmpty(request.getUserRoleMenuIds())) {
-            throw new ServiceException(ExceptionConstants.ROLEIDS_NOT_NULL);
+            throw new ServiceException(ExceptionConstants.MENUIDS_NOT_NULL);
         }
     }
 
