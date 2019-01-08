@@ -118,6 +118,7 @@ public class SysRoleMenuAuthorityService {
         request.getUserRoleMenuIds().forEach(item->{
             SysRoleMenuAuthority sysRoleMenuAuthority = new SysRoleMenuAuthority();
             sysRoleMenuAuthority.setId(CommonUtil.createUUID());
+            sysRoleMenuAuthority.setMenuId(item);
             sysRoleMenuAuthority.setUserRoleId(request.getUserRoleId());
             sysRoleMenuAuthority.setCreateTime(new Timestamp(System.currentTimeMillis()));
             //获取当前用户
@@ -220,9 +221,9 @@ public class SysRoleMenuAuthorityService {
         if (CommonUtil.isStringEmpty(request.getMenuId())) {
             throw new ServiceException(ExceptionConstants.MENUID_NOT_NULL);
         }
-        //判断用户角色编号是否为空
-        if (CommonUtil.isStringEmpty(request.getUserRoleId())) {
-            throw new ServiceException(ExceptionConstants.USERROLEID_NOT_NULL);
+        //判断用户角色编号集合是否为空
+        if (CommonUtil.isCollectionEmpty(request.getUserRoleMenuIds())) {
+            throw new ServiceException(ExceptionConstants.ROLEIDS_NOT_NULL);
         }
     }
 
