@@ -162,6 +162,10 @@ public class SysMenuService {
         //检查必填参数项是否空
         checkParamsForAdd(request);
         log.info("添加====>参数校验成功");
+
+        SysMenu parentMenu = sysMenuMapper.selectById(request.getParentId());
+        request.setMenuLevel(parentMenu.getMenuLevel()+1);
+
         ResultData data = new ResultData();
         //获取当前用户
         SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
@@ -190,6 +194,12 @@ public class SysMenuService {
         //检查id是否为空
         checkParamsId(request);
         log.info("参数校验成功,id不为空");
+
+        SysMenu sysMenu = sysMenuMapper.selectById(request.getId());
+        if (sysMenu.getId().equals(CommonConstants.TOP_MENU_ID)) {
+            throw new ServiceException(ExceptionConstants.TOP_MENU_NO_UPDATE);
+        }
+
         ResultData data = new ResultData();
         //获取当前用户
         SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());

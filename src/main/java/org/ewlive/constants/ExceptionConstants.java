@@ -67,4 +67,6 @@ public class ExceptionConstants {
 
     public static final String ROLEID_NOT_NULL = "角色编号不能为空";
 
+    public static final String TOP_MENU_NO_UPDATE = "不能编辑顶级菜单";
+
 }
