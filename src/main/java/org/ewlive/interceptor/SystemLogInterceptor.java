@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.ewlive.service.system.SysLogErrorService;
+import org.ewlive.service.system.SysLogOperateService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -20,6 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 public class SystemLogInterceptor {
 
 
+    @Resource
+    private SysLogOperateService sysLogOperateService;
+
+    @Resource
+    private SysLogErrorService sysLogErrorService;
 
 
     private static Long use_second = 0l;
