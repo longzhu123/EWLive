@@ -763,7 +763,7 @@ public class AutoTableDao {
     public static String getMapperJavaStr(String className, String entityComment, String tableComment) {
         StringBuffer sb = new StringBuffer();
         StringBuffer searchSb = new StringBuffer();
-        String tempName= CommonUtils.toLowerCaseFirstOne(className);
+        String tempName= CommonUtils.toLowerCaseFirstOne(className).replaceAll("Mapper","");
         sb.append("package " + PropertiesUtil.get("auto.mapper.package") + ";");
         sb.append("\n\rimport java.util.List;");
         String entityName = className.substring(0, className.indexOf("Mapper"));
