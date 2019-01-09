@@ -41,7 +41,7 @@ public class SysLogOperate extends Base {
 
 
     /**
-     * 操作耗时
+     * 操作耗时(ms)
      */
     @TableField("task_time_span")
     private Integer taskTimeSpan;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.entity.system.SysRoleMenuAuthority;
 import org.ewlive.result.ResultData;
-import org.ewlive.service.SysRoleMenuAuthorityService;
+import org.ewlive.service.system.SysRoleMenuAuthorityService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

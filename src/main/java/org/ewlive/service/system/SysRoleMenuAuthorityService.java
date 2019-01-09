@@ -1,4 +1,4 @@
-package org.ewlive.service;
+package org.ewlive.service.system;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
