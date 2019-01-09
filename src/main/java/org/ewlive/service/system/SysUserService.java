@@ -324,6 +324,7 @@ public class SysUserService {
     public void recordSysUserLogLogin(SysUser sysUser) {
         Timestamp curTimeStamp = new Timestamp(System.currentTimeMillis());
         SysLogLogin sysLogLogin = new SysLogLogin();
+        sysLogLogin.setId(CommonUtil.createUUID());
         sysLogLogin.setCreateTime(curTimeStamp);
         sysLogLogin.setCreateUserId(sysUser.getId());
         sysLogLogin.setLoginIp(CommonUtil.getIpAddr(CommonUtil.getHttpSerlvetRequest()));
