@@ -69,4 +69,8 @@ public class ExceptionConstants {
 
     public static final String TOP_MENU_NO_UPDATE = "不能编辑顶级菜单";
 
+    public static final String LOGINIP_NOT_NULL = "登录IP不能为空";
+
+    public static final String LOGINTIME_NOT_NULL = "登录时间不能为空";
+
 }
