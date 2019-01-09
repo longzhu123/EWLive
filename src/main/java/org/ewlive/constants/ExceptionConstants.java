@@ -73,4 +73,19 @@ public class ExceptionConstants {
 
     public static final String LOGINTIME_NOT_NULL = "登录时间不能为空";
 
+    public  static  final  String FUNCTION_NOT_NULL = "异常方法不能为空";
+
+    public  static  final  String FUNDESCRIPTION_NOT_NULL = "方法描述不能为空";
+
+    public  static  final  String REQPERSON_NOT_NULL = "请求人不能为空";
+
+    public  static  final  String REQIP_NOT_NULL = "请求IP不能为空";
+
+    public  static  final  String REQPARAMS_NOT_NULL = "请求参数不能为空";
+
+    public  static  final  String ERRORMSG_NOT_NULL = "异常信息不能为空";
+
+
+
+
 }
