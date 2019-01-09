@@ -18,26 +18,26 @@ public interface SysRoleMenuAuthorityMapper extends BaseMapper<SysRoleMenuAuthor
      * 模糊查询角色菜单权限(分页)
      *
      * @param pagination
-     * @param sysRoleMenuAuthorityMapper
+     * @param sysRoleMenuAuthority
      * @return
      */
-    List<SysRoleMenuAuthority> likeSearchSysRoleMenuAuthorityByPage(Pagination pagination, SysRoleMenuAuthority sysRoleMenuAuthorityMapper);
+    List<SysRoleMenuAuthority> likeSearchSysRoleMenuAuthorityByPage(Pagination pagination, SysRoleMenuAuthority sysRoleMenuAuthority);
 
     /**
      * 添加角色菜单权限
      *
-     * @param sysRoleMenuAuthorityMapper
+     * @param sysRoleMenuAuthority
      * @return
      */
-    int addSysRoleMenuAuthority(SysRoleMenuAuthority sysRoleMenuAuthorityMapper);
+    int addSysRoleMenuAuthority(SysRoleMenuAuthority sysRoleMenuAuthority);
 
     /**
      * 根据Id修改角色菜单权限
      *
-     * @param sysRoleMenuAuthorityMapper
+     * @param sysRoleMenuAuthority
      * @return
      */
-    int updateSysRoleMenuAuthorityById(SysRoleMenuAuthority sysRoleMenuAuthorityMapper);
+    int updateSysRoleMenuAuthorityById(SysRoleMenuAuthority sysRoleMenuAuthority);
 
     /**
      * 批量插入角色菜单关系

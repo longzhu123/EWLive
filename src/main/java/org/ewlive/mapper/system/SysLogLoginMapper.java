@@ -17,26 +17,26 @@ public interface SysLogLoginMapper extends BaseMapper<SysLogLogin> {
      * 模糊查询登录日志(分页)
      *
      * @param pagination
-     * @param sysLogLoginMapper
+     * @param sysLogLogin
      * @return
      */
-    List<SysLogLogin> likeSearchSysLogLoginByPage(Pagination pagination, SysLogLogin sysLogLoginMapper);
+    List<SysLogLogin> likeSearchSysLogLoginByPage(Pagination pagination, SysLogLogin sysLogLogin);
 
     /**
      * 添加登录日志
      *
-     * @param sysLogLoginMapper
+     * @param sysLogLogin
      * @return
      */
-    int addSysLogLogin(SysLogLogin sysLogLoginMapper);
+    int addSysLogLogin(SysLogLogin sysLogLogin);
 
     /**
      * 根据Id修改登录日志
      *
-     * @param sysLogLoginMapper
+     * @param sysLogLogin
      * @return
      */
-    int updateSysLogLoginById(SysLogLogin sysLogLoginMapper);
+    int updateSysLogLoginById(SysLogLogin sysLogLogin);
 
 
 }

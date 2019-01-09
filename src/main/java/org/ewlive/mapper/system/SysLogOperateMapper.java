@@ -17,26 +17,26 @@ public interface SysLogOperateMapper extends BaseMapper<SysLogOperate> {
      * 模糊查询操作日志(分页)
      *
      * @param pagination
-     * @param sysLogOperateMapper
+     * @param sysLogOperate
      * @return
      */
-    List<SysLogOperate> likeSearchSysLogOperateByPage(Pagination pagination, SysLogOperate sysLogOperateMapper);
+    List<SysLogOperate> likeSearchSysLogOperateByPage(Pagination pagination, SysLogOperate sysLogOperate);
 
     /**
      * 添加操作日志
      *
-     * @param sysLogOperateMapper
+     * @param sysLogOperate
      * @return
      */
-    int addSysLogOperate(SysLogOperate sysLogOperateMapper);
+    int addSysLogOperate(SysLogOperate sysLogOperate);
 
     /**
      * 根据Id修改操作日志
      *
-     * @param sysLogOperateMapper
+     * @param sysLogOperate
      * @return
      */
-    int updateSysLogOperateById(SysLogOperate sysLogOperateMapper);
+    int updateSysLogOperateById(SysLogOperate sysLogOperate);
 
 
 }

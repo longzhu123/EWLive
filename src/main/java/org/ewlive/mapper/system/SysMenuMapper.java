@@ -18,27 +18,27 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * 模糊查询菜单(分页)
      *
      * @param pagination
-     * @param sysMenuMapper
+     * @param sysMenu
      * @return
      */
-    List<SysMenu> likeSearchSysMenuByPage(Pagination pagination, SysMenu sysMenuMapper);
+    List<SysMenu> likeSearchSysMenuByPage(Pagination pagination, SysMenu sysMenu);
 
 
     /**
      * 添加菜单
      *
-     * @param sysMenuMapper
+     * @param sysMenu
      * @return
      */
-    int addSysMenu(SysMenu sysMenuMapper);
+    int addSysMenu(SysMenu sysMenu);
 
     /**
      * 根据Id修改菜单
      *
-     * @param sysMenuMapper
+     * @param sysMenu
      * @return
      */
-    int updateSysMenuById(SysMenu sysMenuMapper);
+    int updateSysMenuById(SysMenu sysMenu);
 
 
 }
