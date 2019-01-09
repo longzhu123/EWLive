@@ -7,16 +7,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.CommonConstants;
 import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.constants.ResultConstants;
+import org.ewlive.entity.system.SysLogLogin;
 import org.ewlive.entity.system.SysUser;
 import org.ewlive.exception.ServiceException;
+import org.ewlive.mapper.system.SysLogLoginMapper;
 import org.ewlive.mapper.system.SysUserMapper;
 import org.ewlive.result.ResultData;
 import org.ewlive.util.CommonUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +36,9 @@ public class SysUserService {
 
     @Resource
     private SysUserMapper sysUserMapper;
+
+    @Resource
+    private SysLogLoginMapper sysLogLoginMapper;
 
     /**
      * 根据id查询用户
@@ -245,8 +253,9 @@ public class SysUserService {
         }
         CommonConstants.map.put(sysUser.getToken(), JSON.toJSONString(sysUser));
         CommonConstants.map.put(sysUser.getId(), sysUser.getToken());
-
         data.setData(sysUser);
+        //记录用户登录日志
+        recordSysUserLogLogin(sysUser);
         return data;
     }
 
@@ -267,21 +276,22 @@ public class SysUserService {
 
     /**
      * 模糊查询用户(分页)
+     *
      * @param request
      * @return
      */
-    public ResultData<Page<SysUser>> likeSearchSysUserByPage(SysUser request){
-        log.info("模糊查询用户(分页):请求参数=====>"+JSON.toJSONString(request));
-        if(Objects.isNull(request.getCurrent()) || Objects.isNull(request.getSize())){
-            throw  new ServiceException(ExceptionConstants.PAGE_LESS_PARAM);
+    public ResultData<Page<SysUser>> likeSearchSysUserByPage(SysUser request) {
+        log.info("模糊查询用户(分页):请求参数=====>" + JSON.toJSONString(request));
+        if (Objects.isNull(request.getCurrent()) || Objects.isNull(request.getSize())) {
+            throw new ServiceException(ExceptionConstants.PAGE_LESS_PARAM);
         }
-        ResultData<Page<SysUser>> data= new ResultData<>();
-        Page<SysUser> page = new Page<>(request.getCurrent(),request.getSize());
+        ResultData<Page<SysUser>> data = new ResultData<>();
+        Page<SysUser> page = new Page<>(request.getCurrent(), request.getSize());
         //模糊查询用户(分页)
-        List<SysUser> sysUserList = sysUserMapper.likeSearchSysUserByPage(page,request);
+        List<SysUser> sysUserList = sysUserMapper.likeSearchSysUserByPage(page, request);
         page.setRecords(sysUserList);
         data.setData(page);
-        log.info("数据请求成功,=====>返回:"+JSON.toJSONString(sysUserList));
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysUserList));
         return data;
     }
 
@@ -296,14 +306,34 @@ public class SysUserService {
         ResultData resultData = new ResultData();
         String token = sysUser.getToken();
         if (CommonUtil.isStringEmpty(token)) {
-            throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE,ExceptionConstants.TOKEN_NOT_NULL);
+            throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE, ExceptionConstants.TOKEN_NOT_NULL);
         }
         String user = CommonConstants.map.get(token);
         if (CommonUtil.isStringEmpty(user)) {
-            throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE,ExceptionConstants.AUTH_TOKEN_FAIL);
+            throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE, ExceptionConstants.AUTH_TOKEN_FAIL);
         }
         return resultData;
     }
 
 
+    /**
+     * 记录用户的登录日志
+     *
+     * @param sysUser
+     */
+    public void recordSysUserLogLogin(SysUser sysUser) {
+        Timestamp curTimeStamp = new Timestamp(System.currentTimeMillis());
+        SysLogLogin sysLogLogin = new SysLogLogin();
+        sysLogLogin.setCreateTime(curTimeStamp);
+        sysLogLogin.setCreateUserId(sysUser.getId());
+        sysLogLogin.setLoginIp(CommonUtil.getIpAddr(CommonUtil.getHttpSerlvetRequest()));
+        sysLogLogin.setLoginTime(curTimeStamp);
+        sysLogLogin.setUserId(sysUser.getId());
+        int i = sysLogLoginMapper.addSysLogLogin(sysLogLogin);
+        if (i == 0) {
+            log.error("记录用户日志失败");
+            throw new ServiceException(ExceptionConstants.ADD_FAIL);
+        }
+        log.error("记录用户日志成功");
+    }
 }
