@@ -6,7 +6,7 @@
 	<sql id="Base_Column_List">
 		sys_log_login.id,
 		sys_log_login.user_id as userId,
-		sys_log_login.nick_name as nickName
+		sys_log_login.nick_name as nickName,
 		sys_log_login.login_ip as loginIp,
 		sys_log_login.login_time as loginTime,
 		sys_log_login.create_user_id as createUserId,
