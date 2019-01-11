@@ -4,14 +4,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.ewlive.aop.SysLog;
+import org.ewlive.entity.system.SysLogOperate;
 import org.ewlive.service.system.SysLogErrorService;
 import org.ewlive.service.system.SysLogOperateService;
+import org.ewlive.util.CommonUtil;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 
 /**
  * 系统日志拦截类
@@ -29,7 +35,7 @@ public class SystemLogInterceptor {
     private SysLogErrorService sysLogErrorService;
 
 
-    private static Long use_second = 0l;
+    private static Long useSecond = 0l;
 
 
     //service层切入点
@@ -46,7 +52,7 @@ public class SystemLogInterceptor {
      */
     @Before("serviceAspect()")
     public void doBefore(JoinPoint joinPoint) throws Exception {
-        use_second = System.currentTimeMillis();
+        useSecond = System.currentTimeMillis();
     }
 
     /**
@@ -59,9 +65,9 @@ public class SystemLogInterceptor {
     public void doAfter(JoinPoint joinPoint) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
-        use_second = System.currentTimeMillis() - use_second;
+        useSecond = System.currentTimeMillis() - useSecond;
         //新增用户操作日志
-       // asyncTaskService.addSysLogOpearte(joinPoint, use_second, request);
+        addSysLogOpearte(joinPoint,useSecond,request);
     }
 
 
@@ -105,5 +111,112 @@ public class SystemLogInterceptor {
         //asyncTaskService.addSysErrorLog(joinPoint, e, request);
     }
 
+
+    /**
+     * 新增用户操作日志
+     * @param joinPoint
+     * @throws Exception
+     */
+    @Async
+    public void addSysLogOpearte(JoinPoint joinPoint,Long useSecond,HttpServletRequest request) throws Exception {
+        try {
+            String desc = getServiceMthodDescription(joinPoint);
+            Boolean sysLog = getServiceMthodSysLog(joinPoint);
+            if (CommonUtil.isStringNotEmpty(desc) && sysLog) {
+                log.info("记录操作日志开始...");
+                Object[] args = joinPoint.getArgs();
+                MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+                //获取token
+                String token = "";
+                for (int i = 0; i < args.length; i++) {
+                    //获取方法参数
+                    Object arg = args[i];
+                    //获取参数名
+                    String paremeterName = signature.getParameterNames()[i];
+                    if (arg instanceof String && paremeterName.equals("token")) {
+                        token = String.valueOf(arg);
+                        break;
+                    }
+                }
+                //正常日志入库
+                SysLogOperate sysLogOperate = new SysLogOperate();
+                sysLogOperate.setIp(CommonUtil.getIpAddr(request));
+                sysLogOperate.setOperContent(desc);
+                sysLogOperate.setTaskTimeSpan(useSecond);
+                sysLogOperateService.addSysLogOperate(sysLogOperate);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 获取SysLog注解的desc信息
+     *
+     * @param joinPoint 切点
+     * @return 方法描述
+     * @throws Exception
+     */
+    public static String getServiceMthodDescription(JoinPoint joinPoint) throws Exception {
+        //获取目标类名
+        String targetName = joinPoint.getTarget().getClass().getName();
+        //获取方法名
+        String methodName = joinPoint.getSignature().getName();
+        //获取相关参数
+        Object[] arguments = joinPoint.getArgs();
+        //生成类对象
+        Class targetClass = Class.forName(targetName);
+        //获取该类中的方法
+        Method[] methods = targetClass.getMethods();
+
+        String description = "";
+
+        for (Method method : methods) {
+            if (!method.getName().equals(methodName)) {
+                continue;
+            }
+            Class[] clazzs = method.getParameterTypes();
+            if (clazzs.length != arguments.length) {
+                continue;
+            }
+            description = method.getAnnotation(SysLog.class).description();
+        }
+        return description;
+    }
+
+    /**
+     * 获取注解中对是否记录日志操作信息 用于service层注解
+     *
+     * @param joinPoint 切点
+     * @return 方法描述
+     * @throws Exception
+     */
+    public static Boolean getServiceMthodSysLog(JoinPoint joinPoint) throws Exception {
+        //获取目标类名
+        String targetName = joinPoint.getTarget().getClass().getName();
+        //获取方法名
+        String methodName = joinPoint.getSignature().getName();
+        //获取相关参数
+        Object[] arguments = joinPoint.getArgs();
+        //生成类对象
+        Class targetClass = Class.forName(targetName);
+        //获取该类中的方法
+        Method[] methods = targetClass.getMethods();
+
+        Boolean sysLog = null;
+
+        for (Method method : methods) {
+            if (!method.getName().equals(methodName)) {
+                continue;
+            }
+            Class[] clazzs = method.getParameterTypes();
+            if (clazzs.length != arguments.length) {
+                continue;
+            }
+            sysLog = method.getAnnotation(SysLog.class).syslog();
+        }
+        return sysLog;
+    }
 
 }
