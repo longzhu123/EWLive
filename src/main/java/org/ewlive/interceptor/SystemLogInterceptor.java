@@ -1,12 +1,17 @@
 package org.ewlive.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.ewlive.aop.SysLog;
+import org.ewlive.constants.CommonConstants;
+import org.ewlive.entity.system.SysLogError;
 import org.ewlive.entity.system.SysLogOperate;
+import org.ewlive.entity.system.SysUser;
+import org.ewlive.exception.ServiceException;
 import org.ewlive.service.system.SysLogErrorService;
 import org.ewlive.service.system.SysLogOperateService;
 import org.ewlive.util.CommonUtil;
@@ -17,8 +22,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * 系统日志拦截类
@@ -68,7 +76,7 @@ public class SystemLogInterceptor {
                 .getRequestAttributes()).getRequest();
         useSecond = System.currentTimeMillis() - useSecond;
         //新增用户操作日志
-        addSysLogOpearte(joinPoint,useSecond,request);
+        addSysLogOpearte(joinPoint, useSecond, request);
     }
 
 
@@ -115,11 +123,12 @@ public class SystemLogInterceptor {
 
     /**
      * 新增用户操作日志
+     *
      * @param joinPoint
      * @throws Exception
      */
     @Async
-    public void addSysLogOpearte(JoinPoint joinPoint,Long useSecond,HttpServletRequest request) throws Exception {
+    public void addSysLogOpearte(JoinPoint joinPoint, Long useSecond, HttpServletRequest request) throws Exception {
         try {
             String desc = getServiceMthodDescription(joinPoint);
             Boolean sysLog = getServiceMthodSysLog(joinPoint);
@@ -145,16 +154,66 @@ public class SystemLogInterceptor {
 
     /**
      * 新增用户异常日志
+     *
      * @param joinPoint
      */
     @Async
-    public void addSysLogError(JoinPoint joinPoint, Exception e, HttpServletRequest request){
+    public void addSysLogError(JoinPoint joinPoint, Exception ex, HttpServletRequest request) {
         String ip = CommonUtil.getIpAddr(request);
         Object[] args = joinPoint.getArgs();
-        String token = null;
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        try {
+            //获取控制台日志
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ex.printStackTrace(new PrintStream(baos));
+            String exception = baos.toString();
+            /* ========日志输出========= */
+            //异常信息
+            String exptMsg;
+            if (ex instanceof ServiceException) {
+                exptMsg = ((ServiceException) ex).getResultMsg();
+            } else {
+                exptMsg = exception;
+            }
 
+            String exptMethod = (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()");//异常方法
+            String exptMethodDesc = getServiceMthodDescription(joinPoint);//方法描述
+            String exptMethodParams = JSON.toJSONString(args);//请求参数
 
+            //获取token
+            Class reqObj = (joinPoint.getArgs()[0]).getClass().getSuperclass();
+            Field tokenFiled = reqObj.getDeclaredField("token");
+            tokenFiled.setAccessible(true);
+            String token = tokenFiled.get(joinPoint.getArgs()[0]) + "";
+            SysUser sysUser = null;
+            if (CommonUtil.isStringNotEmpty(token)) {
+                sysUser = JSON.parseObject(CommonConstants.map.get(token), SysUser.class);
+            }
+            String nickName = !Objects.isNull(sysUser) ? sysUser.getNickName() : "";
 
+            System.out.println("=====异常通知开始=====");
+
+            log.info("异常信息:" + exptMsg);
+            log.info("异常方法:" + exptMethod);
+            log.info("方法描述:" + exptMethodDesc);
+            log.info("请求人:" + nickName);
+            log.info("请求IP:" + ip);
+            log.info("请求参数:" + exptMethodParams);
+
+            //记录异常操作日志
+            log.info("=====异常操作日志入库=====");
+            SysLogError sysLogError = new SysLogError();
+            sysLogError.setId(CommonUtil.createUUID());
+            sysLogError.setFunction(exptMethod);
+            sysLogError.setFunDescription(exptMethodDesc);
+            sysLogError.setReqPerson(nickName);
+            sysLogError.setReqIp(ip);
+            sysLogError.setReqParams(exptMethodParams);
+            sysLogError.setErrorMsg(exptMsg);
+            sysLogErrorService.addSysLogError(sysLogError);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

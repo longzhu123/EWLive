@@ -93,6 +93,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "添加菜单",syslog = true)
     @RequestMapping("/addSysMenu")
     public ResultData addSysMenu(@RequestBody SysMenu request) {
         return sysMenuService.addSysMenu(request);
