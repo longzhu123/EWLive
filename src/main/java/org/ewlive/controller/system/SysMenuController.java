@@ -31,6 +31,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id查询菜单",syslog = true)
     @RequestMapping("/getSysMenuById")
     public ResultData<SysMenu> getSysMenuById(@RequestBody SysMenu request) {
         return sysMenuService.getSysMenuById(request);
@@ -43,6 +44,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "多条件查询菜单",syslog = true)
     @RequestMapping("/getSysMenuByParams")
     public ResultData<List<SysMenu>> getSysMenuByParams(@RequestBody SysMenu request) {
         return sysMenuService.getSysMenuByParams(request);
@@ -54,6 +56,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "查询菜单(层级展示)",syslog = true)
     @RequestMapping("/getSysMenuTree")
     public ResultData<List<SysMenu>> getSysMenuTree(@RequestBody SysMenu request) {
         return sysMenuService.getSysMenuTree(request);
@@ -68,6 +71,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "模糊查询菜单(分页)",syslog = true)
     @RequestMapping("/likeSearchSysMenuByPage")
     public ResultData<Page<SysMenu>> likeSearchSysMenuByPage(@RequestBody SysMenu request) {
         return sysMenuService.likeSearchSysMenuByPage(request);
@@ -106,6 +110,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id修改菜单",syslog = true)
     @RequestMapping("/updateSysMenuById")
     public ResultData updateSysMenuById(@RequestBody SysMenu request) {
         return sysMenuService.updateSysMenuById(request);
@@ -118,6 +123,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据ids批量删除菜单",syslog = true)
     @RequestMapping("/deleteBatchSysMenuByIds")
     public ResultData deleteBatchSysMenuByIds(@RequestBody SysMenu request) {
         return sysMenuService.deleteBatchSysMenuByIds(request);

@@ -2,6 +2,7 @@ package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
+import org.ewlive.aop.SysLog;
 import org.ewlive.entity.system.SysUser;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysUserService;
@@ -30,6 +31,7 @@ public class SysUserController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id查询用户",syslog = true)
     @RequestMapping("/getSysUserById")
     public ResultData<SysUser> getSysUserById(@RequestBody SysUser request) {
         return sysUserService.getSysUserById(request);
@@ -42,6 +44,7 @@ public class SysUserController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "多条件查询用户",syslog = true)
     @RequestMapping("/getSysUserByParams")
     public ResultData<List<SysUser>> getSysUserByParams(@RequestBody SysUser request) {
         return sysUserService.getSysUserByParams(request);
@@ -54,6 +57,7 @@ public class SysUserController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "添加用户",syslog = true)
     @RequestMapping("/addSysUser")
     public ResultData addSysUser(@RequestBody SysUser request) {
         return sysUserService.addSysUser(request);
@@ -66,6 +70,7 @@ public class SysUserController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id修改用户",syslog = true)
     @RequestMapping("/updateSysUserById")
     public ResultData updateSysUserById(@RequestBody SysUser request) {
         return sysUserService.updateSysUserById(request);
@@ -78,6 +83,7 @@ public class SysUserController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据ids批量删除用户",syslog = true)
     @RequestMapping("/deleteBatchSysUserByIds")
     public ResultData deleteBatchSysUserByIds(@RequestBody SysUser request) {
         return sysUserService.deleteBatchSysUserByIds(request);
@@ -101,6 +107,7 @@ public class SysUserController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "用户登出",syslog = true)
     @RequestMapping("/loginOut")
     public ResultData loginOut(@RequestBody SysUser sysUser) {
         return sysUserService.loginOut(sysUser);
@@ -124,6 +131,7 @@ public class SysUserController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "模糊查询用户(分页)",syslog = true)
     @RequestMapping("/likeSearchSysUserByPage")
     public ResultData<Page<SysUser>> likeSearchSysUserByPage(@RequestBody SysUser request){
         return sysUserService.likeSearchSysUserByPage(request);
