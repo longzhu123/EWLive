@@ -1,12 +1,12 @@
 export const LOAD_#{upName}_LIST = "LOAD_#{upName}_LIST";
 
-export const TABLE_SELECT_CHANGE = "TABLE_SELECT_CHANGE";
+export const TABLE_SELECT_CHANGE = "TABLE_#{upName}_SELECT_CHANGE";
 
-export const TABLE_DEL_ITEM = "TABLE_DEL_ITEM";
+export const TABLE_DEL_ITEM = "TABLE_#{upName}_DEL_ITEM";
 
-export const CHANGE_FILTER_PARAM = "CHANGE_FILTER_PARAM";
+export const CHANGE_FILTER_PARAM = "CHANGE_#{upName}_FILTER_PARAM";
 
-export const RESET_LOAD_GRID = "RESET_LOAD_GRID ";
+export const RESET_LOAD_GRID = "RESET_#{upName}_LOAD_GRID ";
 
 export const IS_SHOW_ADD_#{upName}_MODAL = "IS_SHOW_ADD_#{upName}_MODAL";
 
