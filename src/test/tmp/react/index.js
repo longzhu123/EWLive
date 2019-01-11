@@ -55,7 +55,6 @@ class #{className} extends PureComponent {
                     <span className='control-container'>
                          <Button type="primary" ghost onClick={() => showViewModal(record.id)}>查看</Button>
                          <Button type="primary" ghost onClick={() => showUpdateModal(record.id)}>修改</Button>
-                        <Button type="primary" ghost onClick={() => show#{className}RoleModal(record.id)}>角色设置</Button>
                     </span>
                 ),
             }

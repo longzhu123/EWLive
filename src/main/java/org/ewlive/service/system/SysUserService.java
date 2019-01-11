@@ -330,6 +330,7 @@ public class SysUserService {
         sysLogLogin.setLoginIp(CommonUtil.getIpAddr(CommonUtil.getHttpSerlvetRequest()));
         sysLogLogin.setLoginTime(curTimeStamp);
         sysLogLogin.setUserId(sysUser.getId());
+        sysLogLogin.setNickName(sysUser.getNickName());
         int i = sysLogLoginMapper.addSysLogLogin(sysLogLogin);
         if (i == 0) {
             log.error("记录用户日志失败");

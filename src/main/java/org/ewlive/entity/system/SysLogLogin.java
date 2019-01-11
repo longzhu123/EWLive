@@ -34,6 +34,13 @@ public class SysLogLogin extends Base {
 
 
 	/**
+	 * 昵称
+	 */
+	@TableField("nick_name")
+	private  String nickName;
+
+
+	/**
 	 * 登录IP
 	 */
 	@TableField("login_ip")

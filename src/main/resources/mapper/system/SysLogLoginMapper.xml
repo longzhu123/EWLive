@@ -6,6 +6,7 @@
 	<sql id="Base_Column_List">
 		sys_log_login.id,
 		sys_log_login.user_id as userId,
+		sys_log_login.nick_name as nickName
 		sys_log_login.login_ip as loginIp,
 		sys_log_login.login_time as loginTime,
 		sys_log_login.create_user_id as createUserId,
@@ -22,6 +23,7 @@
 		<if test="id != null"> and id=#{id}</if>
 		<if test="userId != null"> and user_id=#{userId}</if>
 		<if test="loginIp != null"> and login_ip like concat('%',#{loginIp},'%')</if>
+		<if test="nickName != null"> and nick_name like concat('%',#{nickName},'%')</if>
 		<if test="loginTime != null"> and login_time=#{loginTime}</if>
 		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
 		<if test="createTime != null"> and create_time=#{createTime}</if>
@@ -38,6 +40,7 @@
 			<if test="id != null">id,</if>
 			<if test="userId != null">user_id,</if>
 			<if test="loginIp != null">login_ip,</if>
+			<if test="nickName != null">nick_name,</if>
 			<if test="loginTime != null">login_time,</if>
 			<if test="createUserId != null">create_user_id,</if>
 			<if test="createTime != null">create_time,</if>
@@ -49,6 +52,7 @@
 			<if test="id != null ">#{id},</if>
 			<if test="userId != null ">#{userId},</if>
 			<if test="loginIp != null ">#{loginIp},</if>
+			<if test="nickName != null">#{nickName},</if>
 			<if test="loginTime != null ">#{loginTime},</if>
 			<if test="createUserId != null ">#{createUserId},</if>
 			<if test="createTime != null ">#{createTime},</if>
@@ -64,6 +68,7 @@
 		<set>
 			<if test="userId != null">user_id=#{userId},</if>
 			<if test="loginIp != null">login_ip=#{loginIp},</if>
+			<if test="nickName != null">nick_name=#{nickName},</if>
 			<if test="loginTime != null">login_time=#{loginTime},</if>
 			<if test="createUserId != null">create_user_id=#{createUserId},</if>
 			<if test="createTime != null">create_time=#{createTime},</if>
