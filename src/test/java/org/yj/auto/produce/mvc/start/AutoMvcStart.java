@@ -8,5 +8,6 @@ import org.yj.auto.produce.mvc.dao.AutoTableDao;
 public class AutoMvcStart {
     public static void main(String[] args) {
         AutoTableDao.autoMVC();
+//        AutoTableDao.autoHtml();
     }
 }

@@ -513,8 +513,9 @@ public class AutoTableDao {
         sb.append("\n\t\tResultData<" + className + "> data= new " + "ResultData<>();");
         sb.append("\n\t\t//根据id查询" + tableComment);
         sb.append("\n\t\t" + className + " " + classNameTemp + " = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectById(request.getId());");
-        sb.append("\r\n\t\tdata.setData(" + classNameTemp + ");");
-        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "));");
+        sb.append("\n\t\t"+className+" "+"dataObj = " + "DicConvertUtil.convertObjDicDesc("+classNameTemp+","+className+".class)");
+        sb.append("\r\n\t\tdata.setData(dataObj);");
+        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj);");
         sb.append("\r\n\t\treturn data;");
         sb.append("\n\t}\n\n");
 
@@ -525,8 +526,9 @@ public class AutoTableDao {
         sb.append("\n\t\tResultData<List<" + className + ">> data= new ResultData<>();");
         sb.append("\n\t\t//多条件查询" + tableComment + "信息");
         sb.append("\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectList(new EntityWrapper<>(request));");
-        sb.append("\n\t\tdata.setData(" + classNameTemp + "List" + ");");
-        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));");
+        sb.append("\n\t\tList<" + className + ">"+" dataObj = " + "DicConvertUtil.convertArrayDicDesc("+classNameTemp+","+className+".class)");
+        sb.append("\r\n\t\tdata.setData(dataObj);");
+        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj);");
         sb.append("\r\n\t\treturn data;");
         sb.append("\n\t}\n\n");
 
@@ -538,7 +540,8 @@ public class AutoTableDao {
                     "\t\tPage<" + className + "> page = new Page<>(request.getCurrent(),request.getSize());\n" +
                     "\t\t//模糊查询" + tableComment + "(分页)" +
                     "\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".likeSearch" + className + "ByPage(page,request);" +
-                    "\n\t\tpage.setRecords(" + classNameTemp + "List);\n" +
+                    "\n\t\tList<" + className + ">"+" dataObj = " + "DicConvertUtil.convertArrayDicDesc("+classNameTemp+","+className+".class);"+
+                    "\n\t\tpage.setRecords(dataObj);\n" +
                     "\t\tdata.setData(page);\n" +
                     "\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));" +
                     "\n\t\treturn data;\n" +
@@ -1090,5 +1093,12 @@ public class AutoTableDao {
             return s;
 
         }
+    }
+
+    /**
+     * 自动生成前端模板到桌面
+     */
+    public static void autoHtml() {
+
     }
 }

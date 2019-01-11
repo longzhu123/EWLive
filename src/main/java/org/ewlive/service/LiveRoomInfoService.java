@@ -46,7 +46,7 @@ public class LiveRoomInfoService {
         //将字典码转换为中文描述
         LiveRoomInfo dataObj = DicConvertUtil.convertObjDicDesc(liveRoomInfo, LiveRoomInfo.class);
         data.setData(dataObj);
-        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(liveRoomInfo));
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(dataObj));
         return data;
     }
 
