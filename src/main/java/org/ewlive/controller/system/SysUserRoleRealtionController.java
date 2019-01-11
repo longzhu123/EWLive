@@ -2,6 +2,7 @@ package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
+import org.ewlive.aop.SysLog;
 import org.ewlive.entity.system.SysUserRoleRealtion;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysUserRoleRealtionService;
@@ -30,6 +31,7 @@ public class SysUserRoleRealtionController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id查询用户角色关系",syslog = true)
     @RequestMapping("/getSysUserRoleRealtionById")
     public ResultData<SysUserRoleRealtion> getSysUserRoleRealtionById(@RequestBody SysUserRoleRealtion request) {
         return sysUserRoleRealtionService.getSysUserRoleRealtionById(request);
@@ -41,6 +43,8 @@ public class SysUserRoleRealtionController {
      * @param request
      * @return
      */
+    @AuthReq
+    @SysLog(description = "多条件查询用户角色关系",syslog = true)
     @RequestMapping("/getSysUserRoleRealtionByParams")
     public ResultData<List<SysUserRoleRealtion>> getSysUserRoleRealtionByParams(@RequestBody SysUserRoleRealtion request) {
         return sysUserRoleRealtionService.getSysUserRoleRealtionByParams(request);
@@ -54,6 +58,7 @@ public class SysUserRoleRealtionController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "模糊查询用户角色关系(分页)",syslog = true)
     @RequestMapping("/likeSearchSysUserRoleRealtionByPage")
     public ResultData<Page<SysUserRoleRealtion>> likeSearchSysUserRoleRealtionByPage(@RequestBody SysUserRoleRealtion request) {
         return sysUserRoleRealtionService.likeSearchSysUserRoleRealtionByPage(request);
@@ -66,6 +71,7 @@ public class SysUserRoleRealtionController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "添加用户角色关系",syslog = true)
     @RequestMapping("/addSysUserRoleRealtion")
     public ResultData addSysUserRoleRealtion(@RequestBody SysUserRoleRealtion request) {
         return sysUserRoleRealtionService.addSysUserRoleRealtion(request);
@@ -78,6 +84,7 @@ public class SysUserRoleRealtionController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id修改用户角色关系",syslog = true)
     @RequestMapping("/updateSysUserRoleRealtionById")
     public ResultData updateSysUserRoleRealtionById(@RequestBody SysUserRoleRealtion request) {
         return sysUserRoleRealtionService.updateSysUserRoleRealtionById(request);
@@ -90,6 +97,7 @@ public class SysUserRoleRealtionController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据ids批量删除用户角色关系",syslog = true)
     @RequestMapping("/deleteBatchSysUserRoleRealtionByIds")
     public ResultData deleteBatchSysUserRoleRealtionByIds(@RequestBody SysUserRoleRealtion request) {
         return sysUserRoleRealtionService.deleteBatchSysUserRoleRealtionByIds(request);

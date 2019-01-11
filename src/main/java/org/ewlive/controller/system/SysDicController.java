@@ -2,6 +2,7 @@ package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
+import org.ewlive.aop.SysLog;
 import org.ewlive.entity.system.SysDic;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysDicService;
@@ -30,6 +31,7 @@ public class SysDicController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id查询字典",syslog = true)
     @RequestMapping("/getSysDicById")
     public ResultData<SysDic> getSysDicById(@RequestBody SysDic request) {
         return sysDicService.getSysDicById(request);
@@ -42,6 +44,7 @@ public class SysDicController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "多条件查询字典",syslog = true)
     @RequestMapping("/getSysDicByParams")
     public ResultData<List<SysDic>> getSysDicByParams(@RequestBody SysDic request) {
         return sysDicService.getSysDicByParams(request);
@@ -53,6 +56,7 @@ public class SysDicController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "模糊查询字典(分页)",syslog = true)
     @RequestMapping("/likeSearchSysDicByPage")
     public ResultData<Page<SysDic>> likeSearchSysDicByPage(@RequestBody SysDic request){
         return sysDicService.likeSearchSysDicByPage(request);
@@ -66,6 +70,7 @@ public class SysDicController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "添加字典",syslog = true)
     @RequestMapping("/addSysDic")
     public ResultData addSysDic(@RequestBody SysDic request) {
         return sysDicService.addSysDic(request);
@@ -78,6 +83,7 @@ public class SysDicController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id修改字典",syslog = true)
     @RequestMapping("/updateSysDicById")
     public ResultData updateSysDicById(@RequestBody SysDic request) {
         return sysDicService.updateSysDicById(request);
@@ -90,6 +96,7 @@ public class SysDicController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据ids批量删除字典",syslog = true)
     @RequestMapping("/deleteBatchSysDicByIds")
     public ResultData deleteBatchSysDicByIds(@RequestBody SysDic request) {
         return sysDicService.deleteBatchSysDicByIds(request);

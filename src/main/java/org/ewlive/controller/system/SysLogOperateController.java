@@ -3,6 +3,7 @@ package org.ewlive.controller.system;
 import java.util.List;
 
 import org.ewlive.aop.AuthReq;
+import org.ewlive.aop.SysLog;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +33,7 @@ public class SysLogOperateController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id查询操作日志",syslog = true)
     @RequestMapping("/getSysLogOperateById")
     public ResultData<SysLogOperate> getSysLogOperateById(@RequestBody SysLogOperate request) {
         return sysLogOperateService.getSysLogOperateById(request);
@@ -44,6 +46,7 @@ public class SysLogOperateController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "多条件查询操作日志",syslog = true)
     @RequestMapping("/getSysLogOperateByParams")
     public ResultData<List<SysLogOperate>> getSysLogOperateByParams(@RequestBody SysLogOperate request) {
         return sysLogOperateService.getSysLogOperateByParams(request);
@@ -56,6 +59,7 @@ public class SysLogOperateController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "模糊查询操作日志(分页)",syslog = true)
     @RequestMapping("/likeSearchSysLogOperateByPage")
     public ResultData<Page<SysLogOperate>> likeSearchSysLogOperateByPage(@RequestBody SysLogOperate request) {
         return sysLogOperateService.likeSearchSysLogOperateByPage(request);
@@ -68,6 +72,7 @@ public class SysLogOperateController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "添加操作日志",syslog = true)
     @RequestMapping("/addSysLogOperate")
     public ResultData addSysLogOperate(@RequestBody SysLogOperate request) {
         return sysLogOperateService.addSysLogOperate(request);
@@ -80,6 +85,7 @@ public class SysLogOperateController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据id修改操作日志",syslog = true)
     @RequestMapping("/updateSysLogOperateById")
     public ResultData updateSysLogOperateById(@RequestBody SysLogOperate request) {
         return sysLogOperateService.updateSysLogOperateById(request);
@@ -92,6 +98,7 @@ public class SysLogOperateController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "根据ids批量删除操作日志",syslog = true)
     @RequestMapping("/deleteBatchSysLogOperateByIds")
     public ResultData deleteBatchSysLogOperateByIds(@RequestBody SysLogOperate request) {
         return sysLogOperateService.deleteBatchSysLogOperateByIds(request);
