@@ -154,8 +154,9 @@ public class SystemLogInterceptor {
 
     /**
      * 新增用户异常日志
-     *
      * @param joinPoint
+     * @param ex
+     * @param request
      */
     @Async
     public void addSysLogError(JoinPoint joinPoint, Exception ex, HttpServletRequest request) {
@@ -203,6 +204,7 @@ public class SystemLogInterceptor {
             //记录异常操作日志
             log.info("=====异常操作日志入库=====");
             SysLogError sysLogError = new SysLogError();
+            sysLogError.setToken(token);
             sysLogError.setId(CommonUtil.createUUID());
             sysLogError.setFunction(exptMethod);
             sysLogError.setFunDescription(exptMethodDesc);
