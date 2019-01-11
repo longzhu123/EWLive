@@ -17,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -127,19 +128,13 @@ public class SystemLogInterceptor {
                 Object[] args = joinPoint.getArgs();
                 MethodSignature signature = (MethodSignature) joinPoint.getSignature();
                 //获取token
-                String token = "";
-                for (int i = 0; i < args.length; i++) {
-                    //获取方法参数
-                    Object arg = args[i];
-                    //获取参数名
-                    String paremeterName = signature.getParameterNames()[i];
-                    if (arg instanceof String && paremeterName.equals("token")) {
-                        token = String.valueOf(arg);
-                        break;
-                    }
-                }
+                Class reqObj = (joinPoint.getArgs()[0]).getClass().getSuperclass();
+                Field tokenFiled = reqObj.getDeclaredField("token");
+                tokenFiled.setAccessible(true);
+                String token = tokenFiled.get(joinPoint.getArgs()[0]) + "";
                 //正常日志入库
                 SysLogOperate sysLogOperate = new SysLogOperate();
+                sysLogOperate.setToken(token);
                 sysLogOperate.setIp(CommonUtil.getIpAddr(request));
                 sysLogOperate.setOperContent(desc);
                 sysLogOperate.setTaskTimeSpan(useSecond);

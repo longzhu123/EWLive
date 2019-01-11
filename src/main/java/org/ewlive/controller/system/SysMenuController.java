@@ -2,6 +2,7 @@ package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import org.ewlive.aop.AuthReq;
+import org.ewlive.aop.SysLog;
 import org.ewlive.entity.system.SysMenu;
 import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysMenuService;
@@ -79,6 +80,7 @@ public class SysMenuController {
      * @return
      */
     @AuthReq
+    @SysLog(description = "模糊查询菜单(层级展示,分页)",syslog = true)
     @RequestMapping("/likeSearchSysMenuTreeByPage")
     public ResultData<Page<SysMenu>> likeSearchSysMenuTreeByPage(@RequestBody SysMenu request) {
         return sysMenuService.likeSearchSysMenuTreeByPage(request);
