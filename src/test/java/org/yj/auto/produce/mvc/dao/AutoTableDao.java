@@ -98,13 +98,13 @@ public class AutoTableDao {
         String fName = convertTuoFengColumnName(tableName);
         String cName = convertClassColumnName(tableName);
         String ip = PropertiesUtil.get("auto.api.doc.ip");
-        String port =  PropertiesUtil.get("auto.api.doc.port");
+        String port = PropertiesUtil.get("auto.api.doc.port");
         returnStr += "接口Url:\r\n\n";
-        returnStr += "根据id查询" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/get" + cName + "ById\r\n\n";
-        returnStr += "多条件查询" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/get" + cName + "ByParams\r\n\n";
-        returnStr += "添加" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/add" + cName + "\r\n\n";
-        returnStr += "根据id修改" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/update" + cName + "ById\r\n\n";
-        returnStr += "根据ids批量删除" + tbComment + "信息:http://"+ip+":"+port+"/" + fName + "/deleteBatch" + cName + "ByIds\r\n\n";
+        returnStr += "根据id查询" + tbComment + "信息:http://" + ip + ":" + port + "/" + fName + "/get" + cName + "ById\r\n\n";
+        returnStr += "多条件查询" + tbComment + "信息:http://" + ip + ":" + port + "/" + fName + "/get" + cName + "ByParams\r\n\n";
+        returnStr += "添加" + tbComment + "信息:http://" + ip + ":" + port + "/" + fName + "/add" + cName + "\r\n\n";
+        returnStr += "根据id修改" + tbComment + "信息:http://" + ip + ":" + port + "/" + fName + "/update" + cName + "ById\r\n\n";
+        returnStr += "根据ids批量删除" + tbComment + "信息:http://" + ip + ":" + port + "/" + fName + "/deleteBatch" + cName + "ByIds\r\n\n";
         returnStr += "<====请求参数====>\r\n";
         returnStr += s;
 
@@ -360,7 +360,7 @@ public class AutoTableDao {
 
         sb.append("\n" + getByIdSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"根据id修改\"" + tableComment+"\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"根据id修改\"" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/get" + className + "ById\")");
         sb.append("\r\n\tpublic ResultData<" + className + "> get" + className + "ById(@RequestBody " + className + " request){");
         sb.append("\n\t\treturn " + lowServiceName + "." + "get" + className + "ById(request);");
@@ -368,7 +368,7 @@ public class AutoTableDao {
 
         sb.append("\n" + searchSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"多条件查询\"" + tableComment+"\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"多条件查询\"" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/get" + className + "ByParams\")");
         sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "get" + className + "ByParams(request);");
@@ -376,7 +376,7 @@ public class AutoTableDao {
         if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             sb.append("\n" + likeSearchSb);
             sb.append("\r\n\t@AuthReq");
-            sb.append("\r\n\t@SysLog(description = \"模糊查询\"" + tableComment+"\",syslog = true)");
+            sb.append("\r\n\t@SysLog(description = \"模糊查询\"" + tableComment + "\",syslog = true)");
             sb.append("\r\n\t@RequestMapping(\"/likeSearch" + className + "ByPage\")");
             sb.append("\r\n\tpublic ResultData<Page<" + className + ">> likeSearch" + className + "ByPage(@RequestBody " + className + " request){");
             sb.append("\r\n\t\treturn " + lowServiceName + "." + "likeSearch" + className + "ByPage(request);");
@@ -386,7 +386,7 @@ public class AutoTableDao {
 
         sb.append("\n" + addSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"添加\"" + tableComment+"\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"添加\"" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/add" + className + "\")");
         sb.append("\r\n\tpublic ResultData add" + className + "(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "add" + className + "(request);");
@@ -394,7 +394,7 @@ public class AutoTableDao {
 
         sb.append("\n" + updateSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"根据id修改\"" + tableComment+"\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"根据id修改\"" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/update" + className + "ById\")");
         sb.append("\r\n\tpublic ResultData update" + className + "ById(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "update" + className + "ById(request);");
@@ -402,7 +402,7 @@ public class AutoTableDao {
 
         sb.append("\n" + deleteSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"根据ids批量删除\"" + tableComment+"\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"根据ids批量删除\"" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/deleteBatch" + className + "ByIds\")");
         sb.append("\r\n\tpublic ResultData deleteBatch" + className + "ByIds(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "deleteBatch" + className + "ByIds(request);");
@@ -513,7 +513,7 @@ public class AutoTableDao {
         sb.append("\n\t\tResultData<" + className + "> data= new " + "ResultData<>();");
         sb.append("\n\t\t//根据id查询" + tableComment);
         sb.append("\n\t\t" + className + " " + classNameTemp + " = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectById(request.getId());");
-        sb.append("\n\t\t"+className+" "+"dataObj = " + "DicConvertUtil.convertObjDicDesc("+classNameTemp+","+className+".class)");
+        sb.append("\n\t\t" + className + " " + "dataObj = " + "DicConvertUtil.convertObjDicDesc(" + classNameTemp + "," + className + ".class)");
         sb.append("\r\n\t\tdata.setData(dataObj);");
         sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj);");
         sb.append("\r\n\t\treturn data;");
@@ -526,7 +526,7 @@ public class AutoTableDao {
         sb.append("\n\t\tResultData<List<" + className + ">> data= new ResultData<>();");
         sb.append("\n\t\t//多条件查询" + tableComment + "信息");
         sb.append("\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectList(new EntityWrapper<>(request));");
-        sb.append("\n\t\tList<" + className + ">"+" dataObj = " + "DicConvertUtil.convertArrayDicDesc("+classNameTemp+","+className+".class)");
+        sb.append("\n\t\tList<" + className + ">" + " dataObj = " + "DicConvertUtil.convertArrayDicDesc(" + classNameTemp + "," + className + ".class)");
         sb.append("\r\n\t\tdata.setData(dataObj);");
         sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj);");
         sb.append("\r\n\t\treturn data;");
@@ -540,7 +540,7 @@ public class AutoTableDao {
                     "\t\tPage<" + className + "> page = new Page<>(request.getCurrent(),request.getSize());\n" +
                     "\t\t//模糊查询" + tableComment + "(分页)" +
                     "\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".likeSearch" + className + "ByPage(page,request);" +
-                    "\n\t\tList<" + className + ">"+" dataObj = " + "DicConvertUtil.convertArrayDicDesc("+classNameTemp+","+className+".class);"+
+                    "\n\t\tList<" + className + ">" + " dataObj = " + "DicConvertUtil.convertArrayDicDesc(" + classNameTemp + "," + className + ".class);" +
                     "\n\t\tpage.setRecords(dataObj);\n" +
                     "\t\tdata.setData(page);\n" +
                     "\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));" +
@@ -720,9 +720,9 @@ public class AutoTableDao {
                 columnSb.append("\r\n\t\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
             } else if (userDb.equals("mysql")) {
                 String likeFileds = PropertiesUtil.get("auto.like.filed");
-                if(likeFileds.indexOf(beanName)>-1){
-                    columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + " like concat('%',#{"+beanName+"},'%')</if>");
-                }else{
+                if (likeFileds.indexOf(beanName) > -1) {
+                    columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + " like concat('%',#{" + beanName + "},'%')</if>");
+                } else {
                     columnSb.append("\r\n\t\t<if test=\"" + beanName + " != null\"> and " + columnName + "=#{" + beanName + "}</if>");
                 }
 
@@ -774,7 +774,7 @@ public class AutoTableDao {
     public static String getMapperJavaStr(String className, String entityComment, String tableComment) {
         StringBuffer sb = new StringBuffer();
         StringBuffer searchSb = new StringBuffer();
-        String tempName= CommonUtils.toLowerCaseFirstOne(className).replaceAll("Mapper","");
+        String tempName = CommonUtils.toLowerCaseFirstOne(className).replaceAll("Mapper", "");
         sb.append("package " + PropertiesUtil.get("auto.mapper.package") + ";");
         sb.append("\n\rimport java.util.List;");
         String entityName = className.substring(0, className.indexOf("Mapper"));
@@ -1100,16 +1100,15 @@ public class AutoTableDao {
      */
     public static void autoHtml() {
         String moduleName = PropertiesUtil.get("web.moduleName");
-        String comment = "登录日志";
+        String comment = "异常日志";
         String className = convertClassColumnName(moduleName);
-        String upClassName=className.toUpperCase();
+        String upClassName = className.toUpperCase();
         String humpClassName = convertTuoFengColumnName(moduleName);
 
-        String indexJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\index.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{comment}",comment);
-        String actionCreatorsJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\actionCreators.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
-        String constantsJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\constants.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
-        String storeJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\index.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
-        String reducerJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\reducer.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
-        System.out.println("ok");
+        String indexJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\index.js").replace("#{className}", className).replace("#{humpName}", humpClassName).replace("#{comment}", comment);
+        String actionCreatorsJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\actionCreators.js").replace("#{className}", className).replace("#{humpName}", humpClassName).replace("#{upName}", upClassName).replace("#{comment}", comment);
+        String constantsJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\constants.js").replace("#{className}", className).replace("#{humpName}", humpClassName).replace("#{upName}", upClassName).replace("#{comment}", comment);
+        String storeJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\index.js").replace("#{className}", className).replace("#{humpName}", humpClassName).replace("#{upName}", upClassName).replace("#{comment}", comment);
+        String reducerJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\reducer.js").replace("#{className}", className).replace("#{humpName}", humpClassName).replace("#{upName}", upClassName).replace("#{comment}", comment);
     }
 }
