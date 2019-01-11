@@ -15,7 +15,4 @@ public @interface SysLog {
 
     //是否记录系统操作日志，默认是false
     boolean syslog()  default false;
-
-    //是否记录系统异常日志，默认是true
-    boolean errorLog()  default true;
 }

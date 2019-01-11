@@ -109,7 +109,7 @@ public class SystemLogInterceptor {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
         //新增用户异常日志
-        //asyncTaskService.addSysErrorLog(joinPoint, e, request);
+        addSysLogError(joinPoint, e, request);
     }
 
 
@@ -125,8 +125,6 @@ public class SystemLogInterceptor {
             Boolean sysLog = getServiceMthodSysLog(joinPoint);
             if (CommonUtil.isStringNotEmpty(desc) && sysLog) {
                 log.info("记录操作日志开始...");
-                Object[] args = joinPoint.getArgs();
-                MethodSignature signature = (MethodSignature) joinPoint.getSignature();
                 //获取token
                 Class reqObj = (joinPoint.getArgs()[0]).getClass().getSuperclass();
                 Field tokenFiled = reqObj.getDeclaredField("token");
@@ -143,6 +141,20 @@ public class SystemLogInterceptor {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 新增用户异常日志
+     * @param joinPoint
+     */
+    @Async
+    public void addSysLogError(JoinPoint joinPoint, Exception e, HttpServletRequest request){
+        String ip = CommonUtil.getIpAddr(request);
+        Object[] args = joinPoint.getArgs();
+        String token = null;
+
+
+
     }
 
 
