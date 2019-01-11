@@ -1099,6 +1099,17 @@ public class AutoTableDao {
      * 自动生成前端模板到桌面
      */
     public static void autoHtml() {
+        String moduleName = PropertiesUtil.get("web.moduleName");
+        String comment = PropertiesUtil.get("web.comment");
+        String className = convertClassColumnName(moduleName);
+        String upClassName=className.toUpperCase();
+        String humpClassName = convertTuoFengColumnName(moduleName);
 
+        String indexJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\index.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{comment}",comment);
+        String actionCreatorsJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\actionCreators.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
+        String constantsJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\constants.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
+        String storeJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\index.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
+        String reducerJs = CommonUtils.readToString("D:\\WorkSpace\\IDEA WorkSpace\\EWLive\\src\\test\\tmp\\react\\store\\reducer.js").replace("#{className}",className).replace("#{humpName}",humpClassName).replace("#{upName}",upClassName).replace("#{comment}",comment);
+        System.out.println("ok");
     }
 }
