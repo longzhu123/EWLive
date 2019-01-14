@@ -17,7 +17,7 @@ export const load#{className}List = (current, querParams) => {
         querParams.current = current;
         querParams.size = StringConstants.PAGE_SIZE;
         let options = {
-            url: StringConstants.SERVER_URL + "/sys#{className}/likeSearchSys#{className}ByPage",
+            url: StringConstants.SERVER_URL + "/#{className}/likeSearchSys#{className}ByPage",
             data: querParams
         };
         util.ajax(options).then((res => {
@@ -52,7 +52,7 @@ const delItemAction = (#{humpName}List) => ({
 export const delItem = (selectIds, querParams) => {
     return (dispatch) => {
         let options = {
-            url: StringConstants.SERVER_URL + "/sys#{className}/deleteBatchSys#{className}ByIds",
+            url: StringConstants.SERVER_URL + "/#{className}/deleteBatchSys#{className}ByIds",
             data: {"ids": selectIds}
         };
         util.ajax(options).then((res => {
@@ -63,7 +63,7 @@ export const delItem = (selectIds, querParams) => {
             querParams.current = StringConstants.DEFAULT_PAGE_CURRENT;
             querParams.size = StringConstants.PAGE_SIZE;
             let #{humpName}Options = {
-                url: StringConstants.SERVER_URL + "/sys#{className}/likeSearchSys#{className}ByPage",
+                url: StringConstants.SERVER_URL + "/#{className}/likeSearchSys#{className}ByPage",
                 data: querParams
             };
             util.ajax(#{humpName}Options).then((res => {
@@ -90,7 +90,7 @@ export const filterForm = (queryObj) => {
         queryObj.current = 1;
         queryObj.size = StringConstants.PAGE_SIZE;
         let options = {
-            url: StringConstants.SERVER_URL + "/sys#{className}/likeSearchSys#{className}ByPage",
+            url: StringConstants.SERVER_URL + "/#{className}/likeSearchSys#{className}ByPage",
             data: queryObj
         };
         util.ajax(options).then((res => {
@@ -114,7 +114,7 @@ export const resetLoadGrid = (querParams) => {
         querParams.current = 1;
         querParams.size = StringConstants.PAGE_SIZE;
         let options = {
-            url: StringConstants.SERVER_URL + "/sys#{className}/likeSearchSys#{className}ByPage",
+            url: StringConstants.SERVER_URL + "/#{className}/likeSearchSys#{className}ByPage",
             data: querParams
         };
         util.ajax(options).then((res => {
@@ -177,7 +177,7 @@ const add#{className}OperAction = (res) => ({
 export const add#{className}Oper = (add#{className}Obj, querParams) => {
     return (dispatch) => {
         let options = {
-            url: StringConstants.SERVER_URL + "/sys#{className}/addSys#{className}",
+            url: StringConstants.SERVER_URL + "/#{className}/addSys#{className}",
             data: add#{className}Obj
         };
         util.ajax(options).then((res => {
@@ -189,7 +189,7 @@ export const add#{className}Oper = (add#{className}Obj, querParams) => {
             querParams.current = StringConstants.DEFAULT_PAGE_CURRENT;
             querParams.size = StringConstants.PAGE_SIZE;
             let #{humpName}Options = {
-                url: StringConstants.SERVER_URL + "/sys#{className}/likeSearchSys#{className}ByPage",
+                url: StringConstants.SERVER_URL + "/#{className}/likeSearchSys#{className}ByPage",
                 data: querParams
             };
             util.ajax(#{humpName}Options).then((res => {
@@ -213,7 +213,7 @@ const update#{className}OperAction = (res) => ({
 export const updateItem = (updateObj, querParams) => {
     return (dispatch) => {
         let options = {
-            url: StringConstants.SERVER_URL + "/sys#{className}/updateSys#{className}ById",
+            url: StringConstants.SERVER_URL + "/#{className}/updateSys#{className}ById",
             data: updateObj
         };
         util.ajax(options).then((res => {
@@ -225,7 +225,7 @@ export const updateItem = (updateObj, querParams) => {
             querParams.current = StringConstants.DEFAULT_PAGE_CURRENT;
             querParams.size = StringConstants.PAGE_SIZE;
             let #{humpName}Options = {
-                url: StringConstants.SERVER_URL + "/sys#{className}/likeSearchSys#{className}ByPage",
+                url: StringConstants.SERVER_URL + "/#{className}/likeSearchSys#{className}ByPage",
                 data: querParams
             };
             util.ajax(#{humpName}Options).then((res => {
@@ -239,7 +239,7 @@ export const updateItem = (updateObj, querParams) => {
 export const getDetailById = (id, operate) => {
     return (dispatch) => {
         let options = {
-            url: StringConstants.SERVER_URL + "/sys#{className}/getSys#{className}ById",
+            url: StringConstants.SERVER_URL + "/#{className}/getSys#{className}ById",
             data: {"id": id}
         };
 
