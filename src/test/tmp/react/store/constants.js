@@ -20,7 +20,7 @@ export const UPDATE_#{upName}_OPER = "UPDATE_#{upName}_OPER";
 
 export const VIEW_#{upName}_OPER = "VIEW_#{upName}_OPER";
 
-export const GET_DETAILBY_ID = "GET_DETAILBY_{#upName}_ID";
+export const GET_DETAILBY_ID = "GET_DETAILBY_#{upName}_ID";
 
 
 

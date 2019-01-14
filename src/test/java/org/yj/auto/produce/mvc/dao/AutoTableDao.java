@@ -1100,7 +1100,7 @@ public class AutoTableDao {
      */
     public static void autoHtml() {
         String moduleName = PropertiesUtil.get("web.moduleName");
-        String comment = "异常日志";
+        String comment = "直播房间信息";
         String className = convertClassColumnName(moduleName);
         String upClassName = className.toUpperCase();
         String humpClassName = convertTuoFengColumnName(moduleName);
