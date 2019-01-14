@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import org.ewlive.aop.Dic;
 import org.ewlive.entity.common.Base;
 
 import java.sql.Timestamp;
 
 /**
- * 直播间信息Bean
- * Create by yangjie on 2018/11/16
+ * 直播房间信息Bean
+ * Create by yangjie on 2019/01/14
  */
 @TableName("live_room_info")
 @Getter
@@ -28,25 +27,32 @@ public class LiveRoomInfo extends Base {
 
 
     /**
-     * 房间编号
+     * 房间名称
      */
-    @TableField("room_id")
-    private String roomId;
+    @TableField("room_name")
+    private String roomName;
 
 
     /**
-     * 用户编号
+     * 开播时间
      */
-    @TableField("user_id")
-    private String userId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @TableField("play_time")
+    private Timestamp playTime;
 
 
     /**
      * 开播状态
      */
     @TableField("play_state")
-    @Dic(dicId = "4783fd16d2bc4015be3f35e60f970c87")
     private String playState;
+
+
+    /**
+     * 房间封面
+     */
+    @TableField("room_img")
+    private String roomImg;
 
 
     /**
@@ -85,10 +91,5 @@ public class LiveRoomInfo extends Base {
     @TableField("comment")
     private String comment;
 
-    /**
-     * 开播状态中文描述
-     */
-    @TableField(exist = false)
-    private  String playStateDesc;
 
 }

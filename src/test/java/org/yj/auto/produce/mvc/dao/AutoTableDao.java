@@ -360,7 +360,7 @@ public class AutoTableDao {
 
         sb.append("\n" + getByIdSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"根据id修改\"" + tableComment + "\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"根据id修改" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/get" + className + "ById\")");
         sb.append("\r\n\tpublic ResultData<" + className + "> get" + className + "ById(@RequestBody " + className + " request){");
         sb.append("\n\t\treturn " + lowServiceName + "." + "get" + className + "ById(request);");
@@ -368,7 +368,7 @@ public class AutoTableDao {
 
         sb.append("\n" + searchSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"多条件查询\"" + tableComment + "\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"多条件查询" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/get" + className + "ByParams\")");
         sb.append("\r\n\tpublic ResultData<List<" + className + ">> get" + className + "ByParams(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "get" + className + "ByParams(request);");
@@ -376,7 +376,7 @@ public class AutoTableDao {
         if (PropertiesUtil.get("auto.enable.page").equals("true")) {
             sb.append("\n" + likeSearchSb);
             sb.append("\r\n\t@AuthReq");
-            sb.append("\r\n\t@SysLog(description = \"模糊查询\"" + tableComment + "\",syslog = true)");
+            sb.append("\r\n\t@SysLog(description = \"模糊查询" + tableComment + "\",syslog = true)");
             sb.append("\r\n\t@RequestMapping(\"/likeSearch" + className + "ByPage\")");
             sb.append("\r\n\tpublic ResultData<Page<" + className + ">> likeSearch" + className + "ByPage(@RequestBody " + className + " request){");
             sb.append("\r\n\t\treturn " + lowServiceName + "." + "likeSearch" + className + "ByPage(request);");
@@ -386,7 +386,7 @@ public class AutoTableDao {
 
         sb.append("\n" + addSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"添加\"" + tableComment + "\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"添加" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/add" + className + "\")");
         sb.append("\r\n\tpublic ResultData add" + className + "(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "add" + className + "(request);");
@@ -394,7 +394,7 @@ public class AutoTableDao {
 
         sb.append("\n" + updateSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"根据id修改\"" + tableComment + "\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"根据id修改" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/update" + className + "ById\")");
         sb.append("\r\n\tpublic ResultData update" + className + "ById(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "update" + className + "ById(request);");
@@ -402,7 +402,7 @@ public class AutoTableDao {
 
         sb.append("\n" + deleteSb);
         sb.append("\r\n\t@AuthReq");
-        sb.append("\r\n\t@SysLog(description = \"根据ids批量删除\"" + tableComment + "\",syslog = true)");
+        sb.append("\r\n\t@SysLog(description = \"根据ids批量删除" + tableComment + "\",syslog = true)");
         sb.append("\r\n\t@RequestMapping(\"/deleteBatch" + className + "ByIds\")");
         sb.append("\r\n\tpublic ResultData deleteBatch" + className + "ByIds(@RequestBody " + className + " request){");
         sb.append("\r\n\t\treturn " + lowServiceName + "." + "deleteBatch" + className + "ByIds(request);");
@@ -513,9 +513,9 @@ public class AutoTableDao {
         sb.append("\n\t\tResultData<" + className + "> data= new " + "ResultData<>();");
         sb.append("\n\t\t//根据id查询" + tableComment);
         sb.append("\n\t\t" + className + " " + classNameTemp + " = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectById(request.getId());");
-        sb.append("\n\t\t" + className + " " + "dataObj = " + "DicConvertUtil.convertObjDicDesc(" + classNameTemp + "," + className + ".class)");
+        sb.append("\n\t\t" + className + " " + "dataObj = " + "DicConvertUtil.convertObjDicDesc(" + classNameTemp + "," + className + ".class);");
         sb.append("\r\n\t\tdata.setData(dataObj);");
-        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj);");
+        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj));");
         sb.append("\r\n\t\treturn data;");
         sb.append("\n\t}\n\n");
 
@@ -526,9 +526,9 @@ public class AutoTableDao {
         sb.append("\n\t\tResultData<List<" + className + ">> data= new ResultData<>();");
         sb.append("\n\t\t//多条件查询" + tableComment + "信息");
         sb.append("\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".selectList(new EntityWrapper<>(request));");
-        sb.append("\n\t\tList<" + className + ">" + " dataObj = " + "DicConvertUtil.convertArrayDicDesc(" + classNameTemp + "," + className + ".class)");
+        sb.append("\n\t\tList<" + className + ">" + " dataObj = " + "DicConvertUtil.convertArrayDicDesc(" + classNameTemp + "List," + className + ".class);");
         sb.append("\r\n\t\tdata.setData(dataObj);");
-        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj);");
+        sb.append("\n\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(dataObj));");
         sb.append("\r\n\t\treturn data;");
         sb.append("\n\t}\n\n");
 
@@ -540,7 +540,7 @@ public class AutoTableDao {
                     "\t\tPage<" + className + "> page = new Page<>(request.getCurrent(),request.getSize());\n" +
                     "\t\t//模糊查询" + tableComment + "(分页)" +
                     "\n\t\tList<" + className + "> " + classNameTemp + "List = " + mapperTemp.substring(0, 1).toLowerCase() + mapperTemp.substring(1) + ".likeSearch" + className + "ByPage(page,request);" +
-                    "\n\t\tList<" + className + ">" + " dataObj = " + "DicConvertUtil.convertArrayDicDesc(" + classNameTemp + "," + className + ".class);" +
+                    "\n\t\tList<" + className + ">" + " dataObj = " + "DicConvertUtil.convertArrayDicDesc(" + classNameTemp + "List," + className + ".class);" +
                     "\n\t\tpage.setRecords(dataObj);\n" +
                     "\t\tdata.setData(page);\n" +
                     "\t\tlog.info(\"数据请求成功,=====>返回:\"+JSON.toJSONString(" + classNameTemp + "List));" +

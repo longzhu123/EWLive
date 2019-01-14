@@ -2,12 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.ewlive.mapper.LiveRoomInfoMapper">
 
-	<!--直播间信息基础列-->
+	<!--直播房间信息基础列-->
 	<sql id="Base_Column_List">
 		live_room_info.id,
-		live_room_info.room_id as roomId,
-		live_room_info.user_id as userId,
+		live_room_info.room_name as roomName,
+		live_room_info.play_time as playTime,
 		live_room_info.play_state as playState,
+		live_room_info.room_img as roomImg,
 		live_room_info.create_user_id as createUserId,
 		live_room_info.create_time as createTime,
 		live_room_info.update_user_id as updateUserId,
@@ -15,25 +16,44 @@
 		live_room_info.comment
 	</sql>
 
-	<!--添加直播间信息-->
+	<!--模糊查询直播房间信息(分页)-->
+	<select id="likeSearchLiveRoomInfoByPage"  resultType="org.ewlive.entity.LiveRoomInfo" parameterType="org.ewlive.entity.LiveRoomInfo">
+		select <include refid="Base_Column_List"/> from live_room_info
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="roomName != null"> and room_name like concat('%',#{roomName},'%')</if>
+		<if test="playTime != null"> and play_time=#{playTime}</if>
+		<if test="playState != null"> and play_state=#{playState}</if>
+		<if test="roomImg != null"> and room_img=#{roomImg}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+		order by create_time
+	</select>
+
+	<!--添加直播房间信息-->
 	<insert id="addLiveRoomInfo"  parameterType="org.ewlive.entity.LiveRoomInfo">
 		insert into live_room_info
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null">id,</if>
-			<if test="roomId != null">room_id,</if>
-			<if test="userId != null">user_id,</if>
+			<if test="roomName != null">room_name,</if>
+			<if test="playTime != null">play_time,</if>
 			<if test="playState != null">play_state,</if>
+			<if test="roomImg != null">room_img,</if>
 			<if test="createUserId != null">create_user_id,</if>
 			<if test="createTime != null">create_time,</if>
 			<if test="updateUserId != null">update_user_id,</if>
 			<if test="updateTime != null">update_time,</if>
-			<if test="comment != null">comment,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="comment != null">comment,</if> 
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
 			<if test="id != null ">#{id},</if>
-			<if test="roomId != null ">#{roomId},</if>
-			<if test="userId != null ">#{userId},</if>
+			<if test="roomName != null ">#{roomName},</if>
+			<if test="playTime != null ">#{playTime},</if>
 			<if test="playState != null ">#{playState},</if>
+			<if test="roomImg != null ">#{roomImg},</if>
 			<if test="createUserId != null ">#{createUserId},</if>
 			<if test="createTime != null ">#{createTime},</if>
 			<if test="updateUserId != null ">#{updateUserId},</if>
@@ -42,13 +62,14 @@
 		</trim>
 	</insert>
 
-	<!--根据Id修改直播间信息-->
+	<!--根据Id修改直播房间信息-->
 	<update id="updateLiveRoomInfoById" parameterType="org.ewlive.entity.LiveRoomInfo">
 		update live_room_info
 		<set>
-			<if test="roomId != null">room_id=#{roomId},</if>
-			<if test="userId != null">user_id=#{userId},</if>
+			<if test="roomName != null">room_name=#{roomName},</if>
+			<if test="playTime != null">play_time=#{playTime},</if>
 			<if test="playState != null">play_state=#{playState},</if>
+			<if test="roomImg != null">room_img=#{roomImg},</if>
 			<if test="createUserId != null">create_user_id=#{createUserId},</if>
 			<if test="createTime != null">create_time=#{createTime},</if>
 			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>

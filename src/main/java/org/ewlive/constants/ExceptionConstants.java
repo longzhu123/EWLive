@@ -85,6 +85,11 @@ public class ExceptionConstants {
 
     public  static  final  String ERRORMSG_NOT_NULL = "异常信息不能为空";
 
+    public  static  final  String ROOMNAME_NOT_NULL = "房间名称不能为空";
+
+    public  static  final  String PLAYTIME_NOT_NULL = "开播时间不能为空";
+
+    public  static  final  String ROOMIMG_NOT_NULL = "房间封面不能为空";
 
 
 
