@@ -91,5 +91,22 @@ public class LiveRoomInfo extends Base {
     @TableField("comment")
     private String comment;
 
+    /**
+     * 接收React的RangePicker对应的value日期数组
+     */
+    @TableField(exist = false)
+    private Timestamp[] searchPlayTime;
+
+    /**
+     * 开播时间(开始时间)
+     */
+    @TableField(exist = false)
+    private Timestamp beginPlayTime;
+
+    /**
+     * 开播时间(结束时间)
+     */
+    @TableField(exist = false)
+    private Timestamp endPlayTime;
 
 }

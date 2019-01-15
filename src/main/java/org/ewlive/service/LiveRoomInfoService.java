@@ -79,6 +79,11 @@ public class LiveRoomInfoService{
 	public ResultData<Page<LiveRoomInfo>> likeSearchLiveRoomInfoByPage(LiveRoomInfo request){
 		log.info("模糊查询直播房间信息(分页):请求参数=====>"+JSON.toJSONString(request));
 		ResultData<Page<LiveRoomInfo>> data= new ResultData<>();
+		if(!Objects.isNull(request.getSearchPlayTime())&&request.getSearchPlayTime().length>0){
+			request.setBeginPlayTime(request.getSearchPlayTime()[0]);
+			request.setEndPlayTime(request.getSearchPlayTime()[1]);
+		}
+
 		Page<LiveRoomInfo> page = new Page<>(request.getCurrent(),request.getSize());
 		//模糊查询直播房间信息(分页)
 		List<LiveRoomInfo> liveRoomInfoList = liveRoomInfoMapper.likeSearchLiveRoomInfoByPage(page,request);

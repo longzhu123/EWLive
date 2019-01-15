@@ -22,7 +22,7 @@
 		where 1=1 
 		<if test="id != null"> and id=#{id}</if>
 		<if test="roomName != null"> and room_name like concat('%',#{roomName},'%')</if>
-		<if test="playTime != null"> and play_time=#{playTime}</if>
+		<if test="beginPlayTime != null and endPlayTime!=null"> and play_time between #{beginPlayTime} and #{endPlayTime}</if>
 		<if test="playState != null"> and play_state=#{playState}</if>
 		<if test="roomImg != null"> and room_img=#{roomImg}</if>
 		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
