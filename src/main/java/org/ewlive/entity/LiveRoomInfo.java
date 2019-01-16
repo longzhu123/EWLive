@@ -9,6 +9,7 @@ import org.ewlive.aop.Dic;
 import org.ewlive.entity.common.Base;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 直播房间信息Bean
@@ -37,9 +38,9 @@ public class LiveRoomInfo extends Base {
     /**
      * 开播时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @TableField("play_time")
-    private Timestamp playTime;
+    private Date playTime;
 
 
     /**
