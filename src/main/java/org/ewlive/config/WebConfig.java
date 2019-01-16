@@ -1,11 +1,17 @@
 package org.ewlive.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ewlive.util.xss.XssFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Web配置类
@@ -39,5 +45,7 @@ public class WebConfig implements WebMvcConfigurer {
         registration.addUrlPatterns("/*");
         return registration;
     }
+
+
 
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+import org.ewlive.aop.Dic;
 import org.ewlive.entity.common.Base;
 
 import java.sql.Timestamp;
@@ -44,6 +45,7 @@ public class LiveRoomInfo extends Base {
     /**
      * 开播状态
      */
+    @Dic(dicId = "4783fd16d2bc4015be3f35e60f970c87")
     @TableField("play_state")
     private String playState;
 
@@ -108,5 +110,11 @@ public class LiveRoomInfo extends Base {
      */
     @TableField(exist = false)
     private Timestamp endPlayTime;
+
+    /**
+     * 开播状态描述
+     */
+    @TableField(exist = false)
+    private String playStateDesc;
 
 }
