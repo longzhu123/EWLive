@@ -2,6 +2,7 @@ package org.ewlive.controller.system;
 
 import java.util.List;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.aop.SysLog;
@@ -21,6 +22,7 @@ import org.ewlive.service.system.SysLogOperateService;
  * 操作日志Controller
  * Create by yangjie on 2018/12/26
  */
+@Api(description = "系统操作日志")
 @RestController
 @RequestMapping("/sysLogOperate")
 public class SysLogOperateController {

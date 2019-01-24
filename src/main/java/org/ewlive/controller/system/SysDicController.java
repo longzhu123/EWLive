@@ -22,7 +22,7 @@ import java.util.List;
  * 字典Controller
  * Create by yangjie on 2018/11/16
  */
-@Api("系统字典管理")
+@Api(description = "系统字典")
 @RestController
 @RequestMapping("/sysDic")
 public class SysDicController {

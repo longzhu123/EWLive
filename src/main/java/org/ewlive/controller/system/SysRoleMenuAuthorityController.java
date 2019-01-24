@@ -1,6 +1,7 @@
 package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.aop.SysLog;
@@ -19,6 +20,7 @@ import java.util.List;
  * 角色菜单权限Controller
  * Create by yangjie on 2019/01/08
  */
+@Api(description = "系统角色菜单权限")
 @RestController
 @RequestMapping("/sysRoleMenuAuthority")
 public class SysRoleMenuAuthorityController {

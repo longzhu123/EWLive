@@ -1,6 +1,7 @@
 package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.aop.SysLog;
@@ -19,6 +20,7 @@ import java.util.List;
  * 菜单Controller
  * Create by yangjie on 2018/12/18
  */
+@Api(description = "系统菜单")
 @RestController
 @RequestMapping("/sysMenu")
 public class SysMenuController {

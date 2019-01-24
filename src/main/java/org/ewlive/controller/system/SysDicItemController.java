@@ -1,6 +1,7 @@
 package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.aop.SysLog;
@@ -19,6 +20,7 @@ import java.util.List;
  * 字典项Controller
  * Create by yangjie on 2018/11/16
  */
+@Api(description = "系统字典项")
 @RestController
 @RequestMapping("/sysDicItem")
 public class SysDicItemController {

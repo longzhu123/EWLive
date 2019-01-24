@@ -23,7 +23,6 @@
         <mybatis-plus.version>2.1.4</mybatis-plus.version>
         <poi.version>3.15-beta2</poi.version>
         <swagger.version>2.7.0</swagger.version>
-        <swagger-bootstrap-ui.version>1.8.8</swagger-bootstrap-ui.version>
         <!--maven-plugin-->
         <lombok-maven-plugin.version>1.16.8.0</lombok-maven-plugin.version>
     </properties>
@@ -119,11 +118,6 @@
             <version>${swagger.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>${swagger-bootstrap-ui.version}</version>
-        </dependency>
     </dependencies>
 
 
