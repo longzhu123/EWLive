@@ -37,6 +37,7 @@ public class Swagger2Config {
     }
 
     private ApiInfo apiInfo() {
+        //访问Swagger:http://localhost/swagger-ui.html
         return new ApiInfoBuilder()
                 .title(CommonConstants.API_TITLE)
                 .description(CommonConstants.API_DESC)
