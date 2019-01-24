@@ -1,6 +1,7 @@
 package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.swagger.annotations.ApiOperation;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.aop.SysLog;
 import org.ewlive.entity.system.SysMenu;
@@ -8,6 +9,7 @@ import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysMenuService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -32,7 +34,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "根据id查询菜单",syslog = true)
-    @RequestMapping("/getSysMenuById")
+    @ApiOperation(value = "根据id查询菜单")
+    @RequestMapping(value = "/getSysMenuById", method = RequestMethod.POST)
     public ResultData<SysMenu> getSysMenuById(@RequestBody SysMenu request) {
         return sysMenuService.getSysMenuById(request);
     }
@@ -45,7 +48,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "多条件查询菜单",syslog = true)
-    @RequestMapping("/getSysMenuByParams")
+    @ApiOperation(value = "多条件查询菜单")
+    @RequestMapping(value = "/getSysMenuByParams", method = RequestMethod.POST)
     public ResultData<List<SysMenu>> getSysMenuByParams(@RequestBody SysMenu request) {
         return sysMenuService.getSysMenuByParams(request);
     }
@@ -57,7 +61,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "查询菜单(层级展示)",syslog = true)
-    @RequestMapping("/getSysMenuTree")
+    @ApiOperation(value = "查询菜单(层级展示)")
+    @RequestMapping(value = "/getSysMenuTree", method = RequestMethod.POST)
     public ResultData<List<SysMenu>> getSysMenuTree(@RequestBody SysMenu request) {
         return sysMenuService.getSysMenuTree(request);
     }
@@ -72,7 +77,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "模糊查询菜单(分页)",syslog = true)
-    @RequestMapping("/likeSearchSysMenuByPage")
+    @ApiOperation(value = "模糊查询菜单(分页)")
+    @RequestMapping(value = "/likeSearchSysMenuByPage", method = RequestMethod.POST)
     public ResultData<Page<SysMenu>> likeSearchSysMenuByPage(@RequestBody SysMenu request) {
         return sysMenuService.likeSearchSysMenuByPage(request);
     }
@@ -85,7 +91,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "模糊查询菜单(层级展示,分页)",syslog = true)
-    @RequestMapping("/likeSearchSysMenuTreeByPage")
+    @ApiOperation(value = "模糊查询菜单(层级展示,分页)")
+    @RequestMapping(value = "/likeSearchSysMenuTreeByPage", method = RequestMethod.POST)
     public ResultData<Page<SysMenu>> likeSearchSysMenuTreeByPage(@RequestBody SysMenu request) {
         return sysMenuService.likeSearchSysMenuTreeByPage(request);
     }
@@ -98,7 +105,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "添加菜单",syslog = true)
-    @RequestMapping("/addSysMenu")
+    @ApiOperation(value = "添加菜单")
+    @RequestMapping(value = "/addSysMenu", method = RequestMethod.POST)
     public ResultData addSysMenu(@RequestBody SysMenu request) {
         return sysMenuService.addSysMenu(request);
     }
@@ -111,7 +119,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "根据id修改菜单",syslog = true)
-    @RequestMapping("/updateSysMenuById")
+    @ApiOperation(value = "根据id修改菜单")
+    @RequestMapping(value = "/updateSysMenuById", method = RequestMethod.POST)
     public ResultData updateSysMenuById(@RequestBody SysMenu request) {
         return sysMenuService.updateSysMenuById(request);
     }
@@ -124,7 +133,8 @@ public class SysMenuController {
      */
     @AuthReq
     @SysLog(description = "根据ids批量删除菜单",syslog = true)
-    @RequestMapping("/deleteBatchSysMenuByIds")
+    @ApiOperation(value = "根据ids批量删除菜单")
+    @RequestMapping(value = "/deleteBatchSysMenuByIds", method = RequestMethod.POST)
     public ResultData deleteBatchSysMenuByIds(@RequestBody SysMenu request) {
         return sysMenuService.deleteBatchSysMenuByIds(request);
     }

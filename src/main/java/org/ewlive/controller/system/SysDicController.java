@@ -12,6 +12,7 @@ import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysDicService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.List;
  * 字典Controller
  * Create by yangjie on 2018/11/16
  */
+@Api("系统字典管理")
 @RestController
 @RequestMapping("/sysDic")
 public class SysDicController {
@@ -35,8 +37,9 @@ public class SysDicController {
      * @return
      */
     @AuthReq
-    @SysLog(description = "根据id查询字典",syslog = true)
-    @RequestMapping("/getSysDicById")
+    @SysLog(description = "根据id查询字典", syslog = true)
+    @ApiOperation(value = "根据id查询字典")
+    @RequestMapping(value = "/getSysDicById", method = RequestMethod.POST)
     public ResultData<SysDic> getSysDicById(@RequestBody SysDic request) {
         return sysDicService.getSysDicById(request);
     }
@@ -48,21 +51,24 @@ public class SysDicController {
      * @return
      */
     @AuthReq
-    @SysLog(description = "多条件查询字典",syslog = true)
-    @RequestMapping("/getSysDicByParams")
+    @SysLog(description = "多条件查询字典", syslog = true)
+    @ApiOperation(value = "多条件查询字典")
+    @RequestMapping(value = "/getSysDicByParams", method = RequestMethod.POST)
     public ResultData<List<SysDic>> getSysDicByParams(@RequestBody SysDic request) {
         return sysDicService.getSysDicByParams(request);
     }
 
     /**
      * 模糊查询字典(分页)
+     *
      * @param request
      * @return
      */
     @AuthReq
-    @SysLog(description = "模糊查询字典(分页)",syslog = true)
-    @RequestMapping("/likeSearchSysDicByPage")
-    public ResultData<Page<SysDic>> likeSearchSysDicByPage(@RequestBody SysDic request){
+    @SysLog(description = "模糊查询字典(分页)", syslog = true)
+    @ApiOperation(value = "模糊查询字典(分页)")
+    @RequestMapping(value = "/likeSearchSysDicByPage", method = RequestMethod.POST)
+    public ResultData<Page<SysDic>> likeSearchSysDicByPage(@RequestBody SysDic request) {
         return sysDicService.likeSearchSysDicByPage(request);
     }
 
@@ -74,8 +80,9 @@ public class SysDicController {
      * @return
      */
     @AuthReq
-    @SysLog(description = "添加字典",syslog = true)
-    @RequestMapping("/addSysDic")
+    @SysLog(description = "添加字典", syslog = true)
+    @ApiOperation(value = "添加字典")
+    @RequestMapping(value = "/addSysDic", method = RequestMethod.POST)
     public ResultData addSysDic(@RequestBody SysDic request) {
         return sysDicService.addSysDic(request);
     }
@@ -87,8 +94,9 @@ public class SysDicController {
      * @return
      */
     @AuthReq
-    @SysLog(description = "根据id修改字典",syslog = true)
-    @RequestMapping("/updateSysDicById")
+    @SysLog(description = "根据id修改字典", syslog = true)
+    @ApiOperation(value = "根据id修改字典")
+    @RequestMapping(value = "/updateSysDicById", method = RequestMethod.POST)
     public ResultData updateSysDicById(@RequestBody SysDic request) {
         return sysDicService.updateSysDicById(request);
     }
@@ -100,8 +108,9 @@ public class SysDicController {
      * @return
      */
     @AuthReq
-    @SysLog(description = "根据ids批量删除字典",syslog = true)
-    @RequestMapping("/deleteBatchSysDicByIds")
+    @SysLog(description = "根据ids批量删除字典", syslog = true)
+    @ApiOperation(value = "根据ids批量删除字典")
+    @RequestMapping(value = "/deleteBatchSysDicByIds", method = RequestMethod.POST)
     public ResultData deleteBatchSysDicByIds(@RequestBody SysDic request) {
         return sysDicService.deleteBatchSysDicByIds(request);
     }

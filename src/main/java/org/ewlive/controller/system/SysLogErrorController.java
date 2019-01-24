@@ -1,6 +1,7 @@
 package org.ewlive.controller.system;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.swagger.annotations.ApiOperation;
 import org.ewlive.aop.AuthReq;
 import org.ewlive.aop.SysLog;
 import org.ewlive.entity.system.SysLogError;
@@ -8,6 +9,7 @@ import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysLogErrorService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -32,7 +34,8 @@ public class SysLogErrorController {
      */
     @AuthReq
     @SysLog(description = "根据id查询异常日志",syslog = true)
-    @RequestMapping("/getSysLogErrorById")
+    @ApiOperation(value = "根据id查询异常日志")
+    @RequestMapping(value = "/getSysLogErrorById", method = RequestMethod.POST)
     public ResultData<SysLogError> getSysLogErrorById(@RequestBody SysLogError request) {
         return sysLogErrorService.getSysLogErrorById(request);
     }
@@ -45,7 +48,8 @@ public class SysLogErrorController {
      */
     @AuthReq
     @SysLog(description = "多条件查询异常日志",syslog = true)
-    @RequestMapping("/getSysLogErrorByParams")
+    @ApiOperation(value = "多条件查询异常日志")
+    @RequestMapping(value = "/getSysLogErrorByParams", method = RequestMethod.POST)
     public ResultData<List<SysLogError>> getSysLogErrorByParams(@RequestBody SysLogError request) {
         return sysLogErrorService.getSysLogErrorByParams(request);
     }
@@ -58,7 +62,8 @@ public class SysLogErrorController {
      */
     @AuthReq
     @SysLog(description = "模糊查询异常日志(分页)",syslog = true)
-    @RequestMapping("/likeSearchSysLogErrorByPage")
+    @ApiOperation(value = "模糊查询异常日志(分页)")
+    @RequestMapping(value = "/likeSearchSysLogErrorByPage", method = RequestMethod.POST)
     public ResultData<Page<SysLogError>> likeSearchSysLogErrorByPage(@RequestBody SysLogError request) {
         return sysLogErrorService.likeSearchSysLogErrorByPage(request);
     }
@@ -71,7 +76,8 @@ public class SysLogErrorController {
      */
     @AuthReq
     @SysLog(description = "添加异常日志",syslog = true)
-    @RequestMapping("/addSysLogError")
+    @ApiOperation(value = "添加异常日志")
+    @RequestMapping(value = "/addSysLogError", method = RequestMethod.POST)
     public ResultData addSysLogError(@RequestBody SysLogError request) {
         return sysLogErrorService.addSysLogError(request);
     }
@@ -84,7 +90,8 @@ public class SysLogErrorController {
      */
     @AuthReq
     @SysLog(description = "根据id修改异常日志",syslog = true)
-    @RequestMapping("/updateSysLogErrorById")
+    @ApiOperation(value = "根据id修改异常日志")
+    @RequestMapping(value = "/updateSysLogErrorById", method = RequestMethod.POST)
     public ResultData updateSysLogErrorById(@RequestBody SysLogError request) {
         return sysLogErrorService.updateSysLogErrorById(request);
     }
@@ -97,7 +104,8 @@ public class SysLogErrorController {
      */
     @AuthReq
     @SysLog(description = "根据ids批量删除异常日志",syslog = true)
-    @RequestMapping("/deleteBatchSysLogErrorByIds")
+    @ApiOperation(value = "根据ids批量删除异常日志")
+    @RequestMapping(value = "/deleteBatchSysLogErrorByIds", method = RequestMethod.POST)
     public ResultData deleteBatchSysLogErrorByIds(@RequestBody SysLogError request) {
         return sysLogErrorService.deleteBatchSysLogErrorByIds(request);
     }
