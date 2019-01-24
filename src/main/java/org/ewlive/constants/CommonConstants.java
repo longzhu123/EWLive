@@ -17,4 +17,15 @@ public class CommonConstants {
     //最顶层的菜单id
     public static final String TOP_MENU_ID = "099ce9a9f85b4ef896da216d33e28ce3";
 
+
+    //Swgger 相关常量配置
+    public  static  final  String API_TITLE = "EwLive 接口文档";
+
+    public  static  final  String API_DESC = "EwLive 接口文档";
+
+    public  static  final  String API_URL = "http://127.0.0.1/";
+
+    public  static  final  String API_VERSION = "1.0";
+
+
 }
