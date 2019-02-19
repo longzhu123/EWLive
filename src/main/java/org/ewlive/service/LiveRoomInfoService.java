@@ -7,6 +7,8 @@ import org.ewlive.util.DicConvertUtil;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,8 +82,13 @@ public class LiveRoomInfoService{
 		log.info("模糊查询直播房间信息(分页):请求参数=====>"+JSON.toJSONString(request));
 		ResultData<Page<LiveRoomInfo>> data= new ResultData<>();
 		if(!Objects.isNull(request.getSearchPlayTime())&&request.getSearchPlayTime().length>0){
-			request.setBeginPlayTime(request.getSearchPlayTime()[0]);
-			request.setEndPlayTime(request.getSearchPlayTime()[1]);
+			log.info("beginTime:===>"+request.getSearchPlayTime()[0]);
+			log.info("endTime:===>"+request.getSearchPlayTime()[1]);
+			Timestamp timestamp = Timestamp.valueOf(request.getSearchPlayTime()[0]);
+			log.info(timestamp+"");
+//			new Timestamp()
+//			request.setBeginPlayTime();
+//			request.setEndPlayTime();
 		}
 
 		Page<LiveRoomInfo> page = new Page<>(request.getCurrent(),request.getSize());

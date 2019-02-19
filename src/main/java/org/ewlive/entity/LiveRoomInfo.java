@@ -97,9 +97,8 @@ public class LiveRoomInfo extends Base {
     /**
      * 接收React的RangePicker对应的value日期数组
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(exist = false)
-    private Timestamp[] searchPlayTime;
+    private String[] searchPlayTime;
 
     /**
      * 开播时间(开始时间)
