@@ -203,7 +203,7 @@ public class CommonUtil {
             date = date.replace("Z", " UTC");
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
             Date d = format.parse(date);
-            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
             String rs = format1.format(d);
             return rs;
         } catch (ParseException e) {
