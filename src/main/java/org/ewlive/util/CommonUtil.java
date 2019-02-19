@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.CommonConstants;
 import org.ewlive.entity.system.SysUser;
+import org.ewlive.exception.ServiceException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -12,7 +13,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -186,6 +190,25 @@ public class CommonUtil {
         HttpServletRequest httpServletRequest = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
         return httpServletRequest;
+    }
+
+    /**
+     * 转换 TZ格式类型的时间(2019-02-12T01:26:53.808Z)
+     * @param dateStr
+     * @return
+     */
+    public static String formateDateTZ(String dateStr) {
+        try {
+            String date = dateStr;
+            date = date.replace("Z", " UTC");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+            Date d = format.parse(date);
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String rs = format1.format(d);
+            return rs;
+        } catch (ParseException e) {
+            throw new ServiceException("日期转换异常");
+        }
     }
 
 }

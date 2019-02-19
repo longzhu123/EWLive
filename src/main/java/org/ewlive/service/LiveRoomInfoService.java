@@ -82,13 +82,10 @@ public class LiveRoomInfoService{
 		log.info("模糊查询直播房间信息(分页):请求参数=====>"+JSON.toJSONString(request));
 		ResultData<Page<LiveRoomInfo>> data= new ResultData<>();
 		if(!Objects.isNull(request.getSearchPlayTime())&&request.getSearchPlayTime().length>0){
-			log.info("beginTime:===>"+request.getSearchPlayTime()[0]);
-			log.info("endTime:===>"+request.getSearchPlayTime()[1]);
-			Timestamp timestamp = Timestamp.valueOf(request.getSearchPlayTime()[0]);
-			log.info(timestamp+"");
-//			new Timestamp()
-//			request.setBeginPlayTime();
-//			request.setEndPlayTime();
+			Timestamp begin = Timestamp.valueOf(CommonUtil.formateDateTZ(request.getSearchPlayTime()[0]));
+			Timestamp end = Timestamp.valueOf(CommonUtil.formateDateTZ(request.getSearchPlayTime()[1]));
+			request.setBeginPlayTime(begin);
+			request.setEndPlayTime(end);
 		}
 
 		Page<LiveRoomInfo> page = new Page<>(request.getCurrent(),request.getSize());
