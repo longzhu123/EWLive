@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.ewlive.entity.common.Base;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 
@@ -125,5 +126,6 @@ public class SysFileInfo extends Base {
 	@TableField("comment")
 	private String comment;
 
+	private MultipartFile [] files;
 
 }

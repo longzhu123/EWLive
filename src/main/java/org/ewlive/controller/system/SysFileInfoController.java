@@ -72,7 +72,7 @@ public class SysFileInfoController {
     @AuthReq
     @SysLog(description = "添加附件信息", syslog = true)
     @RequestMapping("/addSysFileInfo")
-    public ResultData addSysFileInfo(@RequestBody SysFileInfo request) {
+    public ResultData addSysFileInfo(SysFileInfo request) {
         return sysFileInfoService.addSysFileInfo(request);
     }
 
