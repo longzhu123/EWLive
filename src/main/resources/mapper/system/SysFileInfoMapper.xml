@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ewlive.mapper.system.SysFileInfoMapper">
+
+	<!--附件信息基础列-->
+	<sql id="Base_Column_List">
+		sys_file_info.id,
+		sys_file_info.fk_id as fkId,
+		sys_file_info.name,
+		sys_file_info.real_name as realName,
+		sys_file_info.file_size as fileSize,
+		sys_file_info.extension,
+		sys_file_info.content_type as contentType,
+		sys_file_info.directory,
+		sys_file_info.remark,
+		sys_file_info.version,
+		sys_file_info.create_user_id as createUserId,
+		sys_file_info.create_time as createTime,
+		sys_file_info.update_user_id as updateUserId,
+		sys_file_info.update_time as updateTime,
+		sys_file_info.comment
+	</sql>
+
+	<!--模糊查询附件信息(分页)-->
+	<select id="likeSearchSysFileInfoByPage"  resultType="org.ewlive.entity.system.SysFileInfo" parameterType="org.ewlive.entity.system.SysFileInfo">
+		select <include refid="Base_Column_List"/> from sys_file_info
+		where 1=1 
+		<if test="id != null"> and id=#{id}</if>
+		<if test="fkId != null"> and fk_id=#{fkId}</if>
+		<if test="name != null"> and name=#{name}</if>
+		<if test="realName != null"> and real_name=#{realName}</if>
+		<if test="fileSize != null"> and file_size=#{fileSize}</if>
+		<if test="extension != null"> and extension=#{extension}</if>
+		<if test="contentType != null"> and content_type=#{contentType}</if>
+		<if test="directory != null"> and directory=#{directory}</if>
+		<if test="remark != null"> and remark=#{remark}</if>
+		<if test="version != null"> and version=#{version}</if>
+		<if test="createUserId != null"> and create_user_id=#{createUserId}</if>
+		<if test="createTime != null"> and create_time=#{createTime}</if>
+		<if test="updateUserId != null"> and update_user_id=#{updateUserId}</if>
+		<if test="updateTime != null"> and update_time=#{updateTime}</if>
+		<if test="comment != null"> and comment=#{comment}</if>
+		order by create_time
+	</select>
+
+	<!--添加附件信息-->
+	<insert id="addSysFileInfo"  parameterType="org.ewlive.entity.system.SysFileInfo">
+		insert into sys_file_info
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="fkId != null">fk_id,</if>
+			<if test="name != null">name,</if>
+			<if test="realName != null">real_name,</if>
+			<if test="fileSize != null">file_size,</if>
+			<if test="extension != null">extension,</if>
+			<if test="contentType != null">content_type,</if>
+			<if test="directory != null">directory,</if>
+			<if test="remark != null">remark,</if>
+			<if test="version != null">version,</if>
+			<if test="createUserId != null">create_user_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateUserId != null">update_user_id,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="comment != null">comment,</if> 
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides="," > 
+			<if test="id != null ">#{id},</if>
+			<if test="fkId != null ">#{fkId},</if>
+			<if test="name != null ">#{name},</if>
+			<if test="realName != null ">#{realName},</if>
+			<if test="fileSize != null ">#{fileSize},</if>
+			<if test="extension != null ">#{extension},</if>
+			<if test="contentType != null ">#{contentType},</if>
+			<if test="directory != null ">#{directory},</if>
+			<if test="remark != null ">#{remark},</if>
+			<if test="version != null ">#{version},</if>
+			<if test="createUserId != null ">#{createUserId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateUserId != null ">#{updateUserId},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="comment != null ">#{comment},</if>
+		</trim>
+	</insert>
+
+	<!--根据Id修改附件信息-->
+	<update id="updateSysFileInfoById" parameterType="org.ewlive.entity.system.SysFileInfo">
+		update sys_file_info
+		<set>
+			<if test="fkId != null">fk_id=#{fkId},</if>
+			<if test="name != null">name=#{name},</if>
+			<if test="realName != null">real_name=#{realName},</if>
+			<if test="fileSize != null">file_size=#{fileSize},</if>
+			<if test="extension != null">extension=#{extension},</if>
+			<if test="contentType != null">content_type=#{contentType},</if>
+			<if test="directory != null">directory=#{directory},</if>
+			<if test="remark != null">remark=#{remark},</if>
+			<if test="version != null">version=#{version},</if>
+			<if test="createUserId != null">create_user_id=#{createUserId},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="updateUserId != null">update_user_id=#{updateUserId},</if>
+			<if test="updateTime != null">update_time=#{updateTime},</if>
+			<if test="comment != null">comment=#{comment},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+</mapper>

@@ -91,6 +91,14 @@ public class ExceptionConstants {
 
     public  static  final  String ROOMIMG_NOT_NULL = "房间封面不能为空";
 
+    public  static  final  String FILE_NAME_NOT_NULL = "文件名称不能为空";
 
+    public  static  final  String FILE_REALNAME_NOT_NULL = "文件在服务器的名称不能为空";
+
+    public  static  final  String FILESIZE_NOT_NULL = "文件大小不能为空";
+
+    public  static  final  String EXTENSION_NOT_NULL = "文件类型不能为空";
+
+    public  static  final  String CONTENTTYPE_NOT_NULL = "文件后缀类型不能为空";
 
 }
