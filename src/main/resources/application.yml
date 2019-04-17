@@ -22,7 +22,18 @@ spring:
     multipart:
       max-file-size: 100mb
       max-request-size: 100mb
-
+  mail:
+    host: smtp.qq.com
+    username: 1174716220@qq.com
+    password: uuiwvybctwrfiiag
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 25000
+          ssl:
+            enable: true
+    default-encoding: UTF-8
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   type-aliases-package: org.ewlive.entity
