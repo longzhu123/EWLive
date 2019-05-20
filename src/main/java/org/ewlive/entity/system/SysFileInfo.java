@@ -126,6 +126,10 @@ public class SysFileInfo extends Base {
 	@TableField("comment")
 	private String comment;
 
+	/**
+	 * 附件集合
+	 */
+	@TableField(exist = false)
 	private MultipartFile [] files;
 
 }

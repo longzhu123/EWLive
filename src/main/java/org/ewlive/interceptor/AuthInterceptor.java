@@ -43,8 +43,7 @@ public class AuthInterceptor {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
-        String packageName = "org.ewlive.controller";
-        String controllerName = method.getDeclaringClass().getName().substring(packageName.length());
+        String controllerName = method.getDeclaringClass().getName().substring(method.getDeclaringClass().getName().lastIndexOf(".")+1);
         String requestUrl = "/" + CommonUtil.toLowerCaseFirstOne(controllerName.substring(1, controllerName.indexOf("Controller"))) + requestMapping.value()[0];
         log.info("控制器: " + controllerName);
         log.info("函数名: " + method.getName());
@@ -54,6 +53,7 @@ public class AuthInterceptor {
         Field tokenFiled = reqObj.getDeclaredField("token");
         tokenFiled.setAccessible(true);
         String token = tokenFiled.get(joinPoint.getArgs()[0]) + "";
+
         //若前台传参token为空，则抛出异常
         if (CommonUtil.isStringEmpty(token) || token.equals("null")) {
             throw new ServiceException(ResultConstants.TOKEN_TIME_OUT_CODE, ExceptionConstants.TOKEN_NOT_NULL);
