@@ -90,45 +90,42 @@
     <insert id="batchAddSysFileInfo" parameterType="java.util.List">
         insert into sys_file_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
-            <if test="fkId != null">fk_id,</if>
-            <if test="name != null">name,</if>
-            <if test="realName != null">real_name,</if>
-            <if test="fileSize != null">file_size,</if>
-            <if test="extension != null">extension,</if>
-            <if test="contentType != null">content_type,</if>
-            <if test="directory != null">directory,</if>
-            <if test="remark != null">remark,</if>
-            <if test="version != null">version,</if>
-            <if test="createUserId != null">create_user_id,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateUserId != null">update_user_id,</if>
-            <if test="updateTime != null">update_time,</if>
-            <if test="comment != null">comment,</if>
+            id,
+            fk_id,
+            name,
+            real_name,
+            file_size,
+            extension,
+            content_type,
+            directory,
+            remark,
+            version,
+            create_user_id,
+            create_time,
+            update_user_id,
+            update_time,
+            comment
         </trim>
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (
-                <trim suffixOverrides=",">
-                    <if test="item.id != null ">#{item.id},</if>
-                    <if test="item.fkId != null ">#{item.fkId},</if>
-                    <if test="item.name != null ">#{item.name},</if>
-                    <if test="item.realName != null ">#{item.realName},</if>
-                    <if test="item.fileSize != null ">#{item.fileSize},</if>
-                    <if test="item.extension != null ">#{item.extension},</if>
-                    <if test="item.contentType != null ">#{item.contentType},</if>
-                    <if test="item.directory != null ">#{item.directory},</if>
-                    <if test="item.remark != null ">#{item.remark},</if>
-                    <if test="item.version != null ">#{item.version},</if>
-                    <if test="item.createUserId != null ">#{item.createUserId},</if>
-                    <if test="item.createTime != null ">#{item.createTime},</if>
-                    <if test="item.updateUserId != null ">#{item.updateUserId},</if>
-                    <if test="item.updateTime != null ">#{item.updateTime},</if>
-                    <if test="item.comment != null ">#{item.comment},</if>
-                </trim>
+                    #{item.id},
+                    #{item.fkId},
+                    #{item.name},
+                    #{item.realName},
+                    #{item.fileSize},
+                    #{item.extension},
+                    #{item.contentType},
+                    #{item.directory},
+                    #{item.remark},
+                    #{item.version},
+                    #{item.createUserId},
+                    #{item.createTime},
+                    #{item.updateUserId},
+                    #{item.updateTime},
+                    #{item.comment}
             )
         </foreach>
-
     </insert>
 
 
