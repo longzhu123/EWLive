@@ -7,6 +7,7 @@ import org.ewlive.entity.system.SysUser;
 import org.ewlive.exception.ServiceException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
@@ -211,4 +212,14 @@ public class CommonUtil {
         }
     }
 
+
+    /**
+     * 获取文件的后缀名
+     * @param file
+     * @return
+     */
+    public static String getFileExtension(MultipartFile file) {
+        String originalFileName = file.getOriginalFilename();
+        return originalFileName.substring(originalFileName.lastIndexOf("."));
+    }
 }

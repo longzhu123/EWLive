@@ -52,7 +52,7 @@ public class SysFileInfo extends Base {
 	 * 文件大小
 	 */
 	@TableField("file_size")
-	private Double fileSize;
+	private Long fileSize;
 
 
 	/**

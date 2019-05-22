@@ -15,9 +15,11 @@ import org.ewlive.util.DicConvertUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -98,18 +100,27 @@ public class SysFileInfoService {
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public ResultData addSysFileInfo(SysFileInfo request) {
-        log.info("添加附件信息,请求参数====>" + JSON.toJSONString(request));
-        //检查必填参数项是否空
-        checkParamsForAdd(request);
-        log.info("添加====>参数校验成功");
         ResultData data = new ResultData();
+        List<SysFileInfo> sysFileInfos = new ArrayList<>();
+        MultipartFile[] files = request.getFiles();
         //获取当前用户
         SysUser currentUser = CommonUtil.getCurrentSysUserByToken(request.getToken());
-        request.setId(CommonUtil.createUUID());
-        request.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        request.setCreateUserId(currentUser.getId());
-        //添加附件信息
-        int i = sysFileInfoMapper.addSysFileInfo(request);
+        for (MultipartFile file : files) {
+            SysFileInfo sysFileInfo = new SysFileInfo();
+            sysFileInfo.setName(file.getOriginalFilename());
+            sysFileInfo.setRealName(file.getOriginalFilename());
+            sysFileInfo.setFileSize(file.getSize());
+            sysFileInfo.setExtension(CommonUtil.getFileExtension(file));
+            sysFileInfo.setContentType("." + CommonUtil.getFileExtension(file));
+            sysFileInfo.setId(CommonUtil.createUUID());
+            sysFileInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            sysFileInfo.setCreateUserId(currentUser.getId());
+
+            sysFileInfos.add(sysFileInfo);
+        }
+        log.info("添加附件信息,请求参数====>" + JSON.toJSONString(sysFileInfos));
+        //批量添加附件信息
+        int i = sysFileInfoMapper.batchAddSysFileInfo(sysFileInfos);
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.ADD_FAIL);
         }

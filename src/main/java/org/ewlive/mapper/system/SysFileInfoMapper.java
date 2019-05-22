@@ -2,6 +2,7 @@ package org.ewlive.mapper.system;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
+import org.apache.ibatis.annotations.Param;
 import org.ewlive.entity.system.SysFileInfo;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public interface SysFileInfoMapper extends BaseMapper<SysFileInfo> {
      * @return
      */
     int addSysFileInfo(SysFileInfo sysFileInfo);
+
+
+    /**
+     * 批量添加附件信息
+     * @param sysFileInfos
+     * @return
+     */
+    int batchAddSysFileInfo(@Param("list") List<SysFileInfo> sysFileInfos);
 
     /**
      * 根据Id修改附件信息
