@@ -220,6 +220,6 @@ public class CommonUtil {
      */
     public static String getFileExtension(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
-        return originalFileName.substring(originalFileName.lastIndexOf("."));
+        return originalFileName.substring(originalFileName.lastIndexOf(".")+1);
     }
 }
