@@ -48,4 +48,11 @@ public interface SysFileInfoMapper extends BaseMapper<SysFileInfo> {
     int updateSysFileInfoById(SysFileInfo sysFileInfo);
 
 
+    /**
+     * 根据ids编号集合,修改fkId
+     * @param ids
+     * @param fkId
+     * @return
+     */
+    int updateFkIdByIds(@Param("ids")List<String> ids, @Param("fkId")String fkId);
 }

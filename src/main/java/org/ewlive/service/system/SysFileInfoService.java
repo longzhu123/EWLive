@@ -99,8 +99,8 @@ public class SysFileInfoService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public ResultData addSysFileInfo(SysFileInfo request) {
-        ResultData data = new ResultData();
+    public ResultData<SysFileInfo> addSysFileInfo(SysFileInfo request) {
+        ResultData<SysFileInfo> data = new ResultData();
         List<SysFileInfo> sysFileInfos = new ArrayList<>();
         MultipartFile[] files = request.getFiles();
         //获取当前用户
@@ -124,6 +124,7 @@ public class SysFileInfoService {
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.ADD_FAIL);
         }
+        data.setData(sysFileInfos.get(0));
         log.info("添加成功");
         return data;
     }
@@ -225,6 +226,22 @@ public class SysFileInfoService {
         //判断文件后缀类型是否为空
         if (CommonUtil.isStringEmpty(request.getContentType())) {
             throw new ServiceException(ExceptionConstants.CONTENTTYPE_NOT_NULL);
+        }
+    }
+
+
+    /**
+     * 根据ids编号集合,修改fkId
+     *
+     * @param sysFileInfo
+     */
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void updateFkIdByIds(SysFileInfo sysFileInfo) {
+        List<String> ids = sysFileInfo.getIds();
+        String fkId = sysFileInfo.getFkId();
+        int i = sysFileInfoMapper.updateFkIdByIds(ids, fkId);
+        if(i == 0){
+            throw new ServiceException(ExceptionConstants.UPDATE_FAIL);
         }
     }
 

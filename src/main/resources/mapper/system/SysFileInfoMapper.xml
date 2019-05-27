@@ -151,4 +151,12 @@
         where id=#{id}
     </update>
 
+    <!-- 根据ids编号集合,修改fkId   -->
+    <update id="updateFkIdByIds">
+         update sys_file_info set fk_id=#{fkId}
+         where id in
+        <foreach collection="ids" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

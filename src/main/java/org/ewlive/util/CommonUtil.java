@@ -195,6 +195,7 @@ public class CommonUtil {
 
     /**
      * 转换 TZ格式类型的时间(2019-02-12T01:26:53.808Z)
+     *
      * @param dateStr
      * @return
      */
@@ -215,11 +216,22 @@ public class CommonUtil {
 
     /**
      * 获取文件的后缀名
+     *
      * @param file
      * @return
      */
     public static String getFileExtension(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
-        return originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+        return originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+    }
+
+    /**
+     * 去除最后一个字符串
+     *
+     * @param str
+     * @return
+     */
+    public static String TrimEnd(String str) {
+        return str.substring(0, str.length() - 1);
     }
 }

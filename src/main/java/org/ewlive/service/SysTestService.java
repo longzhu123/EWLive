@@ -2,11 +2,15 @@ package org.ewlive.service;
 
 import javax.annotation.Resource;
 
+import org.ewlive.entity.system.SysFileInfo;
 import org.ewlive.entity.system.SysUser;
+import org.ewlive.mapper.system.SysFileInfoMapper;
+import org.ewlive.service.system.SysFileInfoService;
 import org.ewlive.util.DicConvertUtil;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +39,8 @@ public class SysTestService{
 	@Resource
 	private SysTestMapper sysTestMapper;
 
+	@Resource
+	private SysFileInfoService sysFileInfoService;
 	/**
 	 * 根据id查询系统测试
 	 * @param request
@@ -107,8 +113,16 @@ public class SysTestService{
 		request.setId(CommonUtil.createUUID());
 		request.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		request.setCreateUserId(currentUser.getId());
+		request.setAboutFile(CommonUtil.TrimEnd(request.getAboutFile()));
 		//添加系统测试
 		int i = sysTestMapper.addSysTest(request);
+
+		//附件级联映射
+		SysFileInfo fileReq = new SysFileInfo();
+		fileReq.setIds(Arrays.asList(request.getAboutFile().split(",")));
+		fileReq.setFkId(request.getId());
+		sysFileInfoService.updateSysFileInfoById(fileReq);
+
 		if(i == 0){
 			throw  new ServiceException(ExceptionConstants.ADD_FAIL);
 		}
