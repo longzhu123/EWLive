@@ -258,14 +258,13 @@ public class CommonUtil {
 
         try {
             if (files != null && files.length > 0) {
-//                File filePath = new File(FILEPATH);
-                File filePath = new File("upload");
+                File filePath = new File(FILEPATH);
                 if(!filePath.exists()){
                     filePath.mkdir();
                 }
                 for (MultipartFile file : files) {
-                    filePath = new File("upload"+File.separator+file.getOriginalFilename());
-                    file.transferTo(filePath);
+                    File savePath = new File(FILEPATH+file.getOriginalFilename());
+                    file.transferTo(savePath);
                 }
             }
         } catch (Exception e) {
