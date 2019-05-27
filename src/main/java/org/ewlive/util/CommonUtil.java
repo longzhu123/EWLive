@@ -7,6 +7,7 @@ import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.entity.system.SysUser;
 import org.ewlive.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,11 +28,17 @@ import java.util.UUID;
 /**
  * 公用工具类
  */
+@Component
 @Slf4j
 public class CommonUtil {
 
-    @Value("${upload.file.path}")
     private static String FILEPATH;
+
+    @Value("${upload.path}")
+    public void setFilePath(String filePath) {
+        FILEPATH = filePath;
+    }
+
 
     /**
      * 判断字符串是否为空
@@ -248,14 +255,20 @@ public class CommonUtil {
      * @param files
      */
     public static void uploadFile(MultipartFile[] files) {
+
         try {
             if (files != null && files.length > 0) {
-                File filePath = new File(FILEPATH);
+//                File filePath = new File(FILEPATH);
+                File filePath = new File("upload");
+                if(!filePath.exists()){
+                    filePath.mkdir();
+                }
                 for (MultipartFile file : files) {
+                    filePath = new File("upload"+File.separator+file.getOriginalFilename());
                     file.transferTo(filePath);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new ServiceException(ExceptionConstants.UPLOAD_ERROR);
         }
     }
