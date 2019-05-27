@@ -121,7 +121,7 @@ public class SysTestService{
 		SysFileInfo fileReq = new SysFileInfo();
 		fileReq.setIds(Arrays.asList(request.getAboutFile().split(",")));
 		fileReq.setFkId(request.getId());
-		sysFileInfoService.updateSysFileInfoById(fileReq);
+		sysFileInfoService.updateFkIdByIds(fileReq);
 
 		if(i == 0){
 			throw  new ServiceException(ExceptionConstants.ADD_FAIL);

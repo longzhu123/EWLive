@@ -155,7 +155,7 @@
     <update id="updateFkIdByIds">
          update sys_file_info set fk_id=#{fkId}
          where id in
-        <foreach collection="ids" item="item" index="index" separator=",">
+        <foreach collection="ids" open="(" close=")" item="item" index="index" separator=",">
             #{item}
         </foreach>
     </update>
