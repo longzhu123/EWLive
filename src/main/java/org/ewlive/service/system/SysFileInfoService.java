@@ -124,6 +124,7 @@ public class SysFileInfoService {
         if (i == 0) {
             throw new ServiceException(ExceptionConstants.ADD_FAIL);
         }
+        CommonUtil.uploadFile(request.getFiles());
         data.setData(sysFileInfos.get(0));
         log.info("添加成功");
         return data;

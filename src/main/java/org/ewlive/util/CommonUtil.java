@@ -3,13 +3,17 @@ package org.ewlive.util;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.ewlive.constants.CommonConstants;
+import org.ewlive.constants.ExceptionConstants;
 import org.ewlive.entity.system.SysUser;
 import org.ewlive.exception.ServiceException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.InetAddress;
@@ -25,6 +29,9 @@ import java.util.UUID;
  */
 @Slf4j
 public class CommonUtil {
+
+    @Value("${upload.file.path}")
+    private static String FILEPATH;
 
     /**
      * 判断字符串是否为空
@@ -233,5 +240,23 @@ public class CommonUtil {
      */
     public static String TrimEnd(String str) {
         return str.substring(0, str.length() - 1);
+    }
+
+    /**
+     * 通用上传文件的方法
+     *
+     * @param files
+     */
+    public static void uploadFile(MultipartFile[] files) {
+        try {
+            if (files != null && files.length > 0) {
+                File filePath = new File(FILEPATH);
+                for (MultipartFile file : files) {
+                    file.transferTo(filePath);
+                }
+            }
+        } catch (IOException e) {
+            throw new ServiceException(ExceptionConstants.UPLOAD_ERROR);
+        }
     }
 }

@@ -45,5 +45,8 @@ logging:
   file: logs/ewlive.log
 
 
+upload:
+    file:
+      path: E:\\WorkSpace\\IDEA WorkSpace\\upload\\
 
 

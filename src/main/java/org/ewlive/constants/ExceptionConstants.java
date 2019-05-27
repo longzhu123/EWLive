@@ -101,4 +101,5 @@ public class ExceptionConstants {
 
     public  static  final  String CONTENTTYPE_NOT_NULL = "文件后缀类型不能为空";
 
+    public static final String UPLOAD_ERROR = "文件上传异常" ;
 }
