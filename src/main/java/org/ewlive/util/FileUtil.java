@@ -1,6 +1,8 @@
 package org.ewlive.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.ewlive.constants.ExceptionConstants;
+import org.ewlive.exception.ServiceException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -152,8 +154,8 @@ public class FileUtil {
             toClient.write(buffer);
             toClient.flush();
             toClient.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            throw  new ServiceException(ExceptionConstants.DOWNLOAD_FILE_ERROR);
         }
     }
 }

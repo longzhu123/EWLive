@@ -12,12 +12,14 @@ import org.ewlive.mapper.system.SysFileInfoMapper;
 import org.ewlive.result.ResultData;
 import org.ewlive.util.CommonUtil;
 import org.ewlive.util.DicConvertUtil;
+import org.ewlive.util.FileUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -262,4 +264,21 @@ public class SysFileInfoService {
         }
     }
 
+    /**
+     * 下载附件
+     * @param request
+     * @return
+     */
+    public ResultData downloadFile(SysFileInfo request) {
+        log.info("下载附件,请求参数====>" + JSON.toJSONString(request));
+        //检查id是否为空
+        checkParamsId(request);
+        log.info("参数校验成功,id不为空");
+        ResultData data = new ResultData();
+        SysFileInfo sysFileInfo = sysFileInfoMapper.selectById(request.getId());
+        File file = new File(CommonUtil.FILEPATH+sysFileInfo.getName());
+        FileUtil.downloadFile(file);
+        log.info("下载附件成功");
+        return data;
+    }
 }

@@ -8,6 +8,7 @@ import org.ewlive.result.ResultData;
 import org.ewlive.service.system.SysFileInfoService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -102,4 +103,15 @@ public class SysFileInfoController {
         return sysFileInfoService.deleteBatchSysFileInfoByIds(request);
     }
 
+    /**
+     * 下载附件
+     * @param request
+     * @return
+     */
+    @AuthReq
+    @SysLog(description = "下载附件", syslog = true)
+    @RequestMapping("/downloadFile")
+    public ResultData downloadFile(@RequestBody SysFileInfo request){
+        return sysFileInfoService.downloadFile(request);
+    }
 }
