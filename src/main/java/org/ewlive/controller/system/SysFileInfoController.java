@@ -111,7 +111,7 @@ public class SysFileInfoController {
     @AuthReq
     @SysLog(description = "下载附件", syslog = true)
     @RequestMapping("/downloadFile")
-    public ResultData downloadFile(@RequestBody SysFileInfo request){
+    public ResultData downloadFile(SysFileInfo request){
         return sysFileInfoService.downloadFile(request);
     }
 }
