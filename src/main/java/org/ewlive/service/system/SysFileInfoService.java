@@ -171,6 +171,9 @@ public class SysFileInfoService {
         checkParamsIds(request);
         log.info("参数校验成功,ids不为空");
         ResultData data = new ResultData();
+
+        delDiscFile(request.getIds());
+
         //根据ids批量删除附件信息
         int i = sysFileInfoMapper.deleteBatchIds(request.getIds());
         if (i == 0) {
@@ -243,6 +246,19 @@ public class SysFileInfoService {
         int i = sysFileInfoMapper.updateFkIdByIds(ids, fkId);
         if(i == 0){
             throw new ServiceException(ExceptionConstants.UPDATE_FAIL);
+        }
+    }
+
+    /**
+     * 删除磁盘上面的文件
+     * @param ids
+     */
+    public void delDiscFile(List<String> ids){
+        List<SysFileInfo> sysFileInfos = sysFileInfoMapper.selectBatchIds(ids);
+        if(CommonUtil.isCollectionNotEmpty(sysFileInfos)){
+            for (SysFileInfo item : sysFileInfos) {
+                CommonUtil.deleteFile(CommonUtil.FILEPATH,item.getName());
+            }
         }
     }
 

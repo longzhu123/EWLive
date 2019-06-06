@@ -32,7 +32,7 @@ import java.util.UUID;
 @Slf4j
 public class CommonUtil {
 
-    private static String FILEPATH;
+    public static String FILEPATH;
 
     @Value("${upload.path}")
     public void setFilePath(String filePath) {
@@ -259,16 +259,28 @@ public class CommonUtil {
         try {
             if (files != null && files.length > 0) {
                 File filePath = new File(FILEPATH);
-                if(!filePath.exists()){
+                if (!filePath.exists()) {
                     filePath.mkdir();
                 }
                 for (MultipartFile file : files) {
-                    File savePath = new File(FILEPATH+file.getOriginalFilename());
+                    File savePath = new File(FILEPATH + file.getOriginalFilename());
                     file.transferTo(savePath);
                 }
             }
         } catch (Exception e) {
             throw new ServiceException(ExceptionConstants.UPLOAD_ERROR);
+        }
+    }
+
+    /**
+     * 删除文件的通用方法
+     * @param filePath  文件路径
+     * @param fileName  文件名称
+     */
+    public static void deleteFile(String filePath,String fileName) {
+        File file = new File(filePath+fileName);
+        if(file.exists()){
+            file.delete();
         }
     }
 }
