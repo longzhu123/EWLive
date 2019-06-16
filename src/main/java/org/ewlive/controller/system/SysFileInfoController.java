@@ -114,4 +114,16 @@ public class SysFileInfoController {
     public ResultData downloadFile(SysFileInfo request){
         return sysFileInfoService.downloadFile(request);
     }
+
+    /**
+     * 根据ids编号集合查询附件信息
+     * @param request
+     * @return
+     */
+    @AuthReq
+    @SysLog(description = "根据ids编号集合查询附件信息", syslog = true)
+    @RequestMapping("/getSysFileInfoByIds")
+    public ResultData<List<SysFileInfo>> getSysFileInfoByIds(@RequestBody SysFileInfo request) {
+        return sysFileInfoService.getSysFileInfoByIds(request);
+    }
 }

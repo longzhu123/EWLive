@@ -246,26 +246,28 @@ public class SysFileInfoService {
         List<String> ids = sysFileInfo.getIds();
         String fkId = sysFileInfo.getFkId();
         int i = sysFileInfoMapper.updateFkIdByIds(ids, fkId);
-        if(i == 0){
+        if (i == 0) {
             throw new ServiceException(ExceptionConstants.UPDATE_FAIL);
         }
     }
 
     /**
      * 删除磁盘上面的文件
+     *
      * @param ids
      */
-    public void delDiscFile(List<String> ids){
+    public void delDiscFile(List<String> ids) {
         List<SysFileInfo> sysFileInfos = sysFileInfoMapper.selectBatchIds(ids);
-        if(CommonUtil.isCollectionNotEmpty(sysFileInfos)){
+        if (CommonUtil.isCollectionNotEmpty(sysFileInfos)) {
             for (SysFileInfo item : sysFileInfos) {
-                CommonUtil.deleteFile(CommonUtil.FILEPATH,item.getName());
+                CommonUtil.deleteFile(CommonUtil.FILEPATH, item.getName());
             }
         }
     }
 
     /**
      * 下载附件
+     *
      * @param request
      * @return
      */
@@ -276,9 +278,28 @@ public class SysFileInfoService {
         log.info("参数校验成功,id不为空");
         ResultData data = new ResultData();
         SysFileInfo sysFileInfo = sysFileInfoMapper.selectById(request.getId());
-        File file = new File(CommonUtil.FILEPATH+sysFileInfo.getName());
+        File file = new File(CommonUtil.FILEPATH + sysFileInfo.getName());
         FileUtil.downloadFile(file);
         log.info("下载附件成功");
+        return data;
+    }
+
+
+    /**
+     * 根据ids编号集合查询附件信息
+     * @param request
+     * @return
+     */
+    public ResultData<List<SysFileInfo>> getSysFileInfoByIds(SysFileInfo request) {
+        log.info("根据ids编号集合查询附件信息,请求参数====>" + JSON.toJSONString(request));
+        //检查ids是否为空
+        checkParamsIds(request);
+        log.info("参数校验成功,ids不为空");
+        ResultData<List<SysFileInfo>> data = new ResultData();
+        //根据ids编号集合查询附件信息
+        List<SysFileInfo> sysFileInfos = sysFileInfoMapper.getSysFileInfoByIds(request.getIds());
+        data.setData(sysFileInfos);
+        log.info("数据请求成功,=====>返回:" + JSON.toJSONString(sysFileInfos));
         return data;
     }
 }

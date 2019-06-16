@@ -55,4 +55,12 @@ public interface SysFileInfoMapper extends BaseMapper<SysFileInfo> {
      * @return
      */
     int updateFkIdByIds(@Param("ids")List<String> ids, @Param("fkId")String fkId);
+
+
+    /**
+     * 根据ids编号集合查询附件信息
+     * @param ids
+     * @return
+     */
+    List<SysFileInfo> getSysFileInfoByIds(@Param("ids") List<String> ids);
 }
